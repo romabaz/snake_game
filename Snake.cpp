@@ -5,6 +5,7 @@ Snake::Snake(int startX, int startY, Chain headChain) : mSnakeChain(5){
 	mYHead = startY;
 	mSnakeLenght = 1;
 	mSnakeChain.push_back(headChain);
+	currentDirection = RIGHT;
 }
 
 void Snake::render(){

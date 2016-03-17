@@ -40,9 +40,13 @@ private:
 	int mXHead;
 	int mYHead;
 	int mSnakeLenght;
+	Directions currentDirection;
 
 	//array of headTextures
 	std::vector<Chain> mSnakeChain;
+
+	//Check collision for the next frame
+	bool isCollide();
 
 
 };
