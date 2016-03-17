@@ -1,11 +1,12 @@
 #include<stdio.h>
-#include<SDL.h>
 #include<math.h>
+#include"Snake.h"
 
 #define PI 3.14159265359
 //SDL rendering entities
 SDL_Window* gWindow = NULL;
 SDL_Renderer* gRenderer = NULL;
+
 
 //Basic coordinates
 const int SCREEN_WIDTH = 1500;
@@ -14,6 +15,9 @@ const int SCREEN_HEIGHT = 800;
 const int ZERO_X = 100;
 const int ZERO_Y = 700;
 
+
+//Snake global
+Snake* gSnake = NULL;
 
 short initSDL() {
 	printf("[TRACE][initSDL] Initializing SDL...");
@@ -108,23 +112,16 @@ int main(int argc, char* args[]){
 		return 0;
 	}
 
+	GameTexture* headTexture = new GameTexture(gRenderer);
+	headTexture->load("head.bmp");
+	Chain headChain = { headTexture, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 };
+
+	gSnake = new Snake(headChain);
 
 	short quit = 0;
 	SDL_Event e;
-	int mouseX = 0, mouseY = 0, currMouseX = 0, currMouseY = 0;
-	//Load media 
-	SDL_Surface* headSurface = NULL;
-	if((headSurface = loadSurface("head.bmp")) == NULL ) {
-		destroySDL();
-		printf( "[TRACE] Exiting..." ); 
-		return 0;
-	}
-	//SDL_BlitSurface(headSurface, NULL, gScreenSurface, NULL);
-	//Set transparent white
-	SDL_SetColorKey(headSurface, SDL_TRUE, SDL_MapRGB(headSurface->format, 0xFF, 0xFF, 0xFF));
-	SDL_Texture* headTexture = SDL_CreateTextureFromSurface(gRenderer, headSurface);
-	SDL_FreeSurface(headSurface);
-	SDL_Rect trgRect = { SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 70, 70 };
+	int currMouseX = 0, currMouseY = 0;
+	
 	while (!quit) {
 		//Handle events on queue
 		while (SDL_PollEvent(&e) != 0){
@@ -139,17 +136,6 @@ int main(int argc, char* args[]){
 					break;
 				}
 				break;
-			case SDL_MOUSEBUTTONDOWN:
-				SDL_GetMouseState(&mouseX, &mouseY);
-				if (mousePoints(mouseX, mouseY)){
-					//textTexture = renderTexture(message, textColor);
-					printf("X:%d,Y:%d\n", mouseX, mouseY);
-				}
-				else {
-					//SDL_DestroyTexture(textTexture);
-					//textTexture = NULL;
-				}
-				break;
 			case SDL_MOUSEMOTION:
 				SDL_GetMouseState(&currMouseX, &currMouseY);
 				break;
@@ -161,12 +147,9 @@ int main(int argc, char* args[]){
 
 		//Track mouse
 		SDL_SetRenderDrawColor(gRenderer, 0x00, 0xFF, 0xFF, 0xFF);
-		drawCircle(gRenderer, currMouseX, currMouseY, 8);
-		//SDL_RenderDrawLine(gRenderer, ZERO_X, ZERO_Y, SCREEN_WIDTH - ZERO_X, ZERO_Y);
-		//SDL_RenderDrawLine(gRenderer, ZERO_X, ZERO_Y, ZERO_X, SCREEN_HEIGHT - ZERO_Y);
+		drawCircle(gRenderer, currMouseX, currMouseY, 7);
 
-		SDL_RenderCopy(gRenderer, headTexture, NULL, &trgRect);
-		
+		gSnake->render();
 		//Update screen 
 		SDL_RenderPresent(gRenderer);
 	}

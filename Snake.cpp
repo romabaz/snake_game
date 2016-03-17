@@ -1,10 +1,11 @@
 #include"Snake.h"
 
-Snake::Snake(int startX, int startY, Chain headChain) : mSnakeChain(5){
-	mXHead = startX;
-	mYHead = startY;
+Snake::Snake(Chain headChain){
+	mXHead = headChain.x;
+	mYHead = headChain.y;
 	mSnakeLenght = 1;
-	mSnakeChain.push_back(headChain);
+	mSnakeChain.reserve(5);
+	mSnakeChain.push_back(headChain); 
 	currentDirection = RIGHT;
 }
 

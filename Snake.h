@@ -17,7 +17,7 @@ struct Chain{
 class Snake
 {
 public:
-	Snake(int startX, int startY, Chain headChain);
+	Snake(Chain headChain);
 	~Snake();
 
 	//Returns total snake length including head
