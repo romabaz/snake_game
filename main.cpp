@@ -1,9 +1,13 @@
 #include<stdio.h>
 #include<SDL.h>
+#include<math.h>
 
+#define PI 3.14159265359
 //SDL rendering entities
 SDL_Window* gWindow = NULL;
 SDL_Renderer* gRenderer = NULL;
+//The surface contained by the window 
+SDL_Surface* gScreenSurface = NULL;
 
 //Basic coordinates
 const int SCREEN_WIDTH = 1500;
@@ -35,6 +39,7 @@ short initSDLRenderer() {
 		printf("\n[ERROR][initSDLRenderer] Window could not be created! SDL_Error: %s\n", SDL_GetError());
 		return 0;
 	}
+	gScreenSurface = SDL_GetWindowSurface(gWindow);
 
 	gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (gRenderer == NULL) {
@@ -73,8 +78,39 @@ short initGraphics(){
 	return 1;
 }
 
+SDL_Surface* loadSurface(char* path) { 
+	//The final optimized image 
+	SDL_Surface* optimizedSurface = NULL;
+	//Load splash image 
+	SDL_Surface* loadedSurface = SDL_LoadBMP(path);
+	if(loadedSurface == NULL ) {
+		printf("\n[ERROR][loadSurface] Unable to load image %s! SDL_Error: %s\n", path, SDL_GetError());
+	}
+	else {
+		//Convert surface to screen format 
+		optimizedSurface = SDL_ConvertSurface( loadedSurface, gScreenSurface->format, NULL );
+		if (optimizedSurface == NULL) { 
+			printf("[ERROR][loadSurface] Unable to optimize image %s! SDL Error: %s\n", path, SDL_GetError()); } 
+		//Get rid of old loaded surface 
+		SDL_FreeSurface(loadedSurface);
+	}
+	return optimizedSurface;
+}
+
 short mousePoints(int mouseX, int mouseY){
 	return 1;
+}
+
+void drawCircle(SDL_Renderer* renderer, int centerX, int centerY, int radius) {
+	int x, y;
+	double val = PI / 180;
+	for (int i = 0; i < 360; i+=3) {
+		double radVal = i * val;
+		x = radius*cos(radVal) + centerX;
+		y = radius*sin(radVal) + centerY;
+		SDL_RenderDrawPoint(renderer, x, y);
+	}
+	return;
 }
 
 int main(int argc, char* args[]){
@@ -88,7 +124,15 @@ int main(int argc, char* args[]){
 
 	short quit = 0;
 	SDL_Event e;
-	int mouseX = 0, mouseY = 0;
+	int mouseX = 0, mouseY = 0, currMouseX = 0, currMouseY = 0;
+	//Load media 
+	SDL_Surface* headSurface = NULL;
+	if((headSurface = loadSurface("head.bmp")) == NULL ) {
+		destroySDL();
+		printf( "[TRACE] Exiting..." ); 
+		return 0;
+	}
+	SDL_BlitSurface(headSurface, NULL, gScreenSurface, NULL);
 
 	while (!quit) {
 		//Handle events on queue
@@ -115,19 +159,30 @@ int main(int argc, char* args[]){
 					//textTexture = NULL;
 				}
 				break;
+			case SDL_MOUSEMOTION:
+				SDL_GetMouseState(&currMouseX, &currMouseY);
+				break;
 			}
 		}
 		//Clear screen '
 		SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0x00, 0xFF);
 		SDL_RenderClear(gRenderer);
 
-		//Draw coordinate lines
-		SDL_SetRenderDrawColor(gRenderer, 0x00, 0xFF, 0xFF, 0xFF);
-		SDL_RenderDrawLine(gRenderer, ZERO_X, ZERO_Y, SCREEN_WIDTH - ZERO_X, ZERO_Y);
-		SDL_RenderDrawLine(gRenderer, ZERO_X, ZERO_Y, ZERO_X, SCREEN_HEIGHT - ZERO_Y);
-
 		//Update screen 
 		SDL_RenderPresent(gRenderer);
+
+		//Track mouse
+		SDL_SetRenderDrawColor(gRenderer, 0x00, 0xFF, 0xFF, 0xFF);
+		//SDL_RenderDrawPoint(gRenderer, currMouseX, currMouseY);
+		drawCircle(gRenderer, currMouseX, currMouseY, 8);
+		//SDL_RenderDrawLine(gRenderer, ZERO_X, ZERO_Y, SCREEN_WIDTH - ZERO_X, ZERO_Y);
+		//SDL_RenderDrawLine(gRenderer, ZERO_X, ZERO_Y, ZERO_X, SCREEN_HEIGHT - ZERO_Y);
+
+
+		
+		//Update screen 
+		SDL_RenderPresent(gRenderer);
+		SDL_UpdateWindowSurface(gWindow);
 	}
 
 	//Free resources and close SDL
