@@ -6,8 +6,6 @@
 //SDL rendering entities
 SDL_Window* gWindow = NULL;
 SDL_Renderer* gRenderer = NULL;
-//The surface contained by the window 
-SDL_Surface* gScreenSurface = NULL;
 
 //Basic coordinates
 const int SCREEN_WIDTH = 1500;
@@ -39,7 +37,6 @@ short initSDLRenderer() {
 		printf("\n[ERROR][initSDLRenderer] Window could not be created! SDL_Error: %s\n", SDL_GetError());
 		return 0;
 	}
-	gScreenSurface = SDL_GetWindowSurface(gWindow);
 
 	gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (gRenderer == NULL) {
@@ -56,14 +53,12 @@ short initSDLRenderer() {
 
 void destroySDL()
 {
-	SDL_FreeSurface(gScreenSurface);
 	printf("[TRACE][destroySDL] Destroying SDL...");
 	//Destroy window 
 	SDL_DestroyRenderer(gRenderer);
 	SDL_DestroyWindow(gWindow);
 	gWindow = NULL;
 	gRenderer = NULL;
-	gScreenSurface = NULL;
 	//Quit SDL subsystems
 	SDL_Quit();
 	printf("success!\n");
@@ -81,22 +76,12 @@ short initGraphics(){
 }
 
 SDL_Surface* loadSurface(char* path) { 
-	//The final optimized image 
-	SDL_Surface* optimizedSurface = NULL;
 	//Load splash image 
 	SDL_Surface* loadedSurface = SDL_LoadBMP(path);
 	if(loadedSurface == NULL ) {
 		printf("\n[ERROR][loadSurface] Unable to load image %s! SDL_Error: %s\n", path, SDL_GetError());
 	}
-	else {
-		//Convert surface to screen format 
-		optimizedSurface = SDL_ConvertSurface( loadedSurface, gScreenSurface->format, NULL );
-		if (optimizedSurface == NULL) { 
-			printf("[ERROR][loadSurface] Unable to optimize image %s! SDL Error: %s\n", path, SDL_GetError()); } 
-		//Get rid of old loaded surface 
-		SDL_FreeSurface(loadedSurface);
-	}
-	return optimizedSurface;
+	return loadedSurface;
 }
 
 short mousePoints(int mouseX, int mouseY){
@@ -117,7 +102,7 @@ void drawCircle(SDL_Renderer* renderer, int centerX, int centerY, int radius) {
 
 int main(int argc, char* args[]){
 	
-	printf("[TRACE] Chart has started\n");
+	printf("[TRACE] Snake has started\n");
 	if (!initGraphics()){
 		printf("[TRACE] Exiting...");
 		return 0;
