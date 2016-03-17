@@ -168,9 +168,6 @@ int main(int argc, char* args[]){
 		SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0x00, 0xFF);
 		SDL_RenderClear(gRenderer);
 
-		//Update screen 
-		SDL_RenderPresent(gRenderer);
-
 		//Track mouse
 		SDL_SetRenderDrawColor(gRenderer, 0x00, 0xFF, 0xFF, 0xFF);
 		//SDL_RenderDrawPoint(gRenderer, currMouseX, currMouseY);
