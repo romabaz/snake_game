@@ -5,6 +5,8 @@
 //SDL rendering entities
 SDL_Window* gWindow = NULL;
 SDL_Renderer* gRenderer = NULL;
+//The surface contained by the window 
+SDL_Surface* gScreenSurface = NULL;
 
 //Basic coordinates
 const int SCREEN_WIDTH = 1500;
@@ -36,6 +38,7 @@ short initSDLRenderer() {
 		printf("\n[ERROR][initSDLRenderer] Window could not be created! SDL_Error: %s\n", SDL_GetError());
 		return 0;
 	}
+	gScreenSurface = SDL_GetWindowSurface(gWindow);
 
 	gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (gRenderer == NULL) {
@@ -74,6 +77,26 @@ short initGraphics(){
 	return 1;
 }
 
+
+SDL_Surface* loadSurface(char* path) { 
+	//The final optimized image 
+	SDL_Surface* optimizedSurface = NULL;
+	//Load splash image 
+	SDL_Surface* loadedSurface = SDL_LoadBMP(path);
+	if(loadedSurface == NULL ) {
+		printf("\n[ERROR][loadSurface] Unable to load image %s! SDL_Error: %s\n", path, SDL_GetError());
+	}
+	else {
+		//Convert surface to screen format 
+		optimizedSurface = SDL_ConvertSurface( loadedSurface, gScreenSurface->format, NULL );
+		if (optimizedSurface == NULL) { 
+			printf("[ERROR][loadSurface] Unable to optimize image %s! SDL Error: %s\n", path, SDL_GetError()); } 
+		//Get rid of old loaded surface 
+		SDL_FreeSurface(loadedSurface);
+	}
+	return optimizedSurface;
+}
+
 short mousePoints(int mouseX, int mouseY){
 	return 1;
 }
@@ -98,6 +121,14 @@ int main(int argc, char* args[]){
 		return 0;
 	}
 
+	//Load media 
+	SDL_Surface* headSurface = NULL;
+	if((headSurface = loadSurface("head.bmp")) == NULL ) {
+		destroySDL();
+		printf( "[TRACE] Exiting..." ); 
+		return 0;
+	}
+	SDL_BlitSurface(headSurface, NULL, gScreenSurface, NULL);
 
 	short quit = 0;
 	SDL_Event e;
@@ -145,8 +176,11 @@ int main(int argc, char* args[]){
 		//SDL_RenderDrawLine(gRenderer, ZERO_X, ZERO_Y, SCREEN_WIDTH - ZERO_X, ZERO_Y);
 		//SDL_RenderDrawLine(gRenderer, ZERO_X, ZERO_Y, ZERO_X, SCREEN_HEIGHT - ZERO_Y);
 
+
+		
 		//Update screen 
 		SDL_RenderPresent(gRenderer);
+		SDL_UpdateWindowSurface(gWindow);
 	}
 
 	//Free resources and close SDL
