@@ -33,7 +33,6 @@ public:
 	SDL_Point getCurrentHead();
 
 	//Renders full snake
-
 	void render();
 
 private:
