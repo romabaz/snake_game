@@ -56,6 +56,7 @@ short initSDLRenderer() {
 
 void destroySDL()
 {
+	SDL_FreeSurface(gScreenSurface);
 	printf("[TRACE][destroySDL] Destroying SDL...");
 	//Destroy window 
 	SDL_DestroyRenderer(gRenderer);
@@ -132,8 +133,12 @@ int main(int argc, char* args[]){
 		printf( "[TRACE] Exiting..." ); 
 		return 0;
 	}
-	SDL_BlitSurface(headSurface, NULL, gScreenSurface, NULL);
-
+	//SDL_BlitSurface(headSurface, NULL, gScreenSurface, NULL);
+	//Set transparent white
+	SDL_SetColorKey(headSurface, SDL_TRUE, SDL_MapRGB(headSurface->format, 0xFF, 0xFF, 0xFF));
+	SDL_Texture* headTexture = SDL_CreateTextureFromSurface(gRenderer, headSurface);
+	SDL_FreeSurface(headSurface);
+	SDL_Rect trgRect = { SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 70, 70 };
 	while (!quit) {
 		//Handle events on queue
 		while (SDL_PollEvent(&e) != 0){
@@ -170,16 +175,14 @@ int main(int argc, char* args[]){
 
 		//Track mouse
 		SDL_SetRenderDrawColor(gRenderer, 0x00, 0xFF, 0xFF, 0xFF);
-		//SDL_RenderDrawPoint(gRenderer, currMouseX, currMouseY);
 		drawCircle(gRenderer, currMouseX, currMouseY, 8);
 		//SDL_RenderDrawLine(gRenderer, ZERO_X, ZERO_Y, SCREEN_WIDTH - ZERO_X, ZERO_Y);
 		//SDL_RenderDrawLine(gRenderer, ZERO_X, ZERO_Y, ZERO_X, SCREEN_HEIGHT - ZERO_Y);
 
-
+		SDL_RenderCopy(gRenderer, headTexture, NULL, &trgRect);
 		
 		//Update screen 
 		SDL_RenderPresent(gRenderer);
-		SDL_UpdateWindowSurface(gWindow);
 	}
 
 	//Free resources and close SDL
