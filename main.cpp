@@ -63,6 +63,7 @@ void destroySDL()
 	SDL_DestroyWindow(gWindow);
 	gWindow = NULL;
 	gRenderer = NULL;
+	gScreenSurface = NULL;
 	//Quit SDL subsystems
 	SDL_Quit();
 	printf("success!\n");
