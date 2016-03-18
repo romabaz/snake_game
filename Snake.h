@@ -8,11 +8,12 @@ typedef enum Directions{
 	DOWN
 } Directions;
 
-struct Chain{
+typedef struct Chain{
 	GameTexture* bodyTexture;
 	int x;
 	int y;
-};
+	Directions dir;
+} Chain;
 
 class Snake
 {
@@ -21,7 +22,7 @@ public:
 	~Snake();
 
 	//Returns total snake length including head
-	int addBodyChain(Chain bodyChain);
+	int addBodyChain(GameTexture* bodyTexture);
 	//Returns new head coordinates
 	SDL_Point move();
 	SDL_Point moveLeft();
@@ -40,7 +41,7 @@ private:
 	int mSnakeLenght;
 	Directions mCurrentDirection;
 	short mSpeed;
-
+	short mChainRadius;
 	//array of headTextures
 	std::vector<Chain> mSnakeChain;
 

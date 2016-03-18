@@ -3,6 +3,7 @@
 Snake::Snake(Chain headChain){
 	mSpeed = 1;
 	mSnakeLenght = 1;
+	mChainRadius = 10;
 	mSnakeChain.reserve(5);
 	mSnakeChain.push_back(headChain); 
 	mCurrentDirection = RIGHT;
@@ -19,6 +20,33 @@ bool Snake::isCollide()
 	return false;
 }
 
+int Snake::addBodyChain(GameTexture* bodyTexure)
+{
+	Chain bodyChain;
+	bodyChain.bodyTexture = bodyTexure;
+	switch (mSnakeChain[mSnakeLenght - 1].dir) {
+	case LEFT:
+		bodyChain.x = mSnakeChain[mSnakeLenght - 1].x + mChainRadius;
+		bodyChain.y = mSnakeChain[mSnakeLenght - 1].y;
+		break;
+	case RIGHT:
+		bodyChain.x = mSnakeChain[mSnakeLenght - 1].x - mChainRadius;
+		bodyChain.y = mSnakeChain[mSnakeLenght - 1].y;
+		break;
+	case UP:
+		bodyChain.x = mSnakeChain[mSnakeLenght - 1].x;
+		bodyChain.y = mSnakeChain[mSnakeLenght - 1].y + mChainRadius;
+		break;
+	case DOWN:
+		bodyChain.x = mSnakeChain[mSnakeLenght - 1].x;
+		bodyChain.y = mSnakeChain[mSnakeLenght - 1].y - mChainRadius;
+		break;
+	}
+	bodyChain.dir = mSnakeChain[mSnakeLenght - 1].dir;
+	mSnakeChain.push_back(bodyChain);
+	return ++mSnakeLenght;
+}
+
 SDL_Point Snake::move()
 {
 	if (!isCollide()) {
@@ -26,6 +54,7 @@ SDL_Point Snake::move()
 			for (int i = mSnakeLenght - 1; i > 0; --i) {
 				mSnakeChain[i].x = mSnakeChain[i - 1].x;
 				mSnakeChain[i].y = mSnakeChain[i - 1].y;
+				mSnakeChain[i].dir = mSnakeChain[i - 1].dir;
 			}
 		}
 		switch (mCurrentDirection) {
@@ -43,13 +72,14 @@ SDL_Point Snake::move()
 			break;
 		}
 	}
-	return SDL_Point();
+	return {mSnakeChain[0].x, mSnakeChain[0].y};
 }
 
 
 bool Snake::setDirection(Directions newDirection) 
 {
 	mCurrentDirection = newDirection;
+	mSnakeChain[0].dir = mCurrentDirection;
 	return !isCollide();
 }
 

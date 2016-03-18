@@ -114,7 +114,7 @@ int main(int argc, char* args[]){
 
 	GameTexture* headTexture = new GameTexture(gRenderer);
 	headTexture->load("head.bmp");
-	Chain headChain = { headTexture, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 };
+	Chain headChain = { headTexture, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, RIGHT };
 
 	gSnake = new Snake(headChain);
 	short currentSpeed = gSnake->getSpeed();
@@ -153,6 +153,9 @@ int main(int argc, char* args[]){
 					break;
 				case SDLK_RIGHT:
 					gSnake->setDirection(RIGHT);
+					break;
+				case SDLK_SPACE:
+					gSnake->addBodyChain(headTexture);
 					break;
 				}
 				break;
