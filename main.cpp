@@ -17,7 +17,7 @@ const int ZERO_Y = 700;
 
 
 //Snake global
-Snake* gSnake = NULL;
+Snake* gSnake;
 
 short initSDL() {
 	printf("[TRACE][initSDL] Initializing SDL...");
@@ -117,7 +117,7 @@ int main(int argc, char* args[]){
 	Chain headChain = { headTexture, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 };
 
 	gSnake = new Snake(headChain);
-
+	short currentSpeed = gSnake->getSpeed();
 	short quit = 0;
 	SDL_Event e;
 	int currMouseX = 0, currMouseY = 0;
@@ -133,6 +133,26 @@ int main(int argc, char* args[]){
 				switch (e.key.keysym.sym) {
 				case SDLK_ESCAPE:
 					quit++;
+					break;
+				case SDLK_w:
+					gSnake->setSpeed(currentSpeed++);
+					break;
+				case SDLK_s:
+					if (currentSpeed > 0) {
+						gSnake->setSpeed(currentSpeed--);
+					}
+					break;
+				case SDLK_UP:
+					gSnake->setDirection(UP);
+					break;
+				case SDLK_DOWN:
+					gSnake->setDirection(DOWN);
+					break;
+				case SDLK_LEFT:
+					gSnake->setDirection(LEFT);
+					break;
+				case SDLK_RIGHT:
+					gSnake->setDirection(RIGHT);
 					break;
 				}
 				break;
@@ -152,6 +172,7 @@ int main(int argc, char* args[]){
 		gSnake->render();
 		//Update screen 
 		SDL_RenderPresent(gRenderer);
+		gSnake->move();
 	}
 
 	//Free resources and close SDL
