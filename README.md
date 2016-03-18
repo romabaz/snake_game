@@ -2,6 +2,8 @@
 Version 0.0.1 - non working playground
 TODO:
 1. Rethink Chain struct and internals for Snake - we don't need to know coordinates, texture only!
+2. Important task - we need to keep smooth turning, taking into consideration diameter of bodyChains!
+	- One straightforward solution is to include queue into Chain struct, to track all turns and turn coordinates for each chain element.
 3. Animate snake head (static and moving)
 4. Add .gitignore	
 
