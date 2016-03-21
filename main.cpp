@@ -173,7 +173,7 @@ int main(int argc, char* args[]){
 		gSnake->render();
 		//Update screen 
 		SDL_RenderPresent(gRenderer);
-		//gSnake->move();
+		gSnake->move();
 	}
 
 	//Free resources and close SDL

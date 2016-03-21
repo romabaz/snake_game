@@ -13,9 +13,6 @@ typedef struct Chain{
 	int x;
 	int y;
 	Directions dir;
-	int xApplyDir = -1;
-	int yApplyDir = -1;
-	Directions newDir;
 } Chain;
 
 class Snake
@@ -46,9 +43,12 @@ private:
 	short mChainRadius;
 	//array of headTextures
 	std::vector<Chain> mSnakeChain;
+	
 
 	//Check collision for the next frame
 	bool isCollide();
+
+	void moveDirection(Chain& bodyItem);
 
 
 };
