@@ -13,12 +13,15 @@ typedef struct Chain{
 	int x;
 	int y;
 	Directions dir;
+	int xApplyDir = -1;
+	int yApplyDir = -1;
+	Directions newDir;
 } Chain;
 
 class Snake
 {
 public:
-	Snake(Chain headChain);
+	Snake(GameTexture* headTexture, int x, int y);
 	~Snake();
 
 	//Returns total snake length including head
@@ -39,7 +42,6 @@ public:
 
 private:
 	int mSnakeLenght;
-	Directions mCurrentDirection;
 	short mSpeed;
 	short mChainRadius;
 	//array of headTextures

@@ -1,12 +1,16 @@
 #include"Snake.h"
 
-Snake::Snake(Chain headChain){
+Snake::Snake(GameTexture* headTexture, int x, int y){
 	mSpeed = 1;
 	mSnakeLenght = 1;
 	mChainRadius = 10;
 	mSnakeChain.reserve(5);
+	Chain headChain;
+	headChain.bodyTexture = headTexture;
+	headChain.x = x;
+	headChain.y = y;
+	headChain.dir = RIGHT;
 	mSnakeChain.push_back(headChain); 
-	mCurrentDirection = RIGHT;
 }
 
 void Snake::render(){
@@ -47,6 +51,7 @@ int Snake::addBodyChain(GameTexture* bodyTexure)
 	return ++mSnakeLenght;
 }
 
+/*
 SDL_Point Snake::move()
 {
 	if (!isCollide()) {
@@ -74,12 +79,78 @@ SDL_Point Snake::move()
 	}
 	return {mSnakeChain[0].x, mSnakeChain[0].y};
 }
+*/
 
+SDL_Point Snake::move()
+{
+	if (!isCollide()) {
+		if (mSnakeLenght > 1) {
+			for (int i = 1; i < mSnakeLenght - 1; ++i) {
+				if (mSnakeChain[i].xApplyDir == mSnakeChain[i - 1].x) {
+					mSnakeChain[i].xApplyDir = -1;
+					mSnakeChain[i].dir = mSnakeChain[i].newDir;
+					mSnakeChain[i + 1].xApplyDir = mSnakeChain[i].x;
+					mSnakeChain[i + 1].newDir = mSnakeChain[i].dir;
+				}
+				if (mSnakeChain[i].yApplyDir == mSnakeChain[i - 1].y) {
+					mSnakeChain[i].yApplyDir = -1;
+					mSnakeChain[i].dir = mSnakeChain[i].newDir;
+					mSnakeChain[i + 1].yApplyDir = mSnakeChain[i].y;
+					mSnakeChain[i + 1].newDir = mSnakeChain[i].dir;
+				}
+				switch (mSnakeChain[i].dir) {
+				case LEFT:
+					mSnakeChain[i].x -= mSpeed;
+					break;
+				case RIGHT:
+					mSnakeChain[i].x += mSpeed;
+					break;
+				case UP:
+					mSnakeChain[i].y -= mSpeed;
+					break;
+				case DOWN:
+					mSnakeChain[i].y += mSpeed;
+					break;
+				}
+				mSnakeChain[i].x -= mSpeed;
+				mSnakeChain[i].y += mSpeed;
+				mSnakeChain[i].dir = mSnakeChain[i - 1].dir;
+			}
+		}
+		switch (mSnakeChain[0].dir) {
+		case LEFT:
+			mSnakeChain[0].x -= mSpeed;
+			break;
+		case RIGHT:
+			mSnakeChain[0].x += mSpeed;
+			break;
+		case UP:
+			mSnakeChain[0].y -= mSpeed;
+			break;
+		case DOWN:
+			mSnakeChain[0].y += mSpeed;
+			break;
+		}
+	}
+	return{ mSnakeChain[0].x, mSnakeChain[0].y };
+}
 
 bool Snake::setDirection(Directions newDirection) 
 {
-	mCurrentDirection = newDirection;
-	mSnakeChain[0].dir = mCurrentDirection;
+	if (mSnakeLenght > 1) {
+		switch (newDirection) {
+		case LEFT:
+		case RIGHT:
+			mSnakeChain[1].yApplyDir = mSnakeChain[0].y;
+			break;
+		case UP:
+		case DOWN:
+			mSnakeChain[1].xApplyDir = mSnakeChain[0].x;
+			break;
+		}
+		mSnakeChain[1].newDir = newDirection;
+	}
+	mSnakeChain[0].dir = newDirection;
 	return !isCollide();
 }
 
