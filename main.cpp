@@ -79,15 +79,6 @@ short initGraphics(){
 	return 1;
 }
 
-SDL_Surface* loadSurface(char* path) { 
-	//Load splash image 
-	SDL_Surface* loadedSurface = SDL_LoadBMP(path);
-	if(loadedSurface == NULL ) {
-		printf("\n[ERROR][loadSurface] Unable to load image %s! SDL_Error: %s\n", path, SDL_GetError());
-	}
-	return loadedSurface;
-}
-
 short mousePoints(int mouseX, int mouseY){
 	return 1;
 }
@@ -113,10 +104,14 @@ int main(int argc, char* args[]){
 	}
 
 	GameTexture* headTexture = new GameTexture(gRenderer);
-	headTexture->load("head.bmp");
-	Chain headChain = { headTexture, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, RIGHT };
+	if (!headTexture->load("head.bmp")) {
+		printf("[ERROR] Cannot load snake's head. Exiting...\n");
+		destroySDL();
+		delete headTexture;
+		return 0;
+	}
 
-	gSnake = new Snake(headChain);
+	gSnake = new Snake(headTexture, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 	short currentSpeed = gSnake->getSpeed();
 	short quit = 0;
 	SDL_Event e;
@@ -157,6 +152,9 @@ int main(int argc, char* args[]){
 				case SDLK_SPACE:
 					gSnake->addBodyChain(headTexture);
 					break;
+				case SDLK_RETURN:
+					gSnake->move();
+					break;
 				}
 				break;
 			case SDL_MOUSEMOTION:
@@ -175,7 +173,7 @@ int main(int argc, char* args[]){
 		gSnake->render();
 		//Update screen 
 		SDL_RenderPresent(gRenderer);
-		gSnake->move();
+		//gSnake->move();
 	}
 
 	//Free resources and close SDL
