@@ -1,7 +1,7 @@
 #include"Snake.h"
 
 Snake::Snake(GameTexture* headTexture, int x, int y){
-	mSpeed = 1;
+	mSpeed = 2;
 	mSnakeLenght = 1;
 	mChainRadius = 50;
 	mSnakeChain.reserve(5);
@@ -52,6 +52,15 @@ int Snake::addBodyChain(GameTexture* bodyTexure)
 	return ++mSnakeLenght;
 }
 
+void Snake::changeChainDirection(Chain& bodyChain, Directions newDirection, int chainNumber, Chain& nextChain){
+	bodyChain.dir = newDirection;
+	moveDirection(bodyChain);
+	if (chainNumber < mSnakeLenght - 1) {
+		bodyChain.pathHistory.push(new TurnEvent{ bodyChain.x, bodyChain.y, newDirection });
+	}
+	delete nextChain.pathHistory.front();
+	nextChain.pathHistory.pop();
+}
 
 void Snake::move()
 {
@@ -66,13 +75,7 @@ void Snake::move()
 							mSnakeChain[i].x -= mSpeed;
 						}
 						else {
-							mSnakeChain[i].dir = nextTurnState->dir;
-							moveDirection(mSnakeChain[i]);
-							if (i < mSnakeLenght - 1) {
-								mSnakeChain[i].pathHistory.push(new TurnEvent{ mSnakeChain[i].x, mSnakeChain[i].y, nextTurnState->dir });
-							}
-							delete mSnakeChain[i - 1].pathHistory.front();
-							mSnakeChain[i - 1].pathHistory.pop();
+							changeChainDirection(mSnakeChain[i], nextTurnState->dir, i, mSnakeChain[i - 1]);
 						}
 						break;
 					case RIGHT:
@@ -80,13 +83,7 @@ void Snake::move()
 							mSnakeChain[i].x += mSpeed;
 						}
 						else {
-							mSnakeChain[i].dir = nextTurnState->dir;
-							moveDirection(mSnakeChain[i]);
-							if (i < mSnakeLenght - 1) {
-								mSnakeChain[i].pathHistory.push(new TurnEvent{ mSnakeChain[i].x, mSnakeChain[i].y, nextTurnState->dir });
-							}
-							delete mSnakeChain[i - 1].pathHistory.front();
-							mSnakeChain[i - 1].pathHistory.pop();
+							changeChainDirection(mSnakeChain[i], nextTurnState->dir, i, mSnakeChain[i - 1]);
 						}
 						break;
 					case UP:
@@ -94,13 +91,7 @@ void Snake::move()
 							mSnakeChain[i].y -= mSpeed;
 						}
 						else {
-							mSnakeChain[i].dir = nextTurnState->dir;
-							moveDirection(mSnakeChain[i]);
-							if (i < mSnakeLenght - 1) {
-								mSnakeChain[i].pathHistory.push(new TurnEvent{ mSnakeChain[i].x, mSnakeChain[i].y, nextTurnState->dir });
-							}
-							delete mSnakeChain[i - 1].pathHistory.front();
-							mSnakeChain[i - 1].pathHistory.pop();
+							changeChainDirection(mSnakeChain[i], nextTurnState->dir, i, mSnakeChain[i - 1]);
 						}
 						break;
 					case DOWN:
@@ -108,13 +99,7 @@ void Snake::move()
 							mSnakeChain[i].y += mSpeed;
 						}
 						else {
-							mSnakeChain[i].dir = nextTurnState->dir;
-							moveDirection(mSnakeChain[i]);
-							if (i < mSnakeLenght - 1) {
-								mSnakeChain[i].pathHistory.push(new TurnEvent{ mSnakeChain[i].x, mSnakeChain[i].y, nextTurnState->dir });
-							}
-							delete mSnakeChain[i - 1].pathHistory.front();
-							mSnakeChain[i - 1].pathHistory.pop();
+							changeChainDirection(mSnakeChain[i], nextTurnState->dir, i, mSnakeChain[i - 1]);
 						}
 						break;
 					}
@@ -176,7 +161,7 @@ TurnEvent* Snake::readNextTurnState(Chain& bodyItem){
 		return bodyItem.pathHistory.front();
 	}
 	else {
-		return new TurnEvent{ bodyItem.x, bodyItem.y, bodyItem.dir };
+		return new TurnEvent{ bodyItem.x, bodyItem.y, bodyItem.dir }; //TODO: this is memory leak!
 	}
 }
 
