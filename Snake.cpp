@@ -28,71 +28,81 @@ int Snake::addBodyChain(GameTexture* bodyTexure)
 {
 	Chain bodyChain;
 	bodyChain.bodyTexture = bodyTexure;
-	switch (mSnakeChain[mSnakeLenght - 1].dir) {
+	Chain lastChain = mSnakeChain[mSnakeLenght - 1];
+	switch (lastChain.dir) {
 	case LEFT:
-		bodyChain.x = mSnakeChain[mSnakeLenght - 1].x + mChainRadius;
-		bodyChain.y = mSnakeChain[mSnakeLenght - 1].y;
+		bodyChain.x = lastChain.x + mChainRadius;
+		bodyChain.y = lastChain.y;
 		break;
 	case RIGHT:
-		bodyChain.x = mSnakeChain[mSnakeLenght - 1].x - mChainRadius;
-		bodyChain.y = mSnakeChain[mSnakeLenght - 1].y;
+		bodyChain.x = lastChain.x - mChainRadius;
+		bodyChain.y = lastChain.y;
 		break;
 	case UP:
-		bodyChain.x = mSnakeChain[mSnakeLenght - 1].x;
-		bodyChain.y = mSnakeChain[mSnakeLenght - 1].y + mChainRadius;
+		bodyChain.x = lastChain.x;
+		bodyChain.y = lastChain.y + mChainRadius;
 		break;
 	case DOWN:
-		bodyChain.x = mSnakeChain[mSnakeLenght - 1].x;
-		bodyChain.y = mSnakeChain[mSnakeLenght - 1].y - mChainRadius;
+		bodyChain.x = lastChain.x;
+		bodyChain.y = lastChain.y - mChainRadius;
 		break;
 	}
-	bodyChain.dir = mSnakeChain[mSnakeLenght - 1].dir;
+	bodyChain.dir = lastChain.dir;
 	mSnakeChain.push_back(bodyChain);
 	return ++mSnakeLenght;
 }
 
 
-SDL_Point Snake::move()
+void Snake::move()
 {
 	if (!isCollide()) {
 		if (mSnakeLenght > 1) {
 			for (int i = mSnakeLenght - 1; i > 0; --i) {
-				if (mSnakeChain[i].dir != mSnakeChain[i - 1].dir)  {
+				TurnEvent* nextTurnState = readNextTurnState(mSnakeChain[i - 1]);
+				if (mSnakeChain[i].dir != nextTurnState->dir)  {
 					switch (mSnakeChain[i].dir) {
 					case LEFT:
-						if (mSnakeChain[i].x != mSnakeChain[i - 1].x) {
+						if (mSnakeChain[i].x != nextTurnState->x) {
 							mSnakeChain[i].x -= mSpeed;
 						}
 						else {
-							mSnakeChain[i].dir = mSnakeChain[i - 1].dir;
+							mSnakeChain[i].pathHistory.push(new TurnEvent{ mSnakeChain[i].x, mSnakeChain[i].y, nextTurnState->dir });
+							mSnakeChain[i].dir = nextTurnState->dir;
 							moveDirection(mSnakeChain[i]);
+							mSnakeChain[i - 1].pathHistory.pop();
 						}
 						break;
 					case RIGHT:
-						if (mSnakeChain[i].x != mSnakeChain[i - 1].x) {
+						if (mSnakeChain[i].x != nextTurnState->x) {
 							mSnakeChain[i].x += mSpeed;
 						}
 						else {
-							mSnakeChain[i].dir = mSnakeChain[i - 1].dir;
+							mSnakeChain[i].pathHistory.push(new TurnEvent{ mSnakeChain[i].x, mSnakeChain[i].y, nextTurnState->dir });
+							mSnakeChain[i].dir = nextTurnState->dir;
 							moveDirection(mSnakeChain[i]);
+							mSnakeChain[i - 1].pathHistory.pop();
 						}
 						break;
 					case UP:
-						if (mSnakeChain[i].y != mSnakeChain[i - 1].y) {
+						if (mSnakeChain[i].y != nextTurnState->y) {
 							mSnakeChain[i].y -= mSpeed;
 						}
 						else {
-							mSnakeChain[i].dir = mSnakeChain[i - 1].dir;
+							mSnakeChain[i].pathHistory.push(new TurnEvent{ mSnakeChain[i].x, mSnakeChain[i].y, nextTurnState->dir });
+							mSnakeChain[i].dir = nextTurnState->dir;
 							moveDirection(mSnakeChain[i]);
+							mSnakeChain[i - 1].pathHistory.pop();
 						}
 						break;
 					case DOWN:
-						if (mSnakeChain[i].y != mSnakeChain[i - 1].y) {
+						if (mSnakeChain[i].y != nextTurnState->y) {
 							mSnakeChain[i].y += mSpeed;
 						}
 						else {
-							mSnakeChain[i].dir = mSnakeChain[i - 1].dir;
+							mSnakeChain[i].pathHistory.push(new TurnEvent{ mSnakeChain[i].x, mSnakeChain[i].y, nextTurnState->dir });
+							mSnakeChain[i].dir = nextTurnState->dir;
 							moveDirection(mSnakeChain[i]);
+							mSnakeChain[i - 1].pathHistory.pop();
 						}
 						break;
 					}
@@ -105,22 +115,22 @@ SDL_Point Snake::move()
 		//move Head
 		moveDirection(mSnakeChain[0]);
 	}
-	return{ mSnakeChain[0].x, mSnakeChain[0].y };
+	return;
 }
 
-void Snake::moveDirection(Chain& bodyItem) {
-	switch (bodyItem.dir) {
+void Snake::moveDirection(Chain& itemChain) {
+	switch (itemChain.dir) {
 	case LEFT:
-		bodyItem.x -= mSpeed;
+		itemChain.x -= mSpeed;
 		break;
 	case RIGHT:
-		bodyItem.x += mSpeed;
+		itemChain.x += mSpeed;
 		break;
 	case UP:
-		bodyItem.y -= mSpeed;
+		itemChain.y -= mSpeed;
 		break;
 	case DOWN:
-		bodyItem.y += mSpeed;
+		itemChain.y += mSpeed;
 		break;
 	}
 }
@@ -128,6 +138,7 @@ void Snake::moveDirection(Chain& bodyItem) {
 bool Snake::setDirection(Directions newDirection) 
 {
 	if (!isCollide()) {
+		mSnakeChain[0].pathHistory.push(new TurnEvent{ mSnakeChain[0].x, mSnakeChain[0].y, newDirection });
 		mSnakeChain[0].dir = newDirection;
 		return true;
 	}
@@ -144,3 +155,15 @@ void Snake::setSpeed(short newSpeed)
 short Snake::getSpeed() {
 	return mSpeed;
 }
+
+
+TurnEvent* Snake::readNextTurnState(Chain& bodyItem){
+	if (bodyItem.pathHistory.size() > 0) {
+		return bodyItem.pathHistory.front();
+	}
+	else {
+		return new TurnEvent{ bodyItem.x, bodyItem.y, bodyItem.dir };
+	}
+}
+
+

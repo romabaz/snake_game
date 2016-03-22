@@ -1,5 +1,6 @@
 #include"GameTexture.h"
 #include<vector>
+#include<queue>
 
 typedef enum Directions{
 	LEFT,
@@ -8,12 +9,20 @@ typedef enum Directions{
 	DOWN
 } Directions;
 
+typedef struct TurnEvent{
+	int x;
+	int y;
+	Directions dir;
+} TurnEvent;
+
 typedef struct Chain{
 	GameTexture* bodyTexture;
 	int x;
 	int y;
 	Directions dir;
+	std::queue<TurnEvent*> pathHistory;
 } Chain;
+
 
 class Snake
 {
@@ -23,8 +32,7 @@ public:
 
 	//Returns total snake length including head
 	int addBodyChain(GameTexture* bodyTexture);
-	//Returns new head coordinates
-	SDL_Point move();
+	void move();
 	SDL_Point moveLeft();
 	SDL_Point moveRight();
 	SDL_Point moveUp();
@@ -48,7 +56,7 @@ private:
 	//Check collision for the next frame
 	bool isCollide();
 
-	void moveDirection(Chain& bodyItem);
+	void moveDirection(Chain& itemChain);
 
-
+	TurnEvent* readNextTurnState(Chain& bodyItem);
 };
