@@ -57,7 +57,7 @@ private:
 	bool isCollide();
 
 	void moveDirection(Chain& itemChain);
-	void changeChainDirection(Chain& bodyChain, Directions newDirection, int chainNumber, Chain& nextChain);
+	void changeChainDirection(Chain& bodyChain, TurnEvent* nextTurnState, int chainNumber, Chain& nextChain);
 
 	TurnEvent* readNextTurnState(Chain& bodyItem);
 };

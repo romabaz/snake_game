@@ -52,13 +52,13 @@ int Snake::addBodyChain(GameTexture* bodyTexure)
 	return ++mSnakeLenght;
 }
 
-void Snake::changeChainDirection(Chain& bodyChain, Directions newDirection, int chainNumber, Chain& nextChain){
-	bodyChain.dir = newDirection;
+void Snake::changeChainDirection(Chain& bodyChain, TurnEvent* nextTurnState, int chainNumber, Chain& nextChain){
+	bodyChain.dir = nextTurnState->dir;
 	moveDirection(bodyChain);
 	if (chainNumber < mSnakeLenght - 1) {
-		bodyChain.pathHistory.push(new TurnEvent{ bodyChain.x, bodyChain.y, newDirection });
+		bodyChain.pathHistory.push(new TurnEvent{ bodyChain.x, bodyChain.y, bodyChain.dir });
 	}
-	delete nextChain.pathHistory.front();
+	delete nextTurnState;
 	nextChain.pathHistory.pop();
 }
 
@@ -75,7 +75,7 @@ void Snake::move()
 							mSnakeChain[i].x -= mSpeed;
 						}
 						else {
-							changeChainDirection(mSnakeChain[i], nextTurnState->dir, i, mSnakeChain[i - 1]);
+							changeChainDirection(mSnakeChain[i], nextTurnState, i, mSnakeChain[i - 1]);
 						}
 						break;
 					case RIGHT:
@@ -83,7 +83,7 @@ void Snake::move()
 							mSnakeChain[i].x += mSpeed;
 						}
 						else {
-							changeChainDirection(mSnakeChain[i], nextTurnState->dir, i, mSnakeChain[i - 1]);
+							changeChainDirection(mSnakeChain[i], nextTurnState, i, mSnakeChain[i - 1]);
 						}
 						break;
 					case UP:
@@ -91,7 +91,7 @@ void Snake::move()
 							mSnakeChain[i].y -= mSpeed;
 						}
 						else {
-							changeChainDirection(mSnakeChain[i], nextTurnState->dir, i, mSnakeChain[i - 1]);
+							changeChainDirection(mSnakeChain[i], nextTurnState, i, mSnakeChain[i - 1]);
 						}
 						break;
 					case DOWN:
@@ -99,7 +99,7 @@ void Snake::move()
 							mSnakeChain[i].y += mSpeed;
 						}
 						else {
-							changeChainDirection(mSnakeChain[i], nextTurnState->dir, i, mSnakeChain[i - 1]);
+							changeChainDirection(mSnakeChain[i], nextTurnState, i, mSnakeChain[i - 1]);
 						}
 						break;
 					}
@@ -134,6 +134,9 @@ void Snake::moveDirection(Chain& itemChain) {
 
 bool Snake::setDirection(Directions newDirection) 
 {
+	if (newDirection == mSnakeChain[0].dir) {
+		return true;
+	}
 	if (!isCollide()) {
 		if (mSnakeLenght > 1) {
 			mSnakeChain[0].pathHistory.push(new TurnEvent{ mSnakeChain[0].x, mSnakeChain[0].y, newDirection });
