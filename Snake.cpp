@@ -68,7 +68,10 @@ void Snake::move()
 						else {
 							mSnakeChain[i].dir = nextTurnState->dir;
 							moveDirection(mSnakeChain[i]);
-							mSnakeChain[i].pathHistory.push(new TurnEvent{ mSnakeChain[i].x, mSnakeChain[i].y, nextTurnState->dir });
+							if (i < mSnakeLenght - 1) {
+								mSnakeChain[i].pathHistory.push(new TurnEvent{ mSnakeChain[i].x, mSnakeChain[i].y, nextTurnState->dir });
+							}
+							delete mSnakeChain[i - 1].pathHistory.front();
 							mSnakeChain[i - 1].pathHistory.pop();
 						}
 						break;
@@ -79,7 +82,10 @@ void Snake::move()
 						else {
 							mSnakeChain[i].dir = nextTurnState->dir;
 							moveDirection(mSnakeChain[i]);
-							mSnakeChain[i].pathHistory.push(new TurnEvent{ mSnakeChain[i].x, mSnakeChain[i].y, nextTurnState->dir });
+							if (i < mSnakeLenght - 1) {
+								mSnakeChain[i].pathHistory.push(new TurnEvent{ mSnakeChain[i].x, mSnakeChain[i].y, nextTurnState->dir });
+							}
+							delete mSnakeChain[i - 1].pathHistory.front();
 							mSnakeChain[i - 1].pathHistory.pop();
 						}
 						break;
@@ -90,7 +96,10 @@ void Snake::move()
 						else {
 							mSnakeChain[i].dir = nextTurnState->dir;
 							moveDirection(mSnakeChain[i]);
-							mSnakeChain[i].pathHistory.push(new TurnEvent{ mSnakeChain[i].x, mSnakeChain[i].y, nextTurnState->dir });
+							if (i < mSnakeLenght - 1) {
+								mSnakeChain[i].pathHistory.push(new TurnEvent{ mSnakeChain[i].x, mSnakeChain[i].y, nextTurnState->dir });
+							}
+							delete mSnakeChain[i - 1].pathHistory.front();
 							mSnakeChain[i - 1].pathHistory.pop();
 						}
 						break;
@@ -101,7 +110,10 @@ void Snake::move()
 						else {
 							mSnakeChain[i].dir = nextTurnState->dir;
 							moveDirection(mSnakeChain[i]);
-							mSnakeChain[i].pathHistory.push(new TurnEvent{ mSnakeChain[i].x, mSnakeChain[i].y, nextTurnState->dir });
+							if (i < mSnakeLenght - 1) {
+								mSnakeChain[i].pathHistory.push(new TurnEvent{ mSnakeChain[i].x, mSnakeChain[i].y, nextTurnState->dir });
+							}
+							delete mSnakeChain[i - 1].pathHistory.front();
 							mSnakeChain[i - 1].pathHistory.pop();
 						}
 						break;
