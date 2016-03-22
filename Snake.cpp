@@ -138,7 +138,9 @@ void Snake::moveDirection(Chain& itemChain) {
 bool Snake::setDirection(Directions newDirection) 
 {
 	if (!isCollide()) {
-		mSnakeChain[0].pathHistory.push(new TurnEvent{ mSnakeChain[0].x, mSnakeChain[0].y, newDirection });
+		if (mSnakeLenght > 1) {
+			mSnakeChain[0].pathHistory.push(new TurnEvent{ mSnakeChain[0].x, mSnakeChain[0].y, newDirection });
+		}
 		mSnakeChain[0].dir = newDirection;
 		return true;
 	}
