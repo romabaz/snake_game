@@ -130,11 +130,11 @@ int main(int argc, char* args[]){
 					quit++;
 					break;
 				case SDLK_w:
-					gSnake->setSpeed(currentSpeed++);
+					gSnake->setSpeed(++currentSpeed);
 					break;
 				case SDLK_s:
 					if (currentSpeed > 0) {
-						gSnake->setSpeed(currentSpeed--);
+						gSnake->setSpeed(--currentSpeed);
 					}
 					break;
 				case SDLK_UP:
@@ -151,9 +151,6 @@ int main(int argc, char* args[]){
 					break;
 				case SDLK_SPACE:
 					gSnake->addBodyChain(headTexture);
-					break;
-				case SDLK_RETURN:
-					gSnake->move();
 					break;
 				}
 				break;
