@@ -13,9 +13,23 @@ Snake::Snake(GameTexture* headTexture, int x, int y){
 	mSnakeChain.push_back(headChain); 
 }
 
-void Snake::render(){
-	for (int i = mSnakeLenght - 1; i >= 0; --i){
+void Snake::render() {
+	for (int i = mSnakeLenght - 1; i > 0; --i) {
 		mSnakeChain[i].bodyTexture->render(mSnakeChain[i].x, mSnakeChain[i].y);
+	}
+	switch (mSnakeChain[0].dir) {
+	case LEFT:
+		mSnakeChain[0].bodyTexture->render(mSnakeChain[0].x, mSnakeChain[0].y, 0.0, SDL_FLIP_HORIZONTAL);
+		break;
+	case RIGHT:
+		mSnakeChain[0].bodyTexture->render(mSnakeChain[0].x, mSnakeChain[0].y);
+		break;
+	case UP:
+		mSnakeChain[0].bodyTexture->render(mSnakeChain[0].x, mSnakeChain[0].y, -90.0);
+		break;
+	case DOWN:
+		mSnakeChain[0].bodyTexture->render(mSnakeChain[0].x, mSnakeChain[0].y, 90.0);
+		break;
 	}
 }
 

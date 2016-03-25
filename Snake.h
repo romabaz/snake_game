@@ -45,6 +45,7 @@ private:
 	int mSnakeLenght;
 	short mSpeed;
 	short mChainRadius;
+	double mHeadAngle;
 	//array of headTextures
 	std::vector<Chain> mSnakeChain;
 	

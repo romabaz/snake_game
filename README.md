@@ -1,11 +1,9 @@
 # snake_game
 Version 0.0.1 - non working playground
 TODO:
-1. Turn snake's head
-2. Add body textures
-3. Collisions
-4. Animate snake's head (static and moving)
-5. Add .gitignore	
+1. Add body textures
+2. Collisions
+3. Animate snake's head (static and moving)
 
 
 It would be fun to make head growing and splitting at some moment into chains. So, different fruits would generate different grow speed. Also, different fruits would generate different body chain colors, colorkeying 
