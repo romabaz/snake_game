@@ -33,10 +33,6 @@ public:
 	//Returns total snake length including head
 	int addBodyChain(GameTexture* bodyTexture);
 	void move();
-	SDL_Point moveLeft();
-	SDL_Point moveRight();
-	SDL_Point moveUp();
-	SDL_Point moveDown();
 
 	bool setDirection(Directions newDirection);
 	void setSpeed(short newSpeed);

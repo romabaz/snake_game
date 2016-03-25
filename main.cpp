@@ -167,6 +167,7 @@ int main(int argc, char* args[]){
 		SDL_SetRenderDrawColor(gRenderer, 0x00, 0xFF, 0xFF, 0xFF);
 		drawCircle(gRenderer, currMouseX, currMouseY, 7);
 
+		//render snake
 		gSnake->render();
 		//Update screen 
 		SDL_RenderPresent(gRenderer);
@@ -174,6 +175,8 @@ int main(int argc, char* args[]){
 	}
 
 	//Free resources and close SDL
+	delete gSnake;
+	delete headTexture;
 	destroySDL();
 	printf("[TRACE] Exiting...");
 	return 0;

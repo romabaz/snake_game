@@ -19,6 +19,9 @@ void Snake::render(){
 	}
 }
 
+Snake::~Snake() {
+}
+
 bool Snake::isCollide()
 {
 	return false;
