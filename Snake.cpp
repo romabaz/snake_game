@@ -46,7 +46,7 @@ bool Snake::isCollide()
 int Snake::addBodyChain()
 {
 	Chain bodyChain;
-	bodyChain.bodyRect = &mSpriteClips[11];
+	bodyChain.bodyRect = &mSpriteClips[4];
 	Chain lastChain = mSnakeChain[mSnakeLenght - 1];
 	switch (lastChain.dir) {
 	case LEFT:
