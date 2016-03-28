@@ -103,15 +103,15 @@ int main(int argc, char* args[]){
 		return 0;
 	}
 
-	GameTexture* headTexture = new GameTexture(gRenderer);
-	if (!headTexture->load("head.bmp")) {
+	GameTexture* snakeTexture = new GameTexture(gRenderer);
+	if (!snakeTexture->load("snake_ss.bmp")) {
 		printf("[ERROR] Cannot load snake's head. Exiting...\n");
 		destroySDL();
-		delete headTexture;
+		delete snakeTexture;
 		return 0;
 	}
 
-	gSnake = new Snake(headTexture, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+	gSnake = new Snake(snakeTexture, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 	short currentSpeed = gSnake->getSpeed();
 	short quit = 0;
 	SDL_Event e;
@@ -150,7 +150,7 @@ int main(int argc, char* args[]){
 					gSnake->setDirection(RIGHT);
 					break;
 				case SDLK_SPACE:
-					gSnake->addBodyChain(headTexture);
+					gSnake->addBodyChain();
 					break;
 				}
 				break;
@@ -176,7 +176,7 @@ int main(int argc, char* args[]){
 
 	//Free resources and close SDL
 	delete gSnake;
-	delete headTexture;
+	delete snakeTexture;
 	destroySDL();
 	printf("[TRACE] Exiting...");
 	return 0;

@@ -7,7 +7,7 @@ public:
 
 	bool load(char* path);
 	void free();
-	void render(int x, int y, double angle = 0.0, SDL_RendererFlip flip = SDL_FLIP_NONE);
+	void render(int x, int y, SDL_Rect* clip, double angle = 0.0, SDL_RendererFlip flip = SDL_FLIP_NONE);
 	int getWidth();
 	int getHeight();
 
@@ -16,4 +16,5 @@ private:
 	SDL_Renderer* mRenderer;
 	int mWidth;
 	int mHeight;
+	
 };

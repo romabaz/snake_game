@@ -36,9 +36,13 @@ bool GameTexture::load(char* path){
 	return loadedTexture != NULL;
 }
 
-void GameTexture::render(int x, int y, double angle, SDL_RendererFlip flip){
+void GameTexture::render(int x, int y, SDL_Rect* clip, double angle, SDL_RendererFlip flip){
 	SDL_Rect targetRect = { x, y, mWidth, mHeight };
-	SDL_RenderCopyEx(mRenderer, mTexture, NULL, &targetRect, angle, NULL, flip);
+	if (clip != NULL){
+		targetRect.w = clip->w;
+		targetRect.h = clip->h;
+	}
+	SDL_RenderCopyEx(mRenderer, mTexture, clip, &targetRect, angle, NULL, flip);
 }
 
 int GameTexture::getHeight() {

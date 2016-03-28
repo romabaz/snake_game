@@ -16,7 +16,7 @@ typedef struct TurnEvent{
 } TurnEvent;
 
 typedef struct Chain{
-	GameTexture* bodyTexture;
+	SDL_Rect* bodyRect;
 	int x;
 	int y;
 	Directions dir;
@@ -27,11 +27,11 @@ typedef struct Chain{
 class Snake
 {
 public:
-	Snake(GameTexture* headTexture, int x, int y);
+	Snake(GameTexture* snakeTexture, int x, int y);
 	~Snake();
 
 	//Returns total snake length including head
-	int addBodyChain(GameTexture* bodyTexture);
+	int addBodyChain();
 	void move();
 
 	bool setDirection(Directions newDirection);
@@ -46,7 +46,12 @@ private:
 	short mSpeed;
 	short mChainRadius;
 	double mHeadAngle;
-	//array of headTextures
+	
+	//sprite size (x=y=80)
+	int mSpriteStepPx = 80;
+
+	GameTexture* mSnakeTexture;
+	SDL_Rect mSpriteClips[12];
 	std::vector<Chain> mSnakeChain;
 	
 
@@ -57,4 +62,7 @@ private:
 	void changeChainDirection(Chain& bodyChain, TurnEvent* nextTurnState, int chainNumber, Chain& nextChain);
 
 	TurnEvent* readNextTurnState(Chain& bodyItem);
+
+	void initSpriteClips();
+
 };

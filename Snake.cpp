@@ -1,12 +1,14 @@
 #include"Snake.h"
 
-Snake::Snake(GameTexture* headTexture, int x, int y){
-	mSpeed = 2;
+Snake::Snake(GameTexture* snakeTexture, int x, int y){
+	mSpeed = 4;
 	mSnakeLenght = 1;
-	mChainRadius = 50;
+	mChainRadius = mSpriteStepPx;
 	mSnakeChain.reserve(5);
+	mSnakeTexture = snakeTexture;
+	initSpriteClips();
 	Chain headChain;
-	headChain.bodyTexture = headTexture;
+	headChain.bodyRect = &mSpriteClips[0];
 	headChain.x = x;
 	headChain.y = y;
 	headChain.dir = RIGHT;
@@ -15,20 +17,20 @@ Snake::Snake(GameTexture* headTexture, int x, int y){
 
 void Snake::render() {
 	for (int i = mSnakeLenght - 1; i > 0; --i) {
-		mSnakeChain[i].bodyTexture->render(mSnakeChain[i].x, mSnakeChain[i].y);
+		mSnakeTexture->render(mSnakeChain[i].x, mSnakeChain[i].y, mSnakeChain[i].bodyRect);
 	}
 	switch (mSnakeChain[0].dir) {
 	case LEFT:
-		mSnakeChain[0].bodyTexture->render(mSnakeChain[0].x, mSnakeChain[0].y, 0.0, SDL_FLIP_HORIZONTAL);
+		mSnakeTexture->render(mSnakeChain[0].x, mSnakeChain[0].y, mSnakeChain[0].bodyRect, 0.0, SDL_FLIP_HORIZONTAL);
 		break;
 	case RIGHT:
-		mSnakeChain[0].bodyTexture->render(mSnakeChain[0].x, mSnakeChain[0].y);
+		mSnakeTexture->render(mSnakeChain[0].x, mSnakeChain[0].y, mSnakeChain[0].bodyRect);
 		break;
 	case UP:
-		mSnakeChain[0].bodyTexture->render(mSnakeChain[0].x, mSnakeChain[0].y, -90.0);
+		mSnakeTexture->render(mSnakeChain[0].x, mSnakeChain[0].y, mSnakeChain[0].bodyRect, -90.0);
 		break;
 	case DOWN:
-		mSnakeChain[0].bodyTexture->render(mSnakeChain[0].x, mSnakeChain[0].y, 90.0);
+		mSnakeTexture->render(mSnakeChain[0].x, mSnakeChain[0].y, mSnakeChain[0].bodyRect, 90.0);
 		break;
 	}
 }
@@ -41,10 +43,10 @@ bool Snake::isCollide()
 	return false;
 }
 
-int Snake::addBodyChain(GameTexture* bodyTexure)
+int Snake::addBodyChain()
 {
 	Chain bodyChain;
-	bodyChain.bodyTexture = bodyTexure;
+	bodyChain.bodyRect = &mSpriteClips[11];
 	Chain lastChain = mSnakeChain[mSnakeLenght - 1];
 	switch (lastChain.dir) {
 	case LEFT:
@@ -185,4 +187,78 @@ TurnEvent* Snake::readNextTurnState(Chain& bodyItem){
 	}
 }
 
+void Snake::initSpriteClips(){
+	//Snake's head
+	mSpriteClips[0].x = 0;
+	mSpriteClips[0].y = 0;
+	mSpriteClips[0].w = mSpriteStepPx;
+	mSpriteClips[0].h = mSpriteStepPx;
+
+	//Snake's body chain outer
+	mSpriteClips[1].x = 80;
+	mSpriteClips[1].y = 0;
+	mSpriteClips[1].w = mSpriteStepPx;
+	mSpriteClips[1].h = mSpriteStepPx;
+
+	//Snake's body chain outer
+	mSpriteClips[2].x = 160;
+	mSpriteClips[2].y = 0;
+	mSpriteClips[2].w = mSpriteStepPx;
+	mSpriteClips[2].h = mSpriteStepPx;
+
+	//Snake's body chain outer
+	mSpriteClips[3].x = 240;
+	mSpriteClips[3].y = 0;
+	mSpriteClips[3].w = mSpriteStepPx;
+	mSpriteClips[3].h = mSpriteStepPx;
+
+	//Snake's body chain outer
+	mSpriteClips[4].x = 320;
+	mSpriteClips[4].y = 0;
+	mSpriteClips[4].w = mSpriteStepPx;
+	mSpriteClips[4].h = mSpriteStepPx;
+
+	//Snake's body chain inner
+	mSpriteClips[5].x = 400;
+	mSpriteClips[5].y = 0;
+	mSpriteClips[5].w = mSpriteStepPx;
+	mSpriteClips[5].h = mSpriteStepPx;
+
+	//Snake's body chain inner
+	mSpriteClips[6].x = 480;
+	mSpriteClips[6].y = 0;
+	mSpriteClips[6].w = mSpriteStepPx;
+	mSpriteClips[6].h = mSpriteStepPx;
+
+	//Snake's body chain inner
+	mSpriteClips[7].x = 560;
+	mSpriteClips[7].y = 0;
+	mSpriteClips[7].w = mSpriteStepPx;
+	mSpriteClips[7].h = mSpriteStepPx;
+
+	//Snake's body chain inner
+	mSpriteClips[8].x = 0;
+	mSpriteClips[8].y = 80;
+	mSpriteClips[8].w = mSpriteStepPx;
+	mSpriteClips[8].h = mSpriteStepPx;
+
+	//Snake's body chain inner
+	mSpriteClips[9].x = 80;
+	mSpriteClips[9].y = 80;
+	mSpriteClips[9].w = mSpriteStepPx;
+	mSpriteClips[9].h = mSpriteStepPx;
+
+	//Snake's body chain inner
+	mSpriteClips[10].x = 160;
+	mSpriteClips[10].y = 80;
+	mSpriteClips[10].w = mSpriteStepPx;
+	mSpriteClips[10].h = mSpriteStepPx;
+
+	//Snake's body chain inner
+	mSpriteClips[11].x = 240;
+	mSpriteClips[11].y = 80;
+	mSpriteClips[11].w = mSpriteStepPx;
+	mSpriteClips[11].h = mSpriteStepPx;
+
+}
 
