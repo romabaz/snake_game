@@ -4,7 +4,8 @@ TODO:
 1. Simplify body textures (no combinatorial approach)
 2. Reduce clip size (50 pixels?)
 3. Add food textures
-4. Fix bug: when speed is 3 everything is broken :(
+4. Fix bug: when speed is 3 everything is broken
+5. Fix bug: when randomly quickly changing directions everything is broken (try to do that with speed 1)
 5. Collisions
 6. Animate snake's head (static and moving)
 
