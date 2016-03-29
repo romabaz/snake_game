@@ -1,4 +1,9 @@
 # snake_game
+Version 0.1 - moving-eating snake
+1. Animate snake's head (static and moving)
+2. Collisions
+3. Eat and grow
+########################################
 Version 0.0.1 - non working playground
 TODO:
 1. Simplify body textures (no combinatorial approach)
@@ -6,8 +11,8 @@ TODO:
 3. Add food textures
 4. Fix bug: when speed is 3 everything is broken
 5. Fix bug: when randomly quickly changing directions everything is broken (try to do that with speed 1)
-5. Collisions
-6. Animate snake's head (static and moving)
+
+
 
 
 It would be fun to make head growing and splitting at some moment into chains. So, different fruits would generate different grow speed. Also, different fruits would generate different body chain colors, colorkeying 
