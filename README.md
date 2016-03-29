@@ -1,8 +1,9 @@
 # snake_game
 Version 0.1 - moving-eating snake
-1. Animate snake's head (static and moving)
-2. Collisions
-3. Eat and grow
+1. Refactor all
+2. Animate snake's head (static and moving)
+3. Collisions
+4. Eat and grow
 ########################################
 Version 0.0.1 - non working playground
 TODO:
