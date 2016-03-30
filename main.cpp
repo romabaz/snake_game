@@ -104,7 +104,7 @@ int main(int argc, char* args[]){
 	}
 
 	GameTexture* snakeTexture = new GameTexture(gRenderer);
-	if (!snakeTexture->load("snake_ss.bmp")) {
+	if (!snakeTexture->load("snake_ss2.bmp")) {
 		printf("[ERROR] Cannot load snake's head. Exiting...\n");
 		destroySDL();
 		delete snakeTexture;
