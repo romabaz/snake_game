@@ -6,7 +6,7 @@ TODO:
 3. Collisions
 4. Eat and grow
 ########################################
-Version 0.0.1 - non working playground
+Version 0.0.1 - non-working playground
 TODO:
 1. Simplify body textures (no combinatorial approach) - done
 2. Reduce clip size (50 pixels?) - done
