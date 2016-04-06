@@ -156,6 +156,9 @@ bool Snake::setDirection(Directions newDirection)
 	if (newDirection == mSnakeChain[0].dir) {
 		return true;
 	}
+	if (!mSnakeChain[0].pathHistory.empty() && mSnakeChain[0].x == mSnakeChain[0].pathHistory.back()->x && mSnakeChain[0].y == mSnakeChain[0].pathHistory.back()->y) {
+		return false;
+	}
 	if (!isCollide()) {
 		if (mSnakeLenght > 1) {
 			mSnakeChain[0].pathHistory.push(new TurnEvent{ mSnakeChain[0].x, mSnakeChain[0].y, newDirection });
