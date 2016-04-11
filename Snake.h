@@ -47,7 +47,7 @@ private:
 	short mChainRadius;
 	double mHeadAngle;
 	
-	//sprite size (x=y=80)
+	//sprite size (x=y=50)
 	int mSpriteStepPx = 50;
 
 	GameTexture* mSnakeTexture;

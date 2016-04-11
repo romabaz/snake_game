@@ -137,6 +137,9 @@ int main(int argc, char* args[]){
 						gSnake->setSpeed(--currentSpeed);
 					}
 					break;
+				case SDLK_f:
+					//TODO: add food
+					break;
 				case SDLK_UP:
 					gSnake->setDirection(UP);
 					break;

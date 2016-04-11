@@ -221,5 +221,11 @@ void Snake::initSpriteClips(){
 	mSpriteClips[4].w = mSpriteStepPx;
 	mSpriteClips[4].h = mSpriteStepPx;
 
+	//Food: leave
+	mSpriteClips[5].x = 250;
+	mSpriteClips[5].y = 0;
+	mSpriteClips[5].w = mSpriteStepPx;
+	mSpriteClips[5].h = mSpriteStepPx;
+
 }
 
