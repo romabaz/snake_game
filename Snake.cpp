@@ -227,5 +227,17 @@ void Snake::initSpriteClips(){
 	mSpriteClips[5].w = mSpriteStepPx;
 	mSpriteClips[5].h = mSpriteStepPx;
 
+	//Food: apple
+	mSpriteClips[6].x = 300;
+	mSpriteClips[6].y = 0;
+	mSpriteClips[6].w = mSpriteStepPx;
+	mSpriteClips[6].h = mSpriteStepPx;
+
+	//Food: potato
+	mSpriteClips[7].x = 350;
+	mSpriteClips[7].y = 0;
+	mSpriteClips[7].w = mSpriteStepPx;
+	mSpriteClips[7].h = mSpriteStepPx;
+
 }
 
