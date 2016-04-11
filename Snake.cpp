@@ -73,10 +73,10 @@ int Snake::addBodyChain()
 
 void Snake::changeChainDirection(Chain& bodyChain, TurnEvent* nextTurnState, int chainNumber, Chain& nextChain){
 	bodyChain.dir = nextTurnState->dir;
-	moveDirection(bodyChain);
 	if (chainNumber < mSnakeLenght - 1) {
 		bodyChain.pathHistory.push(new TurnEvent{ bodyChain.x, bodyChain.y, bodyChain.dir });
 	}
+	moveDirection(bodyChain);
 	delete nextTurnState;
 	nextChain.pathHistory.pop();
 }
