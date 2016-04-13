@@ -32,6 +32,8 @@ public:
 
 	//Returns total snake length including head
 	int addBodyChain();
+
+	//Moves all snake chains into needed direction
 	void move();
 
 	bool setDirection(Directions newDirection);
@@ -58,8 +60,11 @@ private:
 	//Check collision for the next frame
 	bool isCollide();
 
+	//Moves particular chain one step further
 	void moveDirection(Chain& itemChain);
-	void changeChainDirection(Chain& bodyChain, TurnEvent* nextTurnState, int chainNumber, Chain& nextChain);
+
+	//Changes direction of concrete chain
+	void changeChainItemDirection(Chain& bodyChain, TurnEvent* nextTurnState, int chainNumber, Chain& nextChain);
 
 	TurnEvent* readNextTurnState(Chain& bodyItem);
 
