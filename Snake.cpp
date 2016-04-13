@@ -86,7 +86,7 @@ void Snake::move()
 			for (int i = mSnakeLenght - 1; i > 0; --i) {
 				needToChangeDir = true;
 				TurnEvent* nextTurnState = readNextTurnState(mSnakeChain[i - 1]);
-				if (mSnakeChain[i].dir != nextTurnState->dir)  {
+				if (nextTurnState != NULL && mSnakeChain[i].dir != nextTurnState->dir)  {
 					switch (mSnakeChain[i].dir) {
 					case LEFT:
 						if (mSnakeChain[i].x != nextTurnState->x) {
@@ -186,7 +186,7 @@ TurnEvent* Snake::readNextTurnState(Chain& bodyItem){
 		return bodyItem.pathHistory.front();
 	}
 	else {
-		return new TurnEvent{ bodyItem.x, bodyItem.y, bodyItem.dir }; //TODO: this is memory leak!
+		return NULL;
 	}
 }
 
