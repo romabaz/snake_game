@@ -63,9 +63,6 @@ private:
 	//Moves particular chain one step further
 	void moveDirection(Chain& itemChain);
 
-	//Changes direction of concrete chain
-	void changeChainItemDirection(Chain& bodyChain, TurnEvent* nextTurnState, int chainNumber, Chain& nextChain);
-
 	TurnEvent* readNextTurnState(Chain& bodyItem);
 
 	void initSpriteClips();

@@ -178,8 +178,8 @@ int main(int argc, char* args[]){
 	}
 
 	//Free resources and close SDL
-	delete gSnake;
 	delete snakeTexture;
+	delete gSnake;
 	destroySDL();
 	printf("[TRACE] Exiting...");
 	return 0;

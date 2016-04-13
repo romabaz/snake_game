@@ -36,6 +36,13 @@ void Snake::render() {
 }
 
 Snake::~Snake() {
+	for (int i = 0; i < mSnakeLenght; i++){
+		std::queue<TurnEvent*>* currentPathHistory = &mSnakeChain[i].pathHistory;
+		while (!currentPathHistory->empty()) {
+			delete currentPathHistory->front();
+			currentPathHistory->pop();
+		}
+	}
 }
 
 bool Snake::isCollide()
@@ -71,56 +78,49 @@ int Snake::addBodyChain()
 	return ++mSnakeLenght;
 }
 
-void Snake::changeChainItemDirection(Chain& bodyChain, TurnEvent* nextTurnState, int chainNumber, Chain& nextChain){
-	bodyChain.dir = nextTurnState->dir;
-	if (chainNumber < mSnakeLenght - 1) {
-		bodyChain.pathHistory.push(new TurnEvent{ bodyChain.x, bodyChain.y, bodyChain.dir });
-	}
-	moveDirection(bodyChain);
-	delete nextTurnState;
-	nextChain.pathHistory.pop();
-}
-
 void Snake::move()
 {
 	if (!isCollide()) {
 		if (mSnakeLenght > 1) {
+			bool needToChangeDir = true;
 			for (int i = mSnakeLenght - 1; i > 0; --i) {
+				needToChangeDir = true;
 				TurnEvent* nextTurnState = readNextTurnState(mSnakeChain[i - 1]);
 				if (mSnakeChain[i].dir != nextTurnState->dir)  {
 					switch (mSnakeChain[i].dir) {
 					case LEFT:
 						if (mSnakeChain[i].x != nextTurnState->x) {
 							mSnakeChain[i].x -= mSpeed;
-						}
-						else {
-							changeChainItemDirection(mSnakeChain[i], nextTurnState, i, mSnakeChain[i - 1]);
+							needToChangeDir = false;
 						}
 						break;
 					case RIGHT:
 						if (mSnakeChain[i].x != nextTurnState->x) {
 							mSnakeChain[i].x += mSpeed;
-						}
-						else {
-							changeChainItemDirection(mSnakeChain[i], nextTurnState, i, mSnakeChain[i - 1]);
+							needToChangeDir = false;
 						}
 						break;
 					case UP:
 						if (mSnakeChain[i].y != nextTurnState->y) {
 							mSnakeChain[i].y -= mSpeed;
-						}
-						else {
-							changeChainItemDirection(mSnakeChain[i], nextTurnState, i, mSnakeChain[i - 1]);
+							needToChangeDir = false;
 						}
 						break;
 					case DOWN:
 						if (mSnakeChain[i].y != nextTurnState->y) {
 							mSnakeChain[i].y += mSpeed;
-						}
-						else {
-							changeChainItemDirection(mSnakeChain[i], nextTurnState, i, mSnakeChain[i - 1]);
+							needToChangeDir = false;
 						}
 						break;
+					}
+					if (needToChangeDir) {
+						mSnakeChain[i].dir = nextTurnState->dir;
+						if (i < mSnakeLenght - 1) {
+							mSnakeChain[i].pathHistory.push(new TurnEvent{ mSnakeChain[i].x, mSnakeChain[i].y, mSnakeChain[i].dir });
+						}
+						moveDirection(mSnakeChain[i]);
+						delete nextTurnState;
+						mSnakeChain[i - 1].pathHistory.pop();
 					}
 				}
 				else {
