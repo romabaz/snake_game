@@ -10,7 +10,7 @@ Version 0.0.1 - non-working playground
 TODO:
 1. Simplify body textures (no combinatorial approach) - done
 2. Reduce clip size (50 pixels?) - done
-3. Add food textures
+3. Add food textures - done
 4. Fix bug: when speed is 3 everything is broken
 5. Fix bug: when randomly quickly changing directions everything is broken (try to do that with speed 1) - done
 6. Fix bug: when clicked 2 different direcrions simultanuosly - done

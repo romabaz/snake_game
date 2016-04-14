@@ -82,49 +82,49 @@ void Snake::move()
 {
 	if (!isCollide()) {
 		if (mSnakeLenght > 1) {
-			bool needToChangeDir = true;
 			for (int i = mSnakeLenght - 1; i > 0; --i) {
-				needToChangeDir = true;
+				bool needToChangeDir = true;
+				Chain& currentChainItem = mSnakeChain[i];
 				TurnEvent* nextTurnState = readNextTurnState(mSnakeChain[i - 1]);
-				if (nextTurnState != NULL && mSnakeChain[i].dir != nextTurnState->dir)  {
-					switch (mSnakeChain[i].dir) {
+				if (nextTurnState != NULL && currentChainItem.dir != nextTurnState->dir)  {
+					switch (currentChainItem.dir) {
 					case LEFT:
-						if (mSnakeChain[i].x != nextTurnState->x) {
-							mSnakeChain[i].x -= mSpeed;
+						if (currentChainItem.x != nextTurnState->x) {
+							currentChainItem.x -= mSpeed;
 							needToChangeDir = false;
 						}
 						break;
 					case RIGHT:
-						if (mSnakeChain[i].x != nextTurnState->x) {
-							mSnakeChain[i].x += mSpeed;
+						if (currentChainItem.x != nextTurnState->x) {
+							currentChainItem.x += mSpeed;
 							needToChangeDir = false;
 						}
 						break;
 					case UP:
-						if (mSnakeChain[i].y != nextTurnState->y) {
-							mSnakeChain[i].y -= mSpeed;
+						if (currentChainItem.y != nextTurnState->y) {
+							currentChainItem.y -= mSpeed;
 							needToChangeDir = false;
 						}
 						break;
 					case DOWN:
-						if (mSnakeChain[i].y != nextTurnState->y) {
-							mSnakeChain[i].y += mSpeed;
+						if (currentChainItem.y != nextTurnState->y) {
+							currentChainItem.y += mSpeed;
 							needToChangeDir = false;
 						}
 						break;
 					}
 					if (needToChangeDir) {
-						mSnakeChain[i].dir = nextTurnState->dir;
+						currentChainItem.dir = nextTurnState->dir;
 						if (i < mSnakeLenght - 1) {
-							mSnakeChain[i].pathHistory.push(new TurnEvent{ mSnakeChain[i].x, mSnakeChain[i].y, mSnakeChain[i].dir });
+							currentChainItem.pathHistory.push(new TurnEvent{ currentChainItem.x, currentChainItem.y, currentChainItem.dir });
 						}
-						moveDirection(mSnakeChain[i]);
+						moveDirection(currentChainItem);
 						delete nextTurnState;
 						mSnakeChain[i - 1].pathHistory.pop();
 					}
 				}
 				else {
-					moveDirection(mSnakeChain[i]);
+					moveDirection(currentChainItem);
 				}
 			}
 		}
