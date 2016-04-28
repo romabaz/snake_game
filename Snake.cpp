@@ -35,6 +35,10 @@ void Snake::render() {
 	}
 }
 
+void Snake::renderFood(int x, int y, int clipNumber){
+	mSnakeTexture->render(x, y, &mSpriteClips[clipNumber]);
+}
+
 Snake::~Snake() {
 	for (int i = 0; i < mSnakeLenght; i++){
 		std::queue<TurnEvent*>* currentPathHistory = &mSnakeChain[i].pathHistory;

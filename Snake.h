@@ -43,6 +43,9 @@ public:
 	//Renders full snake
 	void render();
 
+	//Renders food
+	void renderFood(int x, int y, int clipNumber);
+
 private:
 	int mSnakeLenght;
 	short mSpeed;

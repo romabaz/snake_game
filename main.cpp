@@ -170,8 +170,11 @@ int main(int argc, char* args[]){
 		SDL_SetRenderDrawColor(gRenderer, 0x00, 0xFF, 0xFF, 0xFF);
 		drawCircle(gRenderer, currMouseX, currMouseY, 7);
 
+		gSnake->renderFood(150, 150, 5);
+
 		//render snake
 		gSnake->render();
+		
 		//Update screen 
 		SDL_RenderPresent(gRenderer);
 		gSnake->move();
