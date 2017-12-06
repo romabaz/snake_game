@@ -5,6 +5,16 @@ public:
 	virtual int tick(const GameEvent& gEvent) = 0;
 	virtual void init(int x, int y) = 0;
 
+protected:
+	typedef enum Directions {
+		LEFT,
+		RIGHT,
+		UP,
+		DOWN,
+		NONE
+	} Direction;
+
+
 private:
 	//pointer to the function performing drawing to the game field
 	static void(*drawFuncPtr)(int, int, const GameObject&);
