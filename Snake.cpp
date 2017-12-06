@@ -3,6 +3,7 @@
 Snake::Snake(GameTexture* snakeTexture, int x, int y){
 	mSpeed = 2;
 	mSnakeLenght = 1;
+	mSpriteStepPx = 50;
 	mChainRadius = mSpriteStepPx;
 	mSnakeChain.reserve(5);
 	mSnakeTexture = snakeTexture;

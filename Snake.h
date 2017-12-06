@@ -53,7 +53,7 @@ private:
 	double mHeadAngle;
 	
 	//sprite size (x=y=50)
-	int mSpriteStepPx = 50;
+	int mSpriteStepPx;
 
 	GameTexture* mSnakeTexture;
 	SDL_Rect mSpriteClips[12];
