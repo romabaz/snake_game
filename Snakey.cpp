@@ -18,7 +18,8 @@ Snakey::~Snakey()
 }
 
 
-void Snakey::init(int x, int y, Direction dir) {
+void Snakey::init(int x, int y, Direction dir) 
+{
 	for (SnakeyQuantum* sq : mSnakeyBody) {
 		if (sq != nullptr) {
 			sq->x = x;
