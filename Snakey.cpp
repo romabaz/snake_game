@@ -35,6 +35,10 @@ void Snakey::init(int x, int y, Direction dir)
 
 void Snakey::tick(const GameEvent& gEvent)
 {
+	//1. Applied event to head
+	//2. Moved head in the new direction
+	//3. Moved all body in the consequent direction
+	//4. Added SnakeEvent to the queue
 	SnakeyQuantum* snakeHead = mSnakeyBody.at(0);
 	if (snakeHead != nullptr) {
 		switch(gEvent) {
