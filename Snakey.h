@@ -1,22 +1,23 @@
 #pragma once
 #include<vector>
+#include<queue>
 #include "GameObject.h"
 class Snakey :	public GameObject {
 public:
 	Snakey();
 	~Snakey();
+	
+	void init(int x, int y, Direction dir) override;
+	void tick(const GameEvent& gEvent) override;
+	void draw();
 
 private:
 	/*
 	Each indivisible element of Snakey is called Quantum. 
 	Snakey grows by Quantums. One food - one more quantum at minimum.
+	TODO: read about inner classes scopes in cpp
 	*/
 	class SnakeyQuantum {
-	private:
-		int x;
-		int y;
-		Direction direction;
-
 	public:
 		SnakeyQuantum() {
 			x = 0;
@@ -32,9 +33,20 @@ private:
 
 		~SnakeyQuantum() {}
 
+		int x;
+		int y;
+		Direction direction;
+	};
+
+	struct SnakeyEvent {
+		GameEvent event;
+		int x;
+		int y;
 	};
 
 	//an array of quantums constitutes a snakey body
 	std::vector<SnakeyQuantum*> mSnakeyBody;
+	//a queue of game events, containing the place where it has happenned with the event itself
+	std::queue<SnakeyEvent*> mSnakeyEventQueue;
 };
 

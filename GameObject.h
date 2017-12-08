@@ -1,10 +1,6 @@
 #pragma once
 #include "GlobalTypes.h"
 class GameObject {
-public:
-	virtual int tick(const GameEvent& gEvent) = 0;
-	virtual void init(int x, int y) = 0;
-
 protected:
 	typedef enum Directions {
 		LEFT,
@@ -14,15 +10,21 @@ protected:
 		NONE
 	} Direction;
 
+	typedef enum GameEvents {
+		GE_LEFT,
+		GE_RIGHT,
+		GE_UP,
+		GE_DOWN
+	} GameEvent;
 
-private:
 	//pointer to the function performing drawing to the game field
-	static void(*drawFuncPtr)(int, int, const GameObject&);
-	
-	//current position
-	int x = 0;
-	int y = 0;
+	static void(*drawFuncPtr)(const GameObject* gameObject);
 
 	//radius
 	static const int radius = 35;
+
+public:
+	virtual void tick(const GameEvent& gEvent) = 0;
+	virtual void init(int x, int y, Direction dir) = 0;
+
 };
