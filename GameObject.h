@@ -10,13 +10,6 @@ protected:
 		NONE
 	} Direction;
 
-	typedef enum GameEvents {
-		GE_LEFT,
-		GE_RIGHT,
-		GE_UP,
-		GE_DOWN
-	} GameEvent;
-
 	//pointer to the function performing drawing to the game field
 	static void(*drawFuncPtr)(const GameObject* gameObject);
 

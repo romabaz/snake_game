@@ -42,11 +42,21 @@ private:
 		GameEvent event;
 		int x;
 		int y;
+		inline SnakeyEvent(int x, int y, GameEvent gameEvent) {
+			this->x = x;
+			this->y = y;
+			this->event = gameEvent;
+		}
 	};
 
 	//an array of quantums constitutes a snakey body
 	std::vector<SnakeyQuantum*> mSnakeyBody;
 	//a queue of game events, containing the place where it has happenned with the event itself
 	std::queue<SnakeyEvent*> mSnakeyEventQueue;
+	//keep current length of Snakey (number of quantums including head)
+	std::size_t mSnakeyLength = 0;
+	//snakey speed
+	short mSpeed = 0;
+
 };
 

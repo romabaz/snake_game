@@ -1,7 +1,7 @@
 #pragma once
-typedef enum GameEvent {
-	LEFT,
-	RIGHT,
-	UP,
-	DOWN
+typedef enum GameEvents {
+	GE_LEFT,
+	GE_RIGHT,
+	GE_UP,
+	GE_DOWN
 } GameEvent;
