@@ -17,14 +17,13 @@ Snakey::~Snakey()
 	//2. Traverse mSnakeyEventQueue and delete all SnakeyEvent objects
 }
 
-
+//fixme - wrong implementation. need to think about purpose and design of it
 void Snakey::init(int x, int y, Direction dir) 
 {
 	for (SnakeyQuantum* sq : mSnakeyBody) {
 		if (sq != nullptr) {
-			sq->x = x;
-			sq->y = y;
-			sq->direction = dir;
+			sq->x += x;
+			sq->y += y;
 		}
 		else {
 			throw std::invalid_argument("NULL pointer in snakey body");
@@ -35,50 +34,21 @@ void Snakey::init(int x, int y, Direction dir)
 
 void Snakey::tick(GameEvent gEvent)
 {
-	SnakeyQuantum* snakeHead = mSnakeyBody.at(0);
-	if (snakeHead != nullptr) {
-		if (mSnakeyLength > 1) {
-			//Add SnakeEvent to the queue
-			mSnakeyEventQueue.push(new SnakeyEvent(snakeHead->x, snakeHead->y, gEvent));
-			SnakeyEvent* nextSnakeyEvent = mSnakeyEventQueue.front();
-		}
-		//Apply event to head
-		//Move head in the new direction
-		switch(gEvent) {
-		case GE_UP:
-			snakeHead->direction = UP;
-			snakeHead->y -= mSpeed;
-			break;
-		case GE_DOWN:
-			snakeHead->direction = DOWN;
-			snakeHead->y -= mSpeed;
-			break;
-		case GE_LEFT:
-			snakeHead->direction = LEFT;
-			snakeHead->x -= mSpeed;
-			break;
-		case GE_RIGHT:
-			snakeHead->direction = RIGHT;
-			snakeHead->x += mSpeed;
-			break;
-		default:
-			//nothing
-		}
+	if (mSnakeyLength < 1) {
+		return;
+	}
 
+	SnakeyQuantum* snakeHead = mSnakeyBody.at(0);
+	int eventX = snakeHead->x;
+	int eventY = snakeHead->y;
+	
+	if (mSnakeyLength == 1) {
+		applyGameEvent(snakeHead, gEvent);
 	}
 	else {
-		throw std::invalid_argument("Snake head is nullptr");
-	}
-	//Move all body in the consequent direction
-	for (std::size_t i = 1; i < mSnakeyLength; i++) {
-		SnakeyQuantum* sq = mSnakeyBody.at(i);
-		
-		if (sq != nullptr) {
-			
-		}
-		else {
-			throw std::invalid_argument("NULL pointer in snakey body");
-		}
+		//Add SnakeyEvent to the queue
+		mSnakeyEventQueue.push(new SnakeyEvent(eventX, eventY, gEvent));
+		applySnakeyEvent(mSnakeyEventQueue.front());
 	}
 }
 
@@ -86,3 +56,43 @@ void Snakey::draw()
 {
 	drawFuncPtr(this);
 }
+
+void Snakey::applySnakeyEvent(SnakeyEvent* snakeyEvent)
+{
+	//Move all body in the consequent direction
+	for (std::size_t i = 0; i < mSnakeyLength; i++) {
+		SnakeyQuantum* sq = mSnakeyBody.at(0);
+		if (sq->x == snakeyEvent->x && sq->y == snakeyEvent->y) {
+			applyGameEvent(sq, snakeyEvent->event);
+			mSnakeyEventQueue.pop();
+			if (i < mSnakeyLength - 1) {
+				mSnakeyEventQueue.push(snakeyEvent);
+			}
+		}
+	}
+}
+
+void Snakey::applyGameEvent(SnakeyQuantum* sq, GameEvent gameEvent)
+{
+	switch (gameEvent) {
+	case GE_UP:
+		sq->direction = UP;
+		sq->y -= mSpeed;
+		break;
+	case GE_DOWN:
+		sq->direction = DOWN;
+		sq->y -= mSpeed;
+		break;
+	case GE_LEFT:
+		sq->direction = LEFT;
+		sq->x -= mSpeed;
+		break;
+	case GE_RIGHT:
+		sq->direction = RIGHT;
+		sq->x += mSpeed;
+		break;
+	default:
+		//nothing
+	}
+}
+
