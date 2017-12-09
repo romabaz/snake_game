@@ -1,7 +1,5 @@
 #include "Snakey.h"
 
-
-
 Snakey::Snakey()
 {
 	//set initial capacity
@@ -42,6 +40,7 @@ void Snakey::tick(GameEvent gEvent)
 		if (mSnakeyLength > 1) {
 			//Add SnakeEvent to the queue
 			mSnakeyEventQueue.push(new SnakeyEvent(snakeHead->x, snakeHead->y, gEvent));
+			SnakeyEvent* nextSnakeyEvent = mSnakeyEventQueue.front();
 		}
 		//Apply event to head
 		//Move head in the new direction
@@ -73,6 +72,7 @@ void Snakey::tick(GameEvent gEvent)
 	//Move all body in the consequent direction
 	for (std::size_t i = 1; i < mSnakeyLength; i++) {
 		SnakeyQuantum* sq = mSnakeyBody.at(i);
+		
 		if (sq != nullptr) {
 			
 		}
