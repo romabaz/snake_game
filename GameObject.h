@@ -2,7 +2,7 @@
 #include "GlobalTypes.h"
 class GameObject {
 protected:
-	typedef enum Directions {
+	typedef enum {
 		LEFT,
 		RIGHT,
 		UP,
@@ -17,7 +17,7 @@ protected:
 	static const int radius = 35;
 
 public:
-	virtual void tick(const GameEvent& gEvent) = 0;
+	virtual void tick(GameEvent gEvent) = 0;
 	virtual void init(int x, int y, Direction dir) = 0;
 
 };

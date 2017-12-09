@@ -35,7 +35,7 @@ void Snakey::init(int x, int y, Direction dir)
 
 }
 
-void Snakey::tick(const GameEvent& gEvent)
+void Snakey::tick(GameEvent gEvent)
 {
 	SnakeyQuantum* snakeHead = mSnakeyBody.at(0);
 	if (snakeHead != nullptr) {

@@ -8,7 +8,7 @@ public:
 	~Snakey();
 	
 	void init(int x, int y, Direction dir) override;
-	void tick(const GameEvent& gEvent) override;
+	void tick(GameEvent gEvent) override;
 	void draw();
 
 private:
@@ -22,7 +22,7 @@ private:
 		SnakeyQuantum() {
 			x = 0;
 			y = 0;
-			direction = Directions::NONE;
+			direction = NONE;
 		}
 
 		SnakeyQuantum(int x, int y, Direction dir) {
