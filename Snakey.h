@@ -3,17 +3,9 @@
 #include<queue>
 #include "GameObject.h"
 class Snakey :	public GameObject {
-public:
-	Snakey();
-	~Snakey();
-	
-	void init(int x, int y, Direction dir) override;
-	void tick(GameEvent gEvent) override;
-	void draw();
-
 private:
 	/*
-	Each indivisible element of Snakey is called Quantum. 
+	Each indivisible element of Snakey is called Quantum.
 	Snakey grows by Quantums. One food - one more quantum at minimum.
 	TODO: read about inner classes scopes in cpp
 	*/
@@ -60,6 +52,15 @@ private:
 
 	void applySnakeyEvent(SnakeyEvent* snakeyEvent);
 	void applyGameEvent(SnakeyQuantum* sq, GameEvent gameEvent);
+
+public:
+	Snakey();
+	~Snakey();
+	
+	void init(int x, int y, Direction dir) override;
+	void tick(GameEvent gEvent) override;
+	void draw();
+	void move(SnakeyQuantum* sq);
 
 };
 
