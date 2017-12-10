@@ -97,6 +97,9 @@ void Snakey::applySnakeyEvent(SnakeyEvent* snakeyEvent)
 				return;
 			}
 		}
+		else {
+			move(sq);
+		}
 	}
 }
 
