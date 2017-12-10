@@ -81,6 +81,8 @@ void Snakey::move(SnakeyQuantum* sq)
 	}
 }
 
+
+//fixme: dirty function, that not only applies the event, but moves the snake as well. Split this logic or rename it!!!
 void Snakey::applySnakeyEvent(SnakeyEvent* snakeyEvent)
 {
 	//Move all body in the consequent direction
