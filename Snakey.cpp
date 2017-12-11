@@ -87,29 +87,6 @@ void Snakey::draw()
 	drawFuncPtr(this);
 }
 
-//fixme: dirty function, that not only applies the event, but moves the snake as well. Split this logic or rename it!!!
-void Snakey::applySnakeyEvent(SnakeyEvent* snakeyEvent)
-{
-	//Move all body in the consequent direction
-	for (std::size_t i = 1; i < mSnakeyLength; i++) {
-		SnakeyQuantum* sq = mSnakeyBody.at(0);
-		if (sq->x == snakeyEvent->x && sq->y == snakeyEvent->y) {
-			applyGameEvent(sq, snakeyEvent->event);
-			mSnakeyEventQueue.pop();
-			if (i < mSnakeyLength - 1) {
-				mSnakeyEventQueue.push(snakeyEvent);
-			}
-			else {
-				delete snakeyEvent;
-				return;
-			}
-		}
-		else {
-			move(sq);
-		}
-	}
-}
-
 void Snakey::applyGameEvent(SnakeyQuantum* sq, GameEvent gameEvent)
 {
 	switch (gameEvent) {

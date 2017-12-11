@@ -52,7 +52,6 @@ private:
 	//snakey speed
 	short mSpeed = 0;
 
-	void applySnakeyEvent(SnakeyEvent* snakeyEvent);
 	void applyGameEvent(SnakeyQuantum* sq, GameEvent gEvent);
 	void move(SnakeyQuantum* sq);
 	std::size_t findNextEventId(std::size_t eventId);
