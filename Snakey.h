@@ -62,7 +62,6 @@ public:
 	
 	void init(int x, int y, Direction dir) override;
 	void tick(GameEvent gEvent) override;
-	void tick() override;
 	void draw();
 	
 
