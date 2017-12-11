@@ -18,6 +18,9 @@ protected:
 
 public:
 	virtual void tick(GameEvent gEvent) = 0;
+	inline virtual void tick() {
+		tick(GE_NONE);
+	};
 	virtual void init(int x, int y, Direction dir) = 0;
 
 };

@@ -21,6 +21,7 @@ private:
 			this->x = x;
 			this->y = y;
 			this->direction = dir;
+			this->nextEventId = 0;
 		}
 
 		~SnakeyQuantum() {}
@@ -28,6 +29,7 @@ private:
 		int x;
 		int y;
 		Direction direction;
+		std::size_t nextEventId;
 	};
 
 	struct SnakeyEvent {
@@ -43,15 +45,17 @@ private:
 
 	//an array of quantums constitutes a snakey body
 	std::vector<SnakeyQuantum*> mSnakeyBody;
-	//a queue of game events, containing the place where it has happenned with the event itself
-	std::queue<SnakeyEvent*> mSnakeyEventQueue;
+	//a vector of game events, containing the place where it has happenned with the event itself
+	std::vector<SnakeyEvent*> mSnakeyEventVec;
 	//keep current length of Snakey (number of quantums including head)
 	std::size_t mSnakeyLength = 0;
 	//snakey speed
 	short mSpeed = 0;
 
 	void applySnakeyEvent(SnakeyEvent* snakeyEvent);
-	void applyGameEvent(SnakeyQuantum* sq, GameEvent gameEvent);
+	void applyGameEvent(SnakeyQuantum* sq, GameEvent gEvent);
+	void move(SnakeyQuantum* sq);
+	std::size_t findNextEventId(std::size_t eventId);
 
 public:
 	Snakey();
@@ -59,8 +63,9 @@ public:
 	
 	void init(int x, int y, Direction dir) override;
 	void tick(GameEvent gEvent) override;
+	void tick() override;
 	void draw();
-	void move(SnakeyQuantum* sq);
+	
 
 };
 
