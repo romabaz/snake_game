@@ -38,7 +38,7 @@ void Snakey::tick(GameEvent gEvent)
 		return;
 	}
 
-	SnakeyQuantum* snakeHead = mSnakeyBody.at(0);
+	SnakeyQuantum* snakeHead = mSnakeyBody[0];
 	int eventX = snakeHead->x;
 	int eventY = snakeHead->y;
 
@@ -47,34 +47,37 @@ void Snakey::tick(GameEvent gEvent)
 	if (mSnakeyLength > 1) {
 		//Add SnakeyEvent to the vector if the event has happenned
 		if (gEvent != GE_NONE) {
-			mSnakeyEventVec.push_back(new SnakeyEvent(eventX, eventY, gEvent));
+			mSnakeyEvents.push_back(new SnakeyEvent(eventX, eventY, gEvent));
 		}
-		std::size_t theLastEventId = mSnakeyEventVec.size() - 1;
 		for (std::size_t i = 1; i < mSnakeyLength; i++) {
-			SnakeyQuantum* sq = mSnakeyBody.at(i);
-			if (theLastEventId < 0) {
+			SnakeyQuantum* sq = mSnakeyBody[i];
+			if (mSnakeyEvents.size() < 1) {
 				//no events in vector. Just move forward
 				move(sq);
 			}
 			else {
 				//1. Check each quantum for its event to happen
-				SnakeyEvent* nextSEvent = mSnakeyEventVec[sq->nextEventId];
-				if (sq->x == nextSEvent->x && sq->y == nextSEvent->y) {
+				SnakeyEvent* nextSEvent = mSnakeyEvents[sq->nextSnakeyEventId];
+				if (sq->x == nextSEvent->x &&
+					sq->y == nextSEvent->y) {
 					//2. Apply event
 					applyGameEvent(sq, nextSEvent->event);
-					//3. Delete SnakeyEvent if this is the last quantum
-					if (i == mSnakeyLength - 1) {
-						delete nextSEvent;
-						//marked event as deleted
-						nextSEvent = 0;
-					}
-					//4. Reset or move forward the nextEventId
-					if (sq->nextEventId == theLastEventId) {
-						sq->nextEventId = 0;
+					//3. Reset or move forward the nextEventId
+					if (nextSEvent == mSnakeyEvents.back()) {
+						//No events left for this quantum
+						sq->nextSnakeyEventId = 0;
 					}
 					else {
-						sq->nextEventId = findNextEventId(sq->nextEventId++);
+						//set the next event for this quantum
+						sq->nextSnakeyEventId++;
 					}
+					//4. Delete SnakeyEvent if this is the last quantum
+					if (i == mSnakeyLength - 1) {
+						mSnakeyEvents.pop_front();
+						//mSnakeyEvents.remove(nextSEvent); need to check this simpler solution
+						delete nextSEvent;
+					}
+					
 				}
 			}
 		}
@@ -135,12 +138,12 @@ void Snakey::move(SnakeyQuantum* sq)
 	}
 }
 
-std::size_t Snakey::findNextEventId(const std::size_t eventId)
+std::size_t Snakey::findNextSnakeyEvent(const SnakeyEvent* currentEvent)
 {
-	std::size_t eventLen = mSnakeyEventVec.size();
+	std::size_t eventLen = mSnakeyEvents.size();
 	std::size_t currentId = eventId;
 	while (currentId < eventLen) {
-		if (mSnakeyEventVec[currentId] != 0) {
+		if (mSnakeyEvents[currentId] != 0) {
 			return currentId;
 		}
 		else {

@@ -1,8 +1,18 @@
 #pragma once
 #include<vector>
-#include<queue>
+#include<deque>
 #include "GameObject.h"
-class Snakey :	public GameObject {
+class Snakey : public GameObject {
+	struct SnakeyEvent {
+		GameEvent event;
+		int x;
+		int y;
+		inline SnakeyEvent(int x, int y, GameEvent gameEvent) {
+			this->x = x;
+			this->y = y;
+			this->event = gameEvent;
+		}
+	};
 private:
 	/*
 	Each indivisible element of Snakey is called Quantum.
@@ -21,7 +31,7 @@ private:
 			this->x = x;
 			this->y = y;
 			this->direction = dir;
-			this->nextEventId = 0;
+			nextSnakeyEventId = 0;
 		}
 
 		~SnakeyQuantum() {}
@@ -29,24 +39,13 @@ private:
 		int x;
 		int y;
 		Direction direction;
-		std::size_t nextEventId;
-	};
-
-	struct SnakeyEvent {
-		GameEvent event;
-		int x;
-		int y;
-		inline SnakeyEvent(int x, int y, GameEvent gameEvent) {
-			this->x = x;
-			this->y = y;
-			this->event = gameEvent;
-		}
+		std::size_t nextSnakeyEventId;
 	};
 
 	//an array of quantums constitutes a snakey body
 	std::vector<SnakeyQuantum*> mSnakeyBody;
 	//a vector of game events, containing the place where it has happenned with the event itself
-	std::vector<SnakeyEvent*> mSnakeyEventVec;
+	std::deque<SnakeyEvent*> mSnakeyEvents;
 	//keep current length of Snakey (number of quantums including head)
 	std::size_t mSnakeyLength = 0;
 	//snakey speed
@@ -54,16 +53,16 @@ private:
 
 	void applyGameEvent(SnakeyQuantum* sq, GameEvent gEvent);
 	void move(SnakeyQuantum* sq);
-	std::size_t findNextEventId(std::size_t eventId);
+	std::size_t findNextSnakeyEvent(const SnakeyEvent* currentEvent);
 
 public:
 	Snakey();
 	~Snakey();
-	
+
 	void init(int x, int y, Direction dir) override;
 	void tick(GameEvent gEvent) override;
 	void draw();
-	
+
 
 };
 
