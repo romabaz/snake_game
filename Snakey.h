@@ -3,6 +3,7 @@
 #include<deque>
 #include "GameObject.h"
 class Snakey : public GameObject {
+private:
 	struct SnakeyEvent {
 		GameEvent event;
 		int x;
@@ -13,7 +14,6 @@ class Snakey : public GameObject {
 			this->event = gameEvent;
 		}
 	};
-private:
 	/*
 	Each indivisible element of Snakey is called Quantum.
 	Snakey grows by Quantums. One food - one more quantum at minimum.
