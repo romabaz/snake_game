@@ -53,7 +53,6 @@ private:
 
 	void applyGameEvent(SnakeyQuantum* sq, GameEvent gEvent);
 	void move(SnakeyQuantum* sq);
-	std::size_t findNextSnakeyEvent(const SnakeyEvent* currentEvent);
 
 public:
 	Snakey();

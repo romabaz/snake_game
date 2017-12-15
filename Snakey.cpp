@@ -153,17 +153,3 @@ void Snakey::move(SnakeyQuantum* sq)
 	}
 }
 
-std::size_t Snakey::findNextSnakeyEvent(const SnakeyEvent* currentEvent)
-{
-	std::size_t eventLen = mSnakeyEvents.size();
-	std::size_t currentId = eventId;
-	while (currentId < eventLen) {
-		if (mSnakeyEvents[currentId] != 0) {
-			return currentId;
-		}
-		else {
-			currentId++;
-		}
-	}
-	return 0;
-}
