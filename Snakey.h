@@ -31,7 +31,7 @@ private:
 			this->x = x;
 			this->y = y;
 			this->direction = dir;
-			nextSnakeyEventId = 0;
+			nextSnakeyEventId = -1;
 		}
 
 		~SnakeyQuantum() {}
