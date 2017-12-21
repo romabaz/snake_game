@@ -2,11 +2,17 @@
 
 GameWorld::GameWorld()
 {
-	initGraphicSystem();
+	if (!initGraphicSystem()) {
+		printf("\n[ERROR][GameWorld()] Failed to create GameWorld due to SDL failure");
+	}
+	else {
+		sdlExists = true;
+	}
 }
 
 GameWorld::~GameWorld()
 {
+	destroySDL();
 }
 
 short GameWorld::initGraphicSystem()
@@ -18,6 +24,8 @@ short GameWorld::initGraphicSystem()
 		SDL_Quit();
 		return 0;
 	}
+
+	return 1;
 }
 
 short GameWorld::initSDL() {
@@ -53,4 +61,17 @@ short GameWorld::initSDLRenderer() {
 	printf("success!\n");
 
 	return 1;
+}
+
+void GameWorld::destroySDL()
+{
+	printf("[TRACE][destroySDL] Destroying SDL...");
+	//Destroy window 
+	SDL_DestroyRenderer(gRenderer);
+	SDL_DestroyWindow(gWindow);
+	gWindow = NULL;
+	gRenderer = NULL;
+	//Quit SDL subsystems
+	SDL_Quit();
+	printf("success!\n");
 }

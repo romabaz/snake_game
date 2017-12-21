@@ -1,83 +1,14 @@
 #include<stdio.h>
 #include<math.h>
-#include"Snake.h"
+#include"Snakey.h"
+#include"GameWorld.h"
 
 #define PI 3.14159265359
-//SDL rendering entities
-SDL_Window* gWindow = NULL;
-SDL_Renderer* gRenderer = NULL;
 
-
-//Basic coordinates
-const int SCREEN_WIDTH = 1500;
-const int SCREEN_HEIGHT = 800;
 
 const int ZERO_X = 100;
 const int ZERO_Y = 700;
 
-
-//Snake global
-Snake* gSnake;
-
-short initSDL() {
-	printf("[TRACE][initSDL] Initializing SDL...");
-
-	if (SDL_Init(SDL_INIT_VIDEO) < 0){
-		printf("\n[ERROR][initSDL] SDL couldn't initialize! SDL_ERROR: %s\n", SDL_GetError());
-		return 0;
-	}
-
-	printf("success!\n");
-
-	return 1;
-}
-
-
-short initSDLRenderer() {
-	printf("[TRACE][initSDLRenderer] Constructing SDL renderer...");
-
-	gWindow = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-	if (gWindow == NULL){
-		printf("\n[ERROR][initSDLRenderer] Window could not be created! SDL_Error: %s\n", SDL_GetError());
-		return 0;
-	}
-
-	gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	if (gRenderer == NULL) {
-		printf("\n[ERROR][initSDLRenderer] Renderer could not be created! SDL Error: %s\n", SDL_GetError());
-		SDL_DestroyWindow(gWindow);
-		gWindow = NULL;
-		return 0;
-	}
-
-	printf("success!\n");
-
-	return 1;
-}
-
-void destroySDL()
-{
-	printf("[TRACE][destroySDL] Destroying SDL...");
-	//Destroy window 
-	SDL_DestroyRenderer(gRenderer);
-	SDL_DestroyWindow(gWindow);
-	gWindow = NULL;
-	gRenderer = NULL;
-	//Quit SDL subsystems
-	SDL_Quit();
-	printf("success!\n");
-}
-
-short initGraphics(){
-	if (!initSDL()) {
-		return 0;
-	}
-	if (!initSDLRenderer()) {
-		SDL_Quit();
-		return 0;
-	}
-	return 1;
-}
 
 short mousePoints(int mouseX, int mouseY){
 	return 1;
@@ -98,10 +29,13 @@ void drawCircle(SDL_Renderer* renderer, int centerX, int centerY, int radius) {
 int main(int argc, char* args[]){
 	
 	printf("[TRACE] Snake has started\n");
+
+	/*
 	if (!initGraphics()){
 		printf("[TRACE] Exiting...");
 		return 0;
 	}
+	
 
 	GameTexture* snakeTexture = new GameTexture(gRenderer);
 	if (!snakeTexture->load("snake_ss2.bmp")) {
@@ -110,8 +44,15 @@ int main(int argc, char* args[]){
 		delete snakeTexture;
 		return 0;
 	}
+	
+	gSnake = new Snake(snakeTexture, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);*/
+	GameWorld gw;
+	Snakey snakeyAlpha;
+	gw.put(snakeyAlpha);
 
-	gSnake = new Snake(snakeTexture, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+
+
+
 	short currentSpeed = gSnake->getSpeed();
 	short quit = 0;
 	SDL_Event e;
