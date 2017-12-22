@@ -7,13 +7,14 @@ GameTexture::GameTexture(SDL_Renderer* renderer){
 	mRenderer = renderer;
 	mWidth = 0;
 	mHeight = 0;
+	mSpriteStepPx = 50;
 }
 
 GameTexture::~GameTexture(){
 	free();
 }
 
-bool GameTexture::load(char* path){
+bool GameTexture::load(const char* path, int spriteStepPx){
 	free();
 	SDL_Texture* loadedTexture = NULL;
 	SDL_Surface* loadedSurface = SDL_LoadBMP(path);
@@ -33,7 +34,14 @@ bool GameTexture::load(char* path){
 		SDL_FreeSurface(loadedSurface);
 	}
 	mTexture = loadedTexture;
-	return loadedTexture != NULL;
+	if (loadedTexture != NULL) {
+		mSpriteStepPx = spriteStepPx;
+		initSpriteClips();
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 
 void GameTexture::render(int x, int y, SDL_Rect* clip, double angle, SDL_RendererFlip flip){
@@ -60,4 +68,60 @@ void GameTexture::free(){
 		mWidth = 0;
 		mHeight = 0;
 	}
+}
+
+void GameTexture::initSpriteClips() {
+	//Snake's head
+	mSpriteClips[0].x = 0;
+	mSpriteClips[0].y = 0;
+	mSpriteClips[0].w = mSpriteStepPx;
+	mSpriteClips[0].h = mSpriteStepPx;
+
+	//Snake's body chain outer
+	mSpriteClips[1].x = 50;
+	mSpriteClips[1].y = 0;
+	mSpriteClips[1].w = mSpriteStepPx;
+	mSpriteClips[1].h = mSpriteStepPx;
+
+	//Snake's body chain outer
+	mSpriteClips[2].x = 100;
+	mSpriteClips[2].y = 0;
+	mSpriteClips[2].w = mSpriteStepPx;
+	mSpriteClips[2].h = mSpriteStepPx;
+
+	//Snake's body chain outer
+	mSpriteClips[3].x = 150;
+	mSpriteClips[3].y = 0;
+	mSpriteClips[3].w = mSpriteStepPx;
+	mSpriteClips[3].h = mSpriteStepPx;
+
+	//Snake's body chain outer
+	mSpriteClips[4].x = 200;
+	mSpriteClips[4].y = 0;
+	mSpriteClips[4].w = mSpriteStepPx;
+	mSpriteClips[4].h = mSpriteStepPx;
+
+	//Food: leave
+	mSpriteClips[5].x = 250;
+	mSpriteClips[5].y = 0;
+	mSpriteClips[5].w = mSpriteStepPx;
+	mSpriteClips[5].h = mSpriteStepPx;
+
+	//Food: apple
+	mSpriteClips[6].x = 300;
+	mSpriteClips[6].y = 0;
+	mSpriteClips[6].w = mSpriteStepPx;
+	mSpriteClips[6].h = mSpriteStepPx;
+
+	//Food: potato
+	mSpriteClips[7].x = 350;
+	mSpriteClips[7].y = 0;
+	mSpriteClips[7].w = mSpriteStepPx;
+	mSpriteClips[7].h = mSpriteStepPx;
+
+	//Food: carrot
+	mSpriteClips[8].x = 400;
+	mSpriteClips[8].y = 0;
+	mSpriteClips[8].w = mSpriteStepPx;
+	mSpriteClips[8].h = mSpriteStepPx;
 }

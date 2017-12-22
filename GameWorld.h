@@ -19,8 +19,13 @@ private:
 	short initGraphicSystem();
 	short initSDL();
 	short initSDLRenderer();
+	short initGameTexture();
 	void destroySDL();
 
+	//path to default texture
+	const char* defaultTexturePath = "snake_ss2.bmp";
+
+	
 	//SDL rendering entities
 	SDL_Window* gWindow = NULL;
 	SDL_Renderer* gRenderer = NULL;
@@ -30,6 +35,6 @@ private:
 	const int SCREEN_WIDTH = 1500;
 	const int SCREEN_HEIGHT = 800;
 
-	std::map<const GameObject&, const GameTexture&> texturedObject;
+	std::map<const GameObject&, const SDL_Texture[]> texturedObject;
 };
 

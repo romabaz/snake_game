@@ -15,12 +15,21 @@ GameWorld::~GameWorld()
 	destroySDL();
 }
 
+void GameWorld::put(const GameObject & gameObject)
+{
+}
+
 short GameWorld::initGraphicSystem()
 {
 	if (!initSDL()) {
 		return 0;
 	}
 	if (!initSDLRenderer()) {
+		SDL_Quit();
+		return 0;
+	}
+
+	if (!initGameTexture()) {
 		SDL_Quit();
 		return 0;
 	}
@@ -60,6 +69,17 @@ short GameWorld::initSDLRenderer() {
 
 	printf("success!\n");
 
+	return 1;
+}
+
+short GameWorld::initGameTexture()
+{
+	GameTexture* snakeTexture = new GameTexture(gRenderer);
+	if (!snakeTexture->load(defaultTexturePath)) {
+		printf("[ERROR] Cannot load snake's head. Exiting...\n");
+		delete snakeTexture;
+		return 0;
+	}
 	return 1;
 }
 
