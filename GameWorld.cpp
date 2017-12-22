@@ -54,16 +54,16 @@ short GameWorld::initSDLRenderer() {
 	printf("[TRACE][initSDLRenderer] Constructing SDL renderer...");
 
 	gWindow = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-	if (gWindow == NULL) {
+	if (gWindow == nullptr) {
 		printf("\n[ERROR][initSDLRenderer] Window could not be created! SDL_Error: %s\n", SDL_GetError());
 		return 0;
 	}
 
 	gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	if (gRenderer == NULL) {
+	if (gRenderer == nullptr) {
 		printf("\n[ERROR][initSDLRenderer] Renderer could not be created! SDL Error: %s\n", SDL_GetError());
 		SDL_DestroyWindow(gWindow);
-		gWindow = NULL;
+		gWindow = nullptr;
 		return 0;
 	}
 
@@ -89,8 +89,8 @@ void GameWorld::destroySDL()
 	//Destroy window 
 	SDL_DestroyRenderer(gRenderer);
 	SDL_DestroyWindow(gWindow);
-	gWindow = NULL;
-	gRenderer = NULL;
+	gWindow = nullptr;
+	gRenderer = nullptr;
 	//Quit SDL subsystems
 	SDL_Quit();
 	printf("success!\n");

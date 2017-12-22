@@ -3,7 +3,7 @@
 
 
 GameTexture::GameTexture(SDL_Renderer* renderer){
-	mTexture = NULL;
+	mTexture = nullptr;
 	mRenderer = renderer;
 	mWidth = 0;
 	mHeight = 0;
@@ -16,15 +16,15 @@ GameTexture::~GameTexture(){
 
 bool GameTexture::load(const char* path, int spriteStepPx){
 	free();
-	SDL_Texture* loadedTexture = NULL;
+	SDL_Texture* loadedTexture = nullptr;
 	SDL_Surface* loadedSurface = SDL_LoadBMP(path);
-	if (loadedSurface == NULL){
+	if (loadedSurface == nullptr){
 		printf("\n[ERROR][GameTexture::load] Unable to load image %s! SDL_Error: %s\n", path, SDL_GetError());
 	}
 	else {
 		SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 0xFF, 0xFF, 0xFF));
 		loadedTexture = SDL_CreateTextureFromSurface(mRenderer, loadedSurface);
-		if (loadedTexture == NULL){
+		if (loadedTexture == nullptr){
 			printf("\n[ERROR][GameTexture::load] Unable to create texture from %s! SDL_Error: %s\n", path, SDL_GetError());
 		}
 		else {
@@ -34,7 +34,7 @@ bool GameTexture::load(const char* path, int spriteStepPx){
 		SDL_FreeSurface(loadedSurface);
 	}
 	mTexture = loadedTexture;
-	if (loadedTexture != NULL) {
+	if (loadedTexture != nullptr) {
 		mSpriteStepPx = spriteStepPx;
 		initSpriteClips();
 		return true;
@@ -46,11 +46,11 @@ bool GameTexture::load(const char* path, int spriteStepPx){
 
 void GameTexture::render(int x, int y, SDL_Rect* clip, double angle, SDL_RendererFlip flip){
 	SDL_Rect targetRect = { x, y, mWidth, mHeight };
-	if (clip != NULL){
+	if (clip != nullptr){
 		targetRect.w = clip->w;
 		targetRect.h = clip->h;
 	}
-	SDL_RenderCopyEx(mRenderer, mTexture, clip, &targetRect, angle, NULL, flip);
+	SDL_RenderCopyEx(mRenderer, mTexture, clip, &targetRect, angle, nullptr, flip);
 }
 
 int GameTexture::getHeight() {
@@ -62,9 +62,9 @@ int GameTexture::getWidth() {
 }
 
 void GameTexture::free(){
-	if (mTexture != NULL) {
+	if (mTexture != nullptr) {
 		SDL_DestroyTexture(mTexture);
-		mTexture = NULL;
+		mTexture = nullptr;
 		mWidth = 0;
 		mHeight = 0;
 	}
