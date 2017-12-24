@@ -1,8 +1,8 @@
 #pragma once
 #include<SDL.h>
 #include"GameObject.h"
+#include"GameTexture.h"
 #include<stdio.h>
-#include<map>
 
 //todo: is this proper place for such declaration?
 typedef enum {
