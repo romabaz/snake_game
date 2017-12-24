@@ -3,10 +3,6 @@
 
 
 GameTexture::GameTexture(SDL_Renderer* renderer) : mRenderer(renderer) {
-	mTexture = nullptr;
-	mWidth = 0;
-	mHeight = 0;
-	mSpriteStepPx = 50;
 }
 
 GameTexture::~GameTexture(){
@@ -26,10 +22,6 @@ bool GameTexture::load(const char* path, int spriteStepPx){
 		if (loadedTexture == nullptr){
 			printf("\n[ERROR][GameTexture::load] Unable to create texture from %s! SDL_Error: %s\n", path, SDL_GetError());
 		}
-		else {
-			mWidth = loadedSurface->w;
-			mHeight = loadedSurface->h;
-		}
 		SDL_FreeSurface(loadedSurface);
 	}
 	mTexture = loadedTexture;
@@ -42,19 +34,9 @@ void GameTexture::render(GameObjectType type, SDL_Point target, double angle, SD
 	SDL_RenderCopyEx(mRenderer, mTexture, &sourceRect, &targetRect, angle, nullptr, flip);
 }
 
-int GameTexture::getHeight() {
-	return mHeight;
-}
-
-int GameTexture::getWidth() {
-	return mWidth;
-}
-
 void GameTexture::free(){
 	if (mTexture != nullptr) {
 		SDL_DestroyTexture(mTexture);
 		mTexture = nullptr;
-		mWidth = 0;
-		mHeight = 0;
 	}
 }

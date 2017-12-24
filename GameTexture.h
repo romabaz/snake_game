@@ -10,16 +10,11 @@ public:
 	bool load(const char* path, int spriteStepPx);
 	void free();
 	void render(GameObjectType type, SDL_Point target, double angle = 0.0, SDL_RendererFlip flip = SDL_FLIP_NONE);
-	int getWidth();
-	int getHeight();
 
 private:
-	SDL_Texture* mTexture;
+	SDL_Texture* mTexture = nullptr;
 	SDL_Renderer* mRenderer;
-	int mWidth;
-	int mHeight;
-	int mSpriteStepPx;
-	SDL_Rect mSpriteClips[12];
+	int mSpriteStepPx = 50;
 
 	std::map<GameObjectType, SDL_Point> sprites = {
 		{ SNAKEY_HEAD, {0, 0} },

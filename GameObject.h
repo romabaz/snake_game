@@ -12,8 +12,8 @@ protected:
 	//pointer to the function performing drawing to the game field
 	static void(*drawFuncPtr)(const GameObject* gameObject);
 
-	//radius
-	static const int radius = 35;
+	//todo: tightly coupled with GameTexture.mSpriteStepPx
+	static const int radius = 50;
 
 public:
 	virtual void tick(GameEvent gEvent) = 0;

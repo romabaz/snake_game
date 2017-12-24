@@ -35,10 +35,10 @@ private:
 		int y;
 		Direction direction;
 		std::size_t nextSnakeyEventId;
-		GameObjectType iam;
+		const GameObjectType iam;
 	};
 
-	GameObjectType iam = SNAKEY;
+	const GameObjectType iam = SNAKEY;
 	//an array of quantums constitutes a snakey body
 	std::vector<SnakeyQuantum*> mSnakeyBody;
 	//a vector of game events, containing the place where it has happenned with the event itself
@@ -58,6 +58,7 @@ public:
 	void init(int x, int y, Direction dir) override;
 	void tick(GameEvent gEvent) override;
 	void draw();
+	void grow();
 
 
 };
