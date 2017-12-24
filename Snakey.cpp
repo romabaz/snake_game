@@ -98,6 +98,21 @@ void Snakey::tick(GameEvent gEvent)
 
 }
 
+const GameObjectType Snakey::getType() const
+{
+	return iam;
+}
+
+int Snakey::getXPosition() const
+{
+	return mSnakeyBody.front()->x;
+}
+
+int Snakey::getYPosition() const
+{
+	return mSnakeyBody.front()->y;
+}
+
 void Snakey::grow()
 {
 	SnakeyQuantum* lastQuantum = mSnakeyBody.back();

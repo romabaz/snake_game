@@ -7,7 +7,7 @@ public:
 	GameTexture(SDL_Renderer* renderer);
 	~GameTexture();
 
-	bool load(const char* path, int spriteStepPx);
+	bool load(const char* path);
 	void free();
 	void render(GameObjectType type, SDL_Point target, double angle = 0.0, SDL_RendererFlip flip = SDL_FLIP_NONE);
 

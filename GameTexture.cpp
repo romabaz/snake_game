@@ -9,7 +9,7 @@ GameTexture::~GameTexture(){
 	free();
 }
 
-bool GameTexture::load(const char* path, int spriteStepPx){
+bool GameTexture::load(const char* path){
 	free();
 	SDL_Texture* loadedTexture = nullptr;
 	SDL_Surface* loadedSurface = SDL_LoadBMP(path);

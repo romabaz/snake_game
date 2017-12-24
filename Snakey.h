@@ -44,9 +44,8 @@ private:
 	//a vector of game events, containing the place where it has happenned with the event itself
 	std::deque<SnakeyEvent*> mSnakeyEvents;
 	//keep current length of Snakey (number of quantums including head)
-	std::size_t mSnakeyLength = 0;
-	//snakey speed
-	short mSpeed = 0;
+	std::size_t mSnakeyLength;
+	short mSpeed;
 
 	void applyGameEvent(SnakeyQuantum* sq, GameEvent gEvent);
 	void move(SnakeyQuantum* sq);
@@ -57,9 +56,12 @@ public:
 
 	void init(int x, int y, Direction dir) override;
 	void tick(GameEvent gEvent) override;
+	const GameObjectType getType() const override;
+	int getXPosition() const override;
+	int getYPosition() const override;
+
 	void draw();
 	void grow();
-
-
+	
 };
 

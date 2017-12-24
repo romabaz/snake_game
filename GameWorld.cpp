@@ -1,5 +1,15 @@
 #include "GameWorld.h"
 
+void GameWorld::drawFunction(const GameObject* gameObject)
+{
+	if (gameObject->getType() == SNAKEY) {
+		//process each quantum
+	}
+	else {
+		texture->render(gameObject->getType(), { gameObject->getXPosition(), gameObject->getYPosition() });
+	}
+}
+
 GameWorld::GameWorld()
 {
 	if (!initGraphicSystem()) {
@@ -74,10 +84,10 @@ short GameWorld::initSDLRenderer() {
 
 short GameWorld::initGameTexture()
 {
-	GameTexture* snakeTexture = new GameTexture(gRenderer);
-	if (!snakeTexture->load(defaultTexturePath)) {
+	texture = new GameTexture(gRenderer);
+	if (!texture->load(defaultTexturePath)) {
 		printf("[ERROR] Cannot load snake's head. Exiting...\n");
-		delete snakeTexture;
+		delete texture;
 		return 0;
 	}
 	return 1;

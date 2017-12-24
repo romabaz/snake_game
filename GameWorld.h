@@ -4,20 +4,6 @@
 #include"GameTexture.h"
 #include<stdio.h>
 
-//todo: is this proper place for such declaration?
-typedef enum {
-	SNAKEY,
-	SNAKEY_HEAD,
-	SNAKEY_QUANTUM1,
-	SNAKEY_QUANTUM2,
-	SNAKEY_QUANTUM3,
-	SNAKEY_QUANTUM4,
-	FOOD_LEAF,
-	FOOD_APPLE,
-	FOOD_POTATO,
-	FOOD_CARROT
-} GameObjectType;
-
 typedef enum {
 	GE_LEFT,
 	GE_RIGHT,
@@ -53,6 +39,7 @@ private:
 	SDL_Window* gWindow = nullptr;
 	SDL_Renderer* gRenderer = nullptr;
 	bool sdlExists = false;
+	GameTexture* texture;
 
 	//Basic coordinates
 	const int SCREEN_WIDTH = 1500;
