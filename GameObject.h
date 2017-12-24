@@ -1,5 +1,4 @@
 #pragma once
-#include "GlobalTypes.h"
 class GameObject {
 protected:
 	typedef enum {

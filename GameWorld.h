@@ -1,9 +1,32 @@
 #pragma once
 #include<SDL.h>
 #include"GameObject.h"
-#include"GameTexture.h"
 #include<stdio.h>
 #include<map>
+
+//todo: is this proper place for such declaration?
+typedef enum {
+	SNAKEY,
+	SNAKEY_HEAD,
+	SNAKEY_QUANTUM1,
+	SNAKEY_QUANTUM2,
+	SNAKEY_QUANTUM3,
+	SNAKEY_QUANTUM4,
+	FOOD_LEAF,
+	FOOD_APPLE,
+	FOOD_POTATO,
+	FOOD_CARROT
+} GameObjectType;
+
+typedef enum {
+	GE_LEFT,
+	GE_RIGHT,
+	GE_UP,
+	GE_DOWN,
+	GE_NONE
+} GameEvent;
+
+
 class GameWorld {
 private:
 	void drawFunction(const GameObject* gameObject);

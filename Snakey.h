@@ -1,7 +1,7 @@
 #pragma once
 #include<vector>
 #include<deque>
-#include "GameObject.h"
+#include "GameWorld.h"
 class Snakey : public GameObject {
 private:
 	struct SnakeyEvent {
@@ -25,6 +25,12 @@ private:
 			x = 0;
 			y = 0;
 			direction = NONE;
+			iam = SNAKEY_QUANTUM1;
+		}
+		SnakeyQuantum(GameObjectType type): iam(type) {
+			x = 0;
+			y = 0;
+			direction = NONE;
 		}
 
 		SnakeyQuantum(int x, int y, Direction dir) {
@@ -40,8 +46,10 @@ private:
 		int y;
 		Direction direction;
 		std::size_t nextSnakeyEventId;
+		GameObjectType iam;
 	};
 
+	GameObjectType iam = SNAKEY;
 	//an array of quantums constitutes a snakey body
 	std::vector<SnakeyQuantum*> mSnakeyBody;
 	//a vector of game events, containing the place where it has happenned with the event itself
