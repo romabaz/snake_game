@@ -1,6 +1,6 @@
 #include<SDL.h>
 #include<map>
-#include"GameWorld.h"
+#include"GameObject.h"
 class GameTexture
 {
 public:
