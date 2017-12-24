@@ -1,15 +1,5 @@
 #include "GameWorld.h"
 
-void GameWorld::drawFunction(const GameObject* gameObject)
-{
-	if (gameObject->getType() == SNAKEY) {
-		//process each quantum
-	}
-	else {
-		texture->render(gameObject->getType(), { gameObject->getXPosition(), gameObject->getYPosition() });
-	}
-}
-
 GameWorld::GameWorld()
 {
 	if (!initGraphicSystem()) {
@@ -23,6 +13,16 @@ GameWorld::GameWorld()
 GameWorld::~GameWorld()
 {
 	destroySDL();
+}
+
+void GameWorld::drawFunction(const GameObject* gameObject)
+{
+	if (gameObject->getType() == SNAKEY) {
+		//process each quantum
+	}
+	else {
+		texture->render(gameObject->getType(), { gameObject->getXPosition(), gameObject->getYPosition() });
+	}
 }
 
 void GameWorld::put(const GameObject & gameObject)
