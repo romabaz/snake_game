@@ -28,8 +28,6 @@ protected:
 	//todo: tightly coupled with GameTexture.mSpriteStepPx
 	static const int radius = 50;
 
-	const GameObjectType iam;
-
 public:
 	virtual void tick(GameEvent gEvent) = 0;
 	inline void tick() {
