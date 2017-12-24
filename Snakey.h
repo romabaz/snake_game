@@ -21,23 +21,12 @@ private:
 	*/
 	class SnakeyQuantum {
 	public:
-		SnakeyQuantum() {
-			x = 0;
-			y = 0;
-			direction = NONE;
-			iam = SNAKEY_QUANTUM1;
+		SnakeyQuantum() : x(0), y(0), direction(NONE), iam(SNAKEY_QUANTUM1) {
 		}
-		SnakeyQuantum(GameObjectType type): iam(type) {
-			x = 0;
-			y = 0;
-			direction = NONE;
+		SnakeyQuantum(GameObjectType type): x(0), y(0), direction(NONE), iam(type) {
 		}
 
-		SnakeyQuantum(int x, int y, Direction dir) {
-			this->x = x;
-			this->y = y;
-			this->direction = dir;
-			nextSnakeyEventId = -1;
+		SnakeyQuantum(int x, int y, Direction dir, GameObjectType type): x(x), y(y), direction(dir), iam(type) {
 		}
 
 		~SnakeyQuantum() {}

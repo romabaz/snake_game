@@ -50,14 +50,12 @@ private:
 
 	
 	//SDL rendering entities
-	SDL_Window* gWindow = NULL;
-	SDL_Renderer* gRenderer = NULL;
+	SDL_Window* gWindow = nullptr;
+	SDL_Renderer* gRenderer = nullptr;
 	bool sdlExists = false;
 
 	//Basic coordinates
 	const int SCREEN_WIDTH = 1500;
 	const int SCREEN_HEIGHT = 800;
-
-	std::map<const GameObject&, const SDL_Texture[]> texturedObject;
 };
 

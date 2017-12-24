@@ -1,13 +1,11 @@
 #include "Snakey.h"
 
-Snakey::Snakey()
+Snakey::Snakey(): mSnakeyLength(1), mSpeed(1)
 {
 	//set initial capacity
 	mSnakeyBody.reserve(8);
 	//create snakey's head
-	mSnakeyBody.push_back(new SnakeyQuantum(0, 0, NONE));
-	mSnakeyLength = 1;
-	mSpeed = 1;
+	mSnakeyBody.push_back(new SnakeyQuantum(0, 0, NONE, SNAKEY_HEAD));
 }
 
 
