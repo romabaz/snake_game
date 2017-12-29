@@ -12,6 +12,14 @@ typedef enum {
 	FOOD_CARROT
 } GameObjectType;
 
+typedef enum {
+	GE_LEFT,
+	GE_RIGHT,
+	GE_UP,
+	GE_DOWN,
+	GE_NONE
+} GameEvent;
+
 class GameObject {
 protected:
 	typedef enum {
@@ -23,7 +31,7 @@ protected:
 	} Direction;
 
 	//pointer to the function performing drawing to the game field
-	static void(*drawFuncPtr)(const GameObject* gameObject);
+
 
 	//todo: tightly coupled with GameTexture.mSpriteStepPx
 	static const int radius = 50;
@@ -33,7 +41,7 @@ public:
 	inline void tick() {
 		tick(GE_NONE);
 	};
-	virtual void init(int x, int y, Direction dir) = 0;
+
 	virtual const GameObjectType getType() const = 0;
 	virtual int getXPosition() const = 0;
 	virtual int getYPosition() const = 0;

@@ -16,17 +16,8 @@ Snakey::~Snakey()
 }
 
 //fixme - wrong implementation. need to think about purpose and design of it
-void Snakey::init(int x, int y, Direction dir) 
+void Snakey::init() 
 {
-	for (SnakeyQuantum* sq : mSnakeyBody) {
-		if (sq != nullptr) {
-			sq->x += x;
-			sq->y += y;
-		}
-		else {
-			throw std::invalid_argument("NULL pointer in snakey body");
-		}
-	}
 }
 
 void Snakey::tick(GameEvent gEvent)
@@ -142,7 +133,9 @@ void Snakey::grow()
 
 void Snakey::draw()
 {
-	drawFuncPtr(this);
+	for (SnakeyQuantum* quantum : mSnakeyBody) {
+		gameWorld->drawFunction(quantum->iam, quantum->x, quantum->y);
+	}
 }
 
 void Snakey::applyGameEvent(SnakeyQuantum* sq, GameEvent gameEvent)

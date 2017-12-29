@@ -1,7 +1,7 @@
 #pragma once
 #include<vector>
 #include<deque>
-#include "GameWorld.h"
+#include "GameObject.h"
 class Snakey : public GameObject {
 private:
 	struct SnakeyEvent {
@@ -54,13 +54,12 @@ public:
 	Snakey();
 	~Snakey();
 
-	void init(int x, int y, Direction dir) override;
+	void init();
 	void tick(GameEvent gEvent) override;
 	const GameObjectType getType() const override;
 	int getXPosition() const override;
 	int getYPosition() const override;
 
-	void draw();
 	void grow();
 	
 };

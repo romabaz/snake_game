@@ -3,26 +3,16 @@
 #include"GameObject.h"
 #include"GameTexture.h"
 #include<stdio.h>
-
-typedef enum {
-	GE_LEFT,
-	GE_RIGHT,
-	GE_UP,
-	GE_DOWN,
-	GE_NONE
-} GameEvent;
-
+#include<vector>
 
 class GameWorld {
-private:
-	void drawFunction(const GameObject* gameObject);
-
 public:
 	GameWorld();
 	~GameWorld();
 
 	void tick(const SDL_Event& sdlEvent);
-	void put(const GameObject& gameObject);
+	void put(GameObject* gameObject);
+	void draw();
 
 private:
 	short initGraphicSystem();
@@ -30,8 +20,10 @@ private:
 	short initSDLRenderer();
 	short initGameTexture();
 	void destroySDL();
+	void renderGameObject(GameObjectType goType, int x, int y);
+	
 
-	//path to default texture
+    //path to default texture
 	const char* defaultTexturePath = "snake_ss2.bmp";
 
 	
@@ -44,5 +36,7 @@ private:
 	//Basic coordinates
 	const int SCREEN_WIDTH = 1500;
 	const int SCREEN_HEIGHT = 800;
+
+	std::vector<GameObject*> gameObjects;
 };
 

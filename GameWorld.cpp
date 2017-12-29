@@ -15,18 +15,19 @@ GameWorld::~GameWorld()
 	destroySDL();
 }
 
-void GameWorld::drawFunction(const GameObject* gameObject)
+void GameWorld::renderGameObject(GameObjectType goType, int x, int y)
 {
-	if (gameObject->getType() == SNAKEY) {
-		//process each quantum
-	}
-	else {
-		texture->render(gameObject->getType(), { gameObject->getXPosition(), gameObject->getYPosition() });
-	}
+	texture->render(goType, { x, y });
 }
 
-void GameWorld::put(const GameObject & gameObject)
+void GameWorld::put(GameObject* gameObject)
 {
+	gameObjects.push_back(gameObject);
+}
+
+void GameWorld::draw()
+{
+	//traverse all using gameObject->draw();
 }
 
 short GameWorld::initGraphicSystem()

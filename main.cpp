@@ -19,8 +19,8 @@ void drawCircle(SDL_Renderer* renderer, int centerX, int centerY, int radius) {
 	double val = PI / 180;
 	for (int i = 0; i < 360; i+=3) {
 		double radVal = i * val;
-		x = radius*cos(radVal) + centerX;
-		y = radius*sin(radVal) + centerY;
+		x = double(radius)*cos(radVal) + double(centerX);
+		y = double(radius)*sin(radVal) + double(centerY);
 		SDL_RenderDrawPoint(renderer, x, y);
 	}
 	return;
@@ -48,12 +48,13 @@ int main(int argc, char* args[]){
 	gSnake = new Snake(snakeTexture, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);*/
 	GameWorld gw;
 	Snakey snakeyAlpha;
-	gw.put(snakeyAlpha);
+	gw.put(&snakeyAlpha);
 
 
 
 
-	short currentSpeed = gSnake->getSpeed();
+	//short currentSpeed = gSnake->getSpeed();
+	short currentSpeed = 1;
 	short quit = 0;
 	SDL_Event e;
 	int currMouseX = 0, currMouseY = 0;
@@ -71,30 +72,30 @@ int main(int argc, char* args[]){
 					quit++;
 					break;
 				case SDLK_w:
-					gSnake->setSpeed(++currentSpeed);
+					//gSnake->setSpeed(++currentSpeed);
 					break;
 				case SDLK_s:
 					if (currentSpeed > 0) {
-						gSnake->setSpeed(--currentSpeed);
+						//gSnake->setSpeed(--currentSpeed);
 					}
 					break;
 				case SDLK_f:
 					//TODO: add food
 					break;
 				case SDLK_UP:
-					gSnake->setDirection(UP);
+					//gSnake->setDirection(UP);
 					break;
 				case SDLK_DOWN:
-					gSnake->setDirection(DOWN);
+					//gSnake->setDirection(DOWN);
 					break;
 				case SDLK_LEFT:
-					gSnake->setDirection(LEFT);
+					//gSnake->setDirection(LEFT);
 					break;
 				case SDLK_RIGHT:
-					gSnake->setDirection(RIGHT);
+					//gSnake->setDirection(RIGHT);
 					break;
 				case SDLK_SPACE:
-					gSnake->addBodyChain();
+					//gSnake->addBodyChain();
 					break;
 				}
 				break;
@@ -104,27 +105,27 @@ int main(int argc, char* args[]){
 			}
 		}
 		//Clear screen '
-		SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0x00, 0xFF);
-		SDL_RenderClear(gRenderer);
+		//SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0x00, 0xFF);
+		//SDL_RenderClear(gRenderer);
 
 		//Track mouse
 		//SDL_SetRenderDrawColor(gRenderer, 0x00, 0xFF, 0xFF, 0xFF);
 		//drawCircle(gRenderer, currMouseX, currMouseY, 7);
 
-		gSnake->renderFood(150, 150, 5);
+		//gSnake->renderFood(150, 150, 5);
 
 		//render snake
-		gSnake->render();
+		//gSnake->render();
 		
 		//Update screen 
-		SDL_RenderPresent(gRenderer);
-		gSnake->move();
+		//SDL_RenderPresent(gRenderer);
+		//gSnake->move();
 	}
 
 	//Free resources and close SDL
-	delete snakeTexture;
-	delete gSnake;
-	destroySDL();
+	//delete snakeTexture;
+	//delete gSnake;
+	//destroySDL();
 	printf("[TRACE] Exiting...");
 	return 0;
 }
