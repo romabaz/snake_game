@@ -15,22 +15,18 @@ GameWorld::~GameWorld()
 	destroySDL();
 }
 
-void GameWorld::renderGameObject(GameObjectType goType, int x, int y)
-{
-	texture->render(goType, { x, y });
-}
-
 void GameWorld::put(GameObject* gameObject)
 {
 	gameObjects.push_back(gameObject);
 }
 
+//todo: redesign that
 void GameWorld::draw()
 {
 	for (GameObject* go : gameObjects) {
 		std::vector<DrawConstruct> drawConstructVec = go->getDrawConstruct();
 		for (DrawConstruct dc : drawConstructVec) {
-			renderGameObject(dc.type, dc.x, dc.y);
+			texture->render(dc.type, { dc.x, dc.y });
 		}
 	}
 }

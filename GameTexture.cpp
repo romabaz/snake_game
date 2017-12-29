@@ -28,6 +28,7 @@ bool GameTexture::load(const char* path){
 	return loadedTexture != nullptr;
 }
 
+//todo: accept vector of DrawConstruct to reduce function calls overhead for single snake
 void GameTexture::render(GameObjectType type, SDL_Point target, double angle, SDL_RendererFlip flip) {
 	SDL_Rect sourceRect = { sprites[type].x, sprites[type].y, mSpriteStepPx, mSpriteStepPx };
 	SDL_Rect targetRect = { target.x, target.y, mSpriteStepPx, mSpriteStepPx };
