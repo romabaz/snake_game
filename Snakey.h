@@ -8,10 +8,7 @@ private:
 		GameEvent event;
 		int x;
 		int y;
-		inline SnakeyEvent(int x, int y, GameEvent gameEvent) {
-			this->x = x;
-			this->y = y;
-			this->event = gameEvent;
+		SnakeyEvent(int xVal, int yVal, GameEvent gameEvent) : x(xVal), y(yVal), event(gameEvent) {
 		}
 	};
 	/*
@@ -23,6 +20,7 @@ private:
 	public:
 		SnakeyQuantum() : x(0), y(0), direction(NONE), iam(SNAKEY_QUANTUM1) {
 		}
+
 		SnakeyQuantum(GameObjectType type): x(0), y(0), direction(NONE), iam(type) {
 		}
 
@@ -56,9 +54,7 @@ public:
 
 	void init();
 	void tick(GameEvent gEvent) override;
-	const GameObjectType getType() const override;
-	int getXPosition() const override;
-	int getYPosition() const override;
+	std::vector<DrawConstruct> getDrawConstruct() const override;
 
 	void grow();
 	

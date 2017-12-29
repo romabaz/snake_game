@@ -89,21 +89,6 @@ void Snakey::tick(GameEvent gEvent)
 
 }
 
-const GameObjectType Snakey::getType() const
-{
-	return iam;
-}
-
-int Snakey::getXPosition() const
-{
-	return mSnakeyBody.front()->x;
-}
-
-int Snakey::getYPosition() const
-{
-	return mSnakeyBody.front()->y;
-}
-
 void Snakey::grow()
 {
 	SnakeyQuantum* lastQuantum = mSnakeyBody.back();
@@ -131,11 +116,13 @@ void Snakey::grow()
 	++mSnakeyLength;
 }
 
-void Snakey::draw()
+std::vector<DrawConstruct> Snakey::getDrawConstruct() const
 {
-	for (SnakeyQuantum* quantum : mSnakeyBody) {
-		gameWorld->drawFunction(quantum->iam, quantum->x, quantum->y);
+	std::vector<DrawConstruct> drawConstructVec;
+	for (SnakeyQuantum* sq : mSnakeyBody) {
+		drawConstructVec.push_back({ sq->iam, sq->x, sq->y });
 	}
+	return drawConstructVec;
 }
 
 void Snakey::applyGameEvent(SnakeyQuantum* sq, GameEvent gameEvent)

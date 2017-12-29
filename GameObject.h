@@ -20,6 +20,12 @@ typedef enum {
 	GE_NONE
 } GameEvent;
 
+struct DrawConstruct {
+	GameObjectType type;
+	int x;
+	int y;
+};
+
 class GameObject {
 protected:
 	typedef enum {
@@ -42,8 +48,8 @@ public:
 		tick(GE_NONE);
 	};
 
+	virtual std::vector<DrawConstruct> getDrawConstruct() const = 0;
 	virtual const GameObjectType getType() const = 0;
 	virtual int getXPosition() const = 0;
 	virtual int getYPosition() const = 0;
-
 };

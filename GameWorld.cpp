@@ -27,7 +27,12 @@ void GameWorld::put(GameObject* gameObject)
 
 void GameWorld::draw()
 {
-	//traverse all using gameObject->draw();
+	for (GameObject* go : gameObjects) {
+		std::vector<DrawConstruct> drawConstructVec = go->getDrawConstruct();
+		for (DrawConstruct dc : drawConstructVec) {
+			renderGameObject(dc.type, dc.x, dc.y);
+		}
+	}
 }
 
 short GameWorld::initGraphicSystem()
