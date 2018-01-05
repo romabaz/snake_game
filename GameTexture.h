@@ -18,13 +18,13 @@ private:
 
 	std::map<GameObjectType, SDL_Point> sprites = {
 		{ SNAKEY_HEAD, {0, 0} },
-		{ SNAKEY_QUANTUM1, {50, 0} },
-		{ SNAKEY_QUANTUM2, { 100, 0 } },
-		{ SNAKEY_QUANTUM3, { 150, 0 } },
-		{ SNAKEY_QUANTUM4, { 200, 0 } },
-		{ FOOD_LEAF, { 250, 0 } },
-		{ FOOD_APPLE, { 250, 0 } },
-		{ FOOD_POTATO, { 250, 0 } },
-		{ FOOD_CARROT, { 250, 0 } }
+		{ SNAKEY_QUANTUM1, { mSpriteStepPx, 0} },
+		{ SNAKEY_QUANTUM2, { 2 * mSpriteStepPx, 0 } },
+		{ SNAKEY_QUANTUM3, { 3 * mSpriteStepPx, 0 } },
+		{ SNAKEY_QUANTUM4, { 4 * mSpriteStepPx, 0 } },
+		{ FOOD_LEAF, { 5 * mSpriteStepPx, 0 } },
+		{ FOOD_APPLE, { 6 * mSpriteStepPx, 0 } },
+		{ FOOD_POTATO, { 7 * mSpriteStepPx, 0 } },
+		{ FOOD_CARROT, { 8 * mSpriteStepPx, 0 } }
 	};
 };
