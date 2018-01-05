@@ -50,6 +50,4 @@ public:
 
 	virtual std::vector<DrawConstruct> getDrawConstruct() const = 0;
 	virtual const GameObjectType getType() const = 0;
-	virtual int getXPosition() const = 0;
-	virtual int getYPosition() const = 0;
 };
