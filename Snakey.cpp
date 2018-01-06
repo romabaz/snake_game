@@ -14,7 +14,13 @@ Snakey::Snakey(): mSnakeyLength(1), mSpeed(1)
 Snakey::~Snakey()
 {
 	//1. Traverse mSnakeyBody and delete all SnakeyQuantum objects
-	//2. Traverse mSnakeyEventQueue and delete all SnakeyEvent objects
+	for (SnakeyQuantum* sq : mSnakeyBody) {
+		if (sq) delete sq;
+	}
+	//2. Traverse mSnakeyEvents and delete all SnakeyEvent objects
+	for (SnakeyEvent* seve : mSnakeyEvents) {
+		if (seve) delete seve;
+	}
 }
 
 //fixme - wrong implementation. need to think about purpose and design of it
