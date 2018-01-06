@@ -53,7 +53,7 @@ public:
 	Snakey();
 	~Snakey();
 
-	void init();
+	void init(int x, int y) override;
 	void tick(GameEvent gEvent) override;
 	inline std::vector<DrawConstruct> getDrawConstruct() const override { return drawConstruct; }
 	inline const GameObjectType getType() const override { return iam; }

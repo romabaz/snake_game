@@ -23,9 +23,33 @@ Snakey::~Snakey()
 	}
 }
 
-//fixme - wrong implementation. need to think about purpose and design of it
-void Snakey::init() 
+void Snakey::init(int x, int y)
 {
+	int currX = x;
+	int currY = y;
+	if (mSnakeyLength == 0) {
+		throw std::runtime_error("Snakey has zero length");
+	}
+	mSnakeyBody[0]->x = currX;
+	mSnakeyBody[0]->y = currY;
+	for (std::size_t i = 1; i < mSnakeyLength; ++i) {
+		switch (mSnakeyBody[i]->direction) {
+		case LEFT:
+			currX += radius;
+			break;
+		case RIGHT:
+			currX -= radius;
+			break;
+		case UP:
+			currY += radius;
+			break;
+		case DOWN:
+			currY -= radius;
+			break;
+		}
+		mSnakeyBody[i]->x = currX;
+		mSnakeyBody[i]->y = currY;
+	}
 }
 
 void Snakey::tick(GameEvent gEvent)

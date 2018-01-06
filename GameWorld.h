@@ -20,7 +20,6 @@ private:
 	short initSDLRenderer();
 	short initGameTexture();
 	void destroySDL();
-	void renderGameObject(GameObjectType goType, int x, int y);
 	
 
     //path to default texture

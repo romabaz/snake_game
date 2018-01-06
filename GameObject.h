@@ -47,6 +47,7 @@ public:
 		tick(GE_NONE);
 	};
 
+	virtual void init(int x, int y) = 0;
 	virtual std::vector<DrawConstruct> getDrawConstruct() const = 0;
 	virtual const GameObjectType getType() const = 0;
 };

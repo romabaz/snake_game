@@ -17,6 +17,7 @@ GameWorld::~GameWorld()
 
 void GameWorld::put(GameObject* gameObject)
 {
+	gameObject->init(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 	gameObjects.push_back(gameObject);
 }
 
