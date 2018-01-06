@@ -10,6 +10,7 @@ public:
 	bool load(const char* path);
 	void free();
 	void render(GameObjectType type, SDL_Point target, double angle = 0.0, SDL_RendererFlip flip = SDL_FLIP_NONE);
+	void renderVector(const std::vector<DrawConstruct>& drawConstruct);
 
 private:
 	SDL_Texture* mTexture = nullptr;

@@ -1,4 +1,5 @@
 #pragma once
+#include<vector>
 typedef enum {
 	SNAKEY,
 	SNAKEY_HEAD,
@@ -20,25 +21,23 @@ typedef enum {
 	GE_NONE
 } GameEvent;
 
+typedef enum {
+	LEFT,
+	RIGHT,
+	UP,
+	DOWN,
+	NONE
+} Direction;
+
 struct DrawConstruct {
 	GameObjectType type;
 	int x;
 	int y;
+	Direction dir;
 };
 
 class GameObject {
 protected:
-	typedef enum {
-		LEFT,
-		RIGHT,
-		UP,
-		DOWN,
-		NONE
-	} Direction;
-
-	//pointer to the function performing drawing to the game field
-
-
 	//todo: tightly coupled with GameTexture.mSpriteStepPx
 	static const int radius = 50;
 

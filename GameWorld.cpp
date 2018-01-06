@@ -20,13 +20,15 @@ void GameWorld::put(GameObject* gameObject)
 	gameObjects.push_back(gameObject);
 }
 
-//todo: redesign that
 void GameWorld::draw()
 {
 	for (GameObject* go : gameObjects) {
-		std::vector<DrawConstruct> drawConstructVec = go->getDrawConstruct();
-		for (DrawConstruct dc : drawConstructVec) {
-			texture->render(dc.type, { dc.x, dc.y });
+		std::vector<DrawConstruct> dc = go->getDrawConstruct();
+		if (go->getType() == SNAKEY) {
+			texture->renderVector(dc);
+		}
+		else {
+			texture->render(dc[0].type, { dc[0].x, dc[0].y });
 		}
 	}
 }

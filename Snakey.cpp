@@ -7,7 +7,7 @@ Snakey::Snakey(): mSnakeyLength(1), mSpeed(1)
 	//create snakey's head
 	SnakeyQuantum* sq = new SnakeyQuantum(0, 0, LEFT, SNAKEY_HEAD);
 	mSnakeyBody.push_back(sq);
-	drawConstruct.push_back({ sq->iam, sq->x, sq->y });
+	drawConstruct.push_back({ sq->iam, sq->x, sq->y, sq->direction });
 }
 
 
@@ -116,7 +116,7 @@ void Snakey::grow()
 	}
 	SnakeyQuantum* sq = new SnakeyQuantum(x, y, lastQuantum->direction, SNAKEY_QUANTUM1);
 	mSnakeyBody.push_back(sq);
-	drawConstruct.push_back({ sq->iam, sq->x, sq->y });
+	drawConstruct.push_back({ sq->iam, sq->x, sq->y, sq->direction });
 	++mSnakeyLength;
 }
 

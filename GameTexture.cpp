@@ -35,6 +35,29 @@ void GameTexture::render(GameObjectType type, SDL_Point target, double angle, SD
 	SDL_RenderCopyEx(mRenderer, mTexture, &sourceRect, &targetRect, angle, nullptr, flip);
 }
 
+void GameTexture::renderVector(const std::vector<DrawConstruct>& drawConstruct) {
+	SDL_Rect sourceRect;
+	SDL_Rect targetRect;
+	for (DrawConstruct dc : drawConstruct) {
+		sourceRect = { sprites[dc.type].x, sprites[dc.type].y, mSpriteStepPx, mSpriteStepPx };
+		targetRect = { dc.x, dc.y, mSpriteStepPx, mSpriteStepPx };
+		switch (dc.dir) {
+		case LEFT:
+			SDL_RenderCopyEx(mRenderer, mTexture, &sourceRect, &targetRect, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
+			break;
+		case RIGHT:
+			SDL_RenderCopyEx(mRenderer, mTexture, &sourceRect, &targetRect, 0.0, nullptr, SDL_FLIP_NONE);
+			break;
+		case UP:
+			SDL_RenderCopyEx(mRenderer, mTexture, &sourceRect, &targetRect, -90.0, nullptr, SDL_FLIP_NONE);
+			break;
+		case DOWN:
+			SDL_RenderCopyEx(mRenderer, mTexture, &sourceRect, &targetRect, 90.0, nullptr, SDL_FLIP_NONE);
+			break;
+		}
+	}
+}
+
 void GameTexture::free(){
 	if (mTexture != nullptr) {
 		SDL_DestroyTexture(mTexture);
