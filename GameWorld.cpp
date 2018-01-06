@@ -15,6 +15,10 @@ GameWorld::~GameWorld()
 	destroySDL();
 }
 
+void GameWorld::tick(const SDL_Event & sdlEvent)
+{
+}
+
 void GameWorld::put(GameObject* gameObject)
 {
 	gameObject->init(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
@@ -23,6 +27,10 @@ void GameWorld::put(GameObject* gameObject)
 
 void GameWorld::draw()
 {
+	//Clear screen
+	SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0x00, 0xFF);
+	SDL_RenderClear(gRenderer);
+
 	for (GameObject* go : gameObjects) {
 		std::vector<DrawConstruct> dc = go->getDrawConstruct();
 		if (go->getType() == SNAKEY) {
@@ -32,6 +40,9 @@ void GameWorld::draw()
 			texture->render(dc[0].type, { dc[0].x, dc[0].y });
 		}
 	}
+
+	//Update screen 
+	SDL_RenderPresent(gRenderer);
 }
 
 short GameWorld::initGraphicSystem()

@@ -69,7 +69,7 @@ int main(int argc, char* args[]){
 			case SDL_KEYDOWN:
 				switch (e.key.keysym.sym) {
 				case SDLK_ESCAPE:
-					quit++;
+					++quit;
 					break;
 				case SDLK_w:
 					//gSnake->setSpeed(++currentSpeed);
@@ -104,28 +104,14 @@ int main(int argc, char* args[]){
 				break;
 			}
 		}
-		//Clear screen '
-		//SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0x00, 0xFF);
-		//SDL_RenderClear(gRenderer);
-
 		//Track mouse
 		//SDL_SetRenderDrawColor(gRenderer, 0x00, 0xFF, 0xFF, 0xFF);
 		//drawCircle(gRenderer, currMouseX, currMouseY, 7);
-
-		//gSnake->renderFood(150, 150, 5);
-
-		//render snake
-		//gSnake->render();
+		gw.draw();
+		gw.tick(e);
 		
-		//Update screen 
-		//SDL_RenderPresent(gRenderer);
-		//gSnake->move();
 	}
 
-	//Free resources and close SDL
-	//delete snakeTexture;
-	//delete gSnake;
-	//destroySDL();
 	printf("[TRACE] Exiting...");
 	return 0;
 }
