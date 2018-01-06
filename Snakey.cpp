@@ -5,9 +5,7 @@ Snakey::Snakey(): mSnakeyLength(1), mSpeed(1)
 	//set initial capacity
 	mSnakeyBody.reserve(8);
 	//create snakey's head
-	SnakeyQuantum* sq = new SnakeyQuantum(0, 0, LEFT, SNAKEY_HEAD);
-	mSnakeyBody.push_back(sq);
-	drawConstruct.push_back({ sq->iam, sq->x, sq->y, sq->direction });
+	mSnakeyBody.push_back(new SnakeyQuantum(0, 0, LEFT, SNAKEY_HEAD));
 }
 
 
@@ -121,6 +119,15 @@ void Snakey::tick(GameEvent gEvent)
 
 }
 
+std::vector<DrawConstruct> Snakey::getDrawConstruct() const
+{
+	std::vector<DrawConstruct> dc;
+	for (SnakeyQuantum* sq : mSnakeyBody) {
+		dc.push_back({ sq->iam, sq->x, sq->y, sq->direction });
+	}
+	return dc;
+}
+
 void Snakey::grow()
 {
 	SnakeyQuantum* lastQuantum = mSnakeyBody.back();
@@ -144,9 +151,7 @@ void Snakey::grow()
 		y = lastQuantum->y - radius;
 		break;
 	}
-	SnakeyQuantum* sq = new SnakeyQuantum(x, y, lastQuantum->direction, SNAKEY_QUANTUM1);
-	mSnakeyBody.push_back(sq);
-	drawConstruct.push_back({ sq->iam, sq->x, sq->y, sq->direction });
+	mSnakeyBody.push_back(new SnakeyQuantum(x, y, lastQuantum->direction, SNAKEY_QUANTUM1));
 	++mSnakeyLength;
 }
 

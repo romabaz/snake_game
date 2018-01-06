@@ -43,8 +43,6 @@ private:
 	//keep current length of Snakey (number of quantums including head)
 	std::size_t mSnakeyLength;
 	short mSpeed;
-	//drawing construct used by GameWorld to render
-	std::vector<DrawConstruct> drawConstruct;
 
 	void applyGameEvent(SnakeyQuantum* sq, GameEvent gEvent);
 	void move(SnakeyQuantum* sq);
@@ -55,7 +53,7 @@ public:
 
 	void init(int x, int y) override;
 	void tick(GameEvent gEvent) override;
-	inline std::vector<DrawConstruct> getDrawConstruct() const override { return drawConstruct; }
+	std::vector<DrawConstruct> getDrawConstruct() const override;
 	inline const GameObjectType getType() const override { return iam; }
 
 	void grow();
