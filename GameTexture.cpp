@@ -28,13 +28,14 @@ bool GameTexture::load(const char* path){
 	return loadedTexture != nullptr;
 }
 
-//todo: accept vector of DrawConstruct to reduce function calls overhead for single snake
 void GameTexture::render(GameObjectType type, SDL_Point target, double angle, SDL_RendererFlip flip) {
 	SDL_Rect sourceRect = { sprites[type].x, sprites[type].y, mSpriteStepPx, mSpriteStepPx };
 	SDL_Rect targetRect = { target.x, target.y, mSpriteStepPx, mSpriteStepPx };
 	SDL_RenderCopyEx(mRenderer, mTexture, &sourceRect, &targetRect, angle, nullptr, flip);
 }
 
+//checkme: avoiding overhead for sequencial render() call -> duplicated all SDL_RenderCopyEx calls here. Check whether this increases fps
+//possible simplification: renderVector() invokes render() for each different direction. 
 void GameTexture::renderVector(const std::vector<DrawConstruct>& drawConstruct) {
 	SDL_Rect sourceRect;
 	SDL_Rect targetRect;
