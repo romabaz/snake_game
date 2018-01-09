@@ -20,6 +20,8 @@ private:
 	short initSDLRenderer();
 	short initGameTexture();
 	void destroySDL();
+
+	GameEvent covertSDLEventToGameEvent(const SDL_Event sdlEvent);
 	
 
     //path to default texture

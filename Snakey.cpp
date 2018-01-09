@@ -50,7 +50,7 @@ void Snakey::init(int x, int y)
 	}
 }
 
-void Snakey::tick(GameEvent gEvent)
+void Snakey::tick(const GameEvent gEvent)
 {
 	if (mSnakeyLength < 1) {
 		return;
@@ -164,7 +164,7 @@ void Snakey::applyGameEvent(SnakeyQuantum* sq, GameEvent gameEvent)
 		break;
 	case GE_DOWN:
 		sq->direction = DOWN;
-		sq->y -= mSpeed;
+		sq->y += mSpeed;
 		break;
 	case GE_LEFT:
 		sq->direction = LEFT;
@@ -174,12 +174,14 @@ void Snakey::applyGameEvent(SnakeyQuantum* sq, GameEvent gameEvent)
 		sq->direction = RIGHT;
 		sq->x += mSpeed;
 		break;
+	case GE_GROW:
+		grow();
+		break;
 	case GE_NONE:
 		move(sq);
 		break;
-	default:
-		break;
 	}
+	//move(sq);
 }
 
 void Snakey::move(SnakeyQuantum* sq)

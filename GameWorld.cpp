@@ -15,8 +15,12 @@ GameWorld::~GameWorld()
 	destroySDL();
 }
 
-void GameWorld::tick(const SDL_Event & sdlEvent)
+void GameWorld::tick(const SDL_Event& sdlEvent)
 {
+	GameEvent ge = covertSDLEventToGameEvent(sdlEvent);
+	for (GameObject* go : gameObjects) {
+		go->tick(ge);
+	}
 }
 
 void GameWorld::put(GameObject* gameObject)
@@ -120,4 +124,24 @@ void GameWorld::destroySDL()
 	//Quit SDL subsystems
 	SDL_Quit();
 	printf("success!\n");
+}
+
+GameEvent GameWorld::covertSDLEventToGameEvent(const SDL_Event sdlEvent)
+{
+	switch (sdlEvent.type) {
+	case SDL_KEYDOWN:
+		switch (sdlEvent.key.keysym.sym) {
+		case SDLK_UP:
+			return GE_UP;
+		case SDLK_DOWN:
+			return GE_DOWN;
+		case SDLK_LEFT:
+			return GE_LEFT;
+		case SDLK_RIGHT:
+			return GE_GROW;
+		case SDLK_f:
+			return GE_GROW;
+		}
+	}
+	return GE_NONE;
 }

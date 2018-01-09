@@ -18,6 +18,7 @@ typedef enum {
 	GE_RIGHT,
 	GE_UP,
 	GE_DOWN,
+	GE_GROW,
 	GE_NONE
 } GameEvent;
 
@@ -42,7 +43,7 @@ protected:
 	static const int radius = 50;
 
 public:
-	virtual void tick(GameEvent gEvent) = 0;
+	virtual void tick(const GameEvent gEvent) = 0;
 	inline void tick() {
 		tick(GE_NONE);
 	};

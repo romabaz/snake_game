@@ -31,7 +31,7 @@ private:
 		int x;
 		int y;
 		Direction direction;
-		std::size_t nextSnakeyEventId;
+		std::size_t nextSnakeyEventId = -1;
 		const GameObjectType iam;
 	};
 
@@ -52,7 +52,7 @@ public:
 	~Snakey();
 
 	void init(int x, int y) override;
-	void tick(GameEvent gEvent) override;
+	void tick(const GameEvent gEvent) override;
 	std::vector<DrawConstruct> getDrawConstruct() const override;
 	inline const GameObjectType getType() const override { return iam; }
 

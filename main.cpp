@@ -92,10 +92,10 @@ int main(int argc, char* args[]){
 					//gSnake->setDirection(LEFT);
 					break;
 				case SDLK_RIGHT:
-					//gSnake->setDirection(RIGHT);
+					printf("RIGHT!");
 					break;
 				case SDLK_SPACE:
-					//gSnake->addBodyChain();
+					printf("Space!");
 					break;
 				}
 				break;
