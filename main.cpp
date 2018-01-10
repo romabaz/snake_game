@@ -30,31 +30,10 @@ int main(int argc, char* args[]){
 	
 	printf("[TRACE] Snake has started\n");
 
-	/*
-	if (!initGraphics()){
-		printf("[TRACE] Exiting...");
-		return 0;
-	}
-	
-
-	GameTexture* snakeTexture = new GameTexture(gRenderer);
-	if (!snakeTexture->load("snake_ss2.bmp")) {
-		printf("[ERROR] Cannot load snake's head. Exiting...\n");
-		destroySDL();
-		delete snakeTexture;
-		return 0;
-	}
-	
-	gSnake = new Snake(snakeTexture, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);*/
 	GameWorld gw;
 	Snakey snakeyAlpha;
 	gw.put(&snakeyAlpha);
 
-
-
-
-	//short currentSpeed = gSnake->getSpeed();
-	short currentSpeed = 1;
 	short quit = 0;
 	SDL_Event e;
 	int currMouseX = 0, currMouseY = 0;
@@ -72,15 +51,10 @@ int main(int argc, char* args[]){
 					++quit;
 					break;
 				case SDLK_w:
-					//gSnake->setSpeed(++currentSpeed);
 					break;
 				case SDLK_s:
-					if (currentSpeed > 0) {
-						//gSnake->setSpeed(--currentSpeed);
-					}
 					break;
 				case SDLK_f:
-					//TODO: add food
 					break;
 				case SDLK_UP:
 					//gSnake->setDirection(UP);

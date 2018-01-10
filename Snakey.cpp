@@ -65,7 +65,7 @@ void Snakey::tick(const GameEvent gEvent)
 	if (mSnakeyLength > 1) {
 		//Add SnakeyEvent to the vector if the event has happenned
 		bool eventAdded = false;
-		if (gEvent != GE_NONE) {
+		if (gEvent != GE_NONE && gEvent != GE_GROW) {
 			mSnakeyEvents.push_back(new SnakeyEvent(eventX, eventY, gEvent));
 			eventAdded = true;
 		}
@@ -111,6 +111,9 @@ void Snakey::tick(const GameEvent gEvent)
 						mSnakeyEvents.pop_front();
 						delete nextSEvent;
 					}
+				}
+				else {
+					move(sq);
 				}
 			}
 		}
@@ -177,10 +180,10 @@ void Snakey::applyGameEvent(SnakeyQuantum* sq, GameEvent gameEvent)
 		grow();
 		break;
 	case GE_NONE:
-		move(sq);
+	//	move(sq);
 		break;
 	}
-	//move(sq);
+	move(sq);
 }
 
 void Snakey::move(SnakeyQuantum* sq)
