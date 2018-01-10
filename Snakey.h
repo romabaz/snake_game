@@ -31,7 +31,7 @@ private:
 		int x;
 		int y;
 		Direction direction;
-		std::size_t nextSnakeyEventId = -1;
+		std::size_t nextSnakeyEventId = UINT_MAX;
 		const GameObjectType iam;
 	};
 

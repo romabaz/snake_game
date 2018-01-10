@@ -77,14 +77,14 @@ void Snakey::tick(const GameEvent gEvent)
 			}
 			else {
 				//Safe check - we shouldn't get into this trouble
-				if (sq->nextSnakeyEventId > mSnakeyEvents.size() - 1) {
+				if (sq->nextSnakeyEventId < UINT_MAX && sq->nextSnakeyEventId > mSnakeyEvents.size() - 1) {
 					throw std::out_of_range("Quantum state is broken: the next snakey event is out of range");
 				}
 
 				//Quantum is ready for the next incoming event
-				if (sq->nextSnakeyEventId == -1) {
+				if (sq->nextSnakeyEventId == UINT_MAX) {
 					if (eventAdded) {
-						sq->nextSnakeyEventId++;
+						sq->nextSnakeyEventId = 0;
 					} else continue;
 				}
 				
@@ -99,7 +99,7 @@ void Snakey::tick(const GameEvent gEvent)
 					//3. Reset or move forward the nextEventId
 					if (nextSEvent == mSnakeyEvents.back()) {
 						//No events left for this quantum
-						sq->nextSnakeyEventId = -1;
+						sq->nextSnakeyEventId = UINT_MAX;
 					}
 					else {
 						//set the next event for this quantum
@@ -111,7 +111,6 @@ void Snakey::tick(const GameEvent gEvent)
 						mSnakeyEvents.pop_front();
 						delete nextSEvent;
 					}
-					
 				}
 			}
 		}
