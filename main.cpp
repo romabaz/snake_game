@@ -49,25 +49,18 @@ int main(int argc, char* args[]){
 				case SDLK_ESCAPE:
 					++quit;
 					break;
-				case SDLK_w:
-					break;
-				case SDLK_s:
-					break;
-				case SDLK_f:
-					break;
 				}
 				break;
 			}
 			else if (e.type == SDL_MOUSEMOTION) {
-		//		SDL_GetMouseState(&currMouseX, &currMouseY);
+				//		SDL_GetMouseState(&currMouseX, &currMouseY);
 			}
 		}
+		gw.draw();
+		gw.tick(e);
 		//Track mouse
 		//SDL_SetRenderDrawColor(gRenderer, 0x00, 0xFF, 0xFF, 0xFF);
 		//drawCircle(gRenderer, currMouseX, currMouseY, 7);
-		gw.draw();
-		gw.tick(e);
-		
 	}
 
 	printf("[TRACE] Exiting...");
