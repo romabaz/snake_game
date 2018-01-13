@@ -20,7 +20,6 @@ private:
 	short initSDLRenderer();
 	short initGameTexture();
 	void destroySDL();
-	SDL_Keycode theLastOne;
 
 	GameEvent covertSDLEventToGameEvent(const SDL_Event sdlEvent);
 	

@@ -130,24 +130,16 @@ GameEvent GameWorld::covertSDLEventToGameEvent(const SDL_Event sdlEvent)
 {
 	switch (sdlEvent.type) {
 	case SDL_KEYDOWN:
-		if (theLastOne == sdlEvent.key.keysym.sym) {
-			break;
-		}
 		switch (sdlEvent.key.keysym.sym) {
 		case SDLK_UP:
-			theLastOne = SDLK_UP;
 			return GE_UP;
 		case SDLK_DOWN:
-			theLastOne = SDLK_DOWN;
 			return GE_DOWN;
 		case SDLK_LEFT:
-			theLastOne = SDLK_LEFT;
 			return GE_LEFT;
 		case SDLK_RIGHT:
-			theLastOne = SDLK_RIGHT;
-			return GE_GROW;
+			return GE_RIGHT;
 		case SDLK_SPACE:
-			theLastOne = SDLK_SPACE;
 			return GE_GROW;
 		}
 	}

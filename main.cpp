@@ -40,12 +40,11 @@ int main(int argc, char* args[]){
 	
 	while (!quit) {
 		//Handle events on queue
-		while (SDL_PollEvent(&e) != 0){
-			switch (e.type) {
-			case SDL_QUIT:
-				quit++;
-				break;
-			case SDL_KEYDOWN:
+		while (SDL_PollEvent(&e) != 0) {
+			if (e.type == SDL_QUIT) {
+				++quit;
+			}
+			else if (e.type == SDL_KEYDOWN && !e.key.repeat) {
 				switch (e.key.keysym.sym) {
 				case SDLK_ESCAPE:
 					++quit;
@@ -56,26 +55,11 @@ int main(int argc, char* args[]){
 					break;
 				case SDLK_f:
 					break;
-				case SDLK_UP:
-					//gSnake->setDirection(UP);
-					break;
-				case SDLK_DOWN:
-					//gSnake->setDirection(DOWN);
-					break;
-				case SDLK_LEFT:
-					//gSnake->setDirection(LEFT);
-					break;
-				case SDLK_RIGHT:
-					printf("RIGHT!");
-					break;
-				case SDLK_SPACE:
-					printf("Space!");
-					break;
 				}
 				break;
-			case SDL_MOUSEMOTION:
-				SDL_GetMouseState(&currMouseX, &currMouseY);
-				break;
+			}
+			else if (e.type == SDL_MOUSEMOTION) {
+		//		SDL_GetMouseState(&currMouseX, &currMouseY);
 			}
 		}
 		//Track mouse
