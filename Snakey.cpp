@@ -84,9 +84,7 @@ void Snakey::checkQueuedEventToHappen(SnakeyQuantum* sq, std::size_t quantumId) 
 	if (mSnakeyEvents.size() > 0) {
 		//1. Check each quantum for its event to happen
 		SnakeyEvent* nextSEvent = mSnakeyEvents[sq->nextSnakeyEventId];
-		if (sq->x == nextSEvent->x &&
-			sq->y == nextSEvent->y) {
-
+		if (sq->x == nextSEvent->x && sq->y == nextSEvent->y) {
 			//2. Apply event
 			applyGameEvent(sq, nextSEvent->event);
 
@@ -102,8 +100,11 @@ void Snakey::checkQueuedEventToHappen(SnakeyQuantum* sq, std::size_t quantumId) 
 
 			//4. Delete SnakeyEvent if this is the last quantum
 			if (quantumId == mSnakeyLength - 1) {
-				//mSnakeyEvents.pop_front();
+				mSnakeyEvents.pop_front();
 				delete nextSEvent;
+				if (sq->nextSnakeyEventId < UINT_MAX && sq->nextSnakeyEventId > 0) {
+					sq->nextSnakeyEventId--;
+				}
 			}
 		}
 	}
