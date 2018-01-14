@@ -43,11 +43,11 @@ protected:
 	static const int radius = 50;
 
 public:
-	virtual void tick(const GameEvent gEvent) = 0;
-	inline void tick() {
-		tick(GE_NONE);
+	virtual void applyGameEvent(const GameEvent gEvent) = 0;
+	inline void applyGameEvent() {
+		applyGameEvent(GE_NONE);
 	};
-
+	virtual void move() = 0;
 	virtual void init(int x, int y) = 0;
 	virtual std::vector<DrawConstruct> getDrawConstruct() const = 0;
 	virtual const GameObjectType getType() const = 0;

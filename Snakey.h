@@ -46,13 +46,15 @@ private:
 
 	void applyGameEvent(SnakeyQuantum* sq, GameEvent gEvent);
 	void move(SnakeyQuantum* sq);
+	void checkQueuedEventToHappen(SnakeyQuantum* sq, std::size_t quantumId);
 
 public:
 	Snakey();
 	~Snakey();
 
 	void init(int x, int y) override;
-	void tick(const GameEvent gEvent) override;
+	void applyGameEvent(const GameEvent gEvent) override;
+	void move() override;
 	std::vector<DrawConstruct> getDrawConstruct() const override;
 	inline const GameObjectType getType() const override { return iam; }
 

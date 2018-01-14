@@ -15,11 +15,26 @@ GameWorld::~GameWorld()
 	destroySDL();
 }
 
-void GameWorld::tick(const SDL_Event& sdlEvent)
+/*
+1. Convert SDL_Event to GameEvent
+2. Apply game event to each game object
+*/
+void GameWorld::propagate(const SDL_Event& sdlEvent)
 {
 	GameEvent ge = covertSDLEventToGameEvent(sdlEvent);
 	for (GameObject* go : gameObjects) {
-		go->tick(ge);
+		go->applyGameEvent(ge);
+	}
+}
+
+/*
+1. move
+2. detect collisions
+*/
+void GameWorld::tick()
+{
+	for (GameObject* go : gameObjects) {
+		go->move();
 	}
 }
 

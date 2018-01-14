@@ -10,7 +10,8 @@ public:
 	GameWorld();
 	~GameWorld();
 
-	void tick(const SDL_Event& sdlEvent);
+	void tick();
+	void propagate(const SDL_Event& sdlEvent);
 	void put(GameObject* gameObject);
 	void draw();
 

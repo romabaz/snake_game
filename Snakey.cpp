@@ -50,7 +50,7 @@ void Snakey::init(int x, int y)
 	}
 }
 
-void Snakey::tick(const GameEvent gEvent)
+void Snakey::applyGameEvent(const GameEvent gEvent)
 {
 	if (mSnakeyLength < 1) {
 		return;
@@ -64,61 +64,49 @@ void Snakey::tick(const GameEvent gEvent)
 	applyGameEvent(snakeHead, gEvent);
 	if (mSnakeyLength > 1) {
 		//Add SnakeyEvent to the vector if the event has happenned
-		bool eventAdded = false;
 		if (gEvent != GE_NONE && gEvent != GE_GROW) {
 			mSnakeyEvents.push_back(new SnakeyEvent(eventX, eventY, gEvent));
-			eventAdded = true;
-		}
-		for (std::size_t i = 1; i < mSnakeyLength; i++) {
-			SnakeyQuantum* sq = mSnakeyBody[i];
-			if (mSnakeyEvents.size() < 1) {
-				//no events in vector. Just move forward
-				move(sq);
-			}
-			else {
-				//Safe check - we shouldn't get into this trouble
-				if (sq->nextSnakeyEventId < UINT_MAX && sq->nextSnakeyEventId > mSnakeyEvents.size() - 1) {
-					throw std::out_of_range("Quantum state is broken: the next snakey event is out of range");
-				}
-
-				//Quantum is ready for the next incoming event
+			//Inform every waiting quantum to get ready for the new event
+			for (std::size_t i = 1; i < mSnakeyLength; i++) {
+				SnakeyQuantum* sq = mSnakeyBody[i];
 				if (sq->nextSnakeyEventId == UINT_MAX) {
-					if (eventAdded) {
-						sq->nextSnakeyEventId = 0;
-					} else continue;
-				}
-				
-				//1. Check each quantum for its event to happen
-				SnakeyEvent* nextSEvent = mSnakeyEvents[sq->nextSnakeyEventId];
-				if (sq->x == nextSEvent->x &&
-					sq->y == nextSEvent->y) {
-
-					//2. Apply event
-					applyGameEvent(sq, nextSEvent->event);
-
-					//3. Reset or move forward the nextEventId
-					if (nextSEvent == mSnakeyEvents.back()) {
-						//No events left for this quantum
-						sq->nextSnakeyEventId = UINT_MAX;
-					}
-					else {
-						//set the next event for this quantum
-						sq->nextSnakeyEventId++;
-					}
-
-					//4. Delete SnakeyEvent if this is the last quantum
-					if (i == mSnakeyLength - 1) {
-						mSnakeyEvents.pop_front();
-						delete nextSEvent;
-					}
-				}
-				else {
-					move(sq);
+					sq->nextSnakeyEventId = 0;
 				}
 			}
 		}
 	}
+}
 
+void Snakey::checkQueuedEventToHappen(SnakeyQuantum* sq, std::size_t quantumId) {
+	if (sq->nextSnakeyEventId == UINT_MAX || sq->nextSnakeyEventId > mSnakeyEvents.size() - 1) {
+		return;
+	}
+	if (mSnakeyEvents.size() > 0) {
+		//1. Check each quantum for its event to happen
+		SnakeyEvent* nextSEvent = mSnakeyEvents[sq->nextSnakeyEventId];
+		if (sq->x == nextSEvent->x &&
+			sq->y == nextSEvent->y) {
+
+			//2. Apply event
+			applyGameEvent(sq, nextSEvent->event);
+
+			//3. Reset or move forward the nextEventId
+			if (nextSEvent == mSnakeyEvents.back()) {
+				//No events left for this quantum
+				sq->nextSnakeyEventId = UINT_MAX;
+			}
+			else {
+				//set the next event for this quantum
+				sq->nextSnakeyEventId++;
+			}
+
+			//4. Delete SnakeyEvent if this is the last quantum
+			if (quantumId == mSnakeyLength - 1) {
+				//mSnakeyEvents.pop_front();
+				delete nextSEvent;
+			}
+		}
+	}
 }
 
 std::vector<DrawConstruct> Snakey::getDrawConstruct() const
@@ -162,28 +150,34 @@ void Snakey::applyGameEvent(SnakeyQuantum* sq, GameEvent gameEvent)
 	switch (gameEvent) {
 	case GE_UP:
 		sq->direction = UP;
-		sq->y -= mSpeed;
 		break;
 	case GE_DOWN:
 		sq->direction = DOWN;
-		sq->y += mSpeed;
 		break;
 	case GE_LEFT:
 		sq->direction = LEFT;
-		sq->x -= mSpeed;
 		break;
 	case GE_RIGHT:
 		sq->direction = RIGHT;
-		sq->x += mSpeed;
 		break;
 	case GE_GROW:
 		grow();
 		break;
 	case GE_NONE:
-	//	move(sq);
+	default:
 		break;
 	}
-	move(sq);
+}
+
+void Snakey::move()
+{
+	for (std::size_t i = 0; i < mSnakeyLength; i++) {
+		SnakeyQuantum* sq = mSnakeyBody[i];
+		if (i > 0) {
+			checkQueuedEventToHappen(sq, i);
+		}
+		move(sq);
+	}
 }
 
 void Snakey::move(SnakeyQuantum* sq)
