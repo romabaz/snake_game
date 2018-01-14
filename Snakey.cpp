@@ -100,8 +100,9 @@ void Snakey::checkQueuedEventToHappen(SnakeyQuantum* sq, std::size_t quantumId) 
 				mSnakeyEvents.pop_front();
 				delete nextSEvent;
 				for (std::size_t i = 1; i < mSnakeyLength; i++) {
-					if (sq->nextSnakeyEventId < UINT_MAX && sq->nextSnakeyEventId > 0) {
-						sq->nextSnakeyEventId--;
+					SnakeyQuantum* sqRecalc = mSnakeyBody[i];
+					if (sqRecalc->nextSnakeyEventId < UINT_MAX && sqRecalc->nextSnakeyEventId > 0) {
+						sqRecalc->nextSnakeyEventId--;
 					}
 				}
 			}
@@ -141,7 +142,12 @@ void Snakey::grow()
 		y = lastQuantum->y - radius;
 		break;
 	}
-	mSnakeyBody.push_back(new SnakeyQuantum(x, y, lastQuantum->direction, SNAKEY_QUANTUM1));
+	SnakeyQuantum* newSq = new SnakeyQuantum(x, y, lastQuantum->direction, SNAKEY_QUANTUM1);
+	if (mSnakeyEvents.size() > 0) {
+		newSq->nextSnakeyEventId = 0;
+	}
+	mSnakeyBody.push_back(newSq);
+
 	++mSnakeyLength;
 }
 
