@@ -63,46 +63,37 @@ void Snakey::applyGameEvent(const GameEvent gEvent)
 	//Apply to head first
 	applyGameEvent(snakeHead, gEvent);
 	if (mSnakeyLength > 1) {
-		//Add SnakeyEvent to the vector if the event has happenned
+		//Add SnakeyEvent to the queue if the event has happenned
 		if (gEvent != GE_NONE && gEvent != GE_GROW) {
 			mSnakeyEvents.push_back(new SnakeyEvent(eventX, eventY, gEvent));
-			//Inform every waiting quantum to get ready for the new event
-			for (std::size_t i = 1; i < mSnakeyLength; i++) {
-				SnakeyQuantum* sq = mSnakeyBody[i];
-				if (sq->nextSnakeyEventId == UINT_MAX) {
-					sq->nextSnakeyEventId = 0;
-				}
-			}
 		}
 	}
 }
 
 void Snakey::checkQueuedEventToHappen(SnakeyQuantum* sq, std::size_t quantumId) {
-	if (sq->nextSnakeyEventId == UINT_MAX || sq->nextSnakeyEventId > mSnakeyEvents.size() - 1) {
-		return;
-	}
 	if (mSnakeyEvents.size() > 0) {
-		//1. Check each quantum for its event to happen
-		SnakeyEvent* nextSEvent = mSnakeyEvents[sq->nextSnakeyEventId];
-		if (sq->x == nextSEvent->x && sq->y == nextSEvent->y) {
-			//2. Apply event
-			applyGameEvent(sq, nextSEvent->event);
-			//3. Reset or move forward the nextEventId
-			if (nextSEvent == mSnakeyEvents.back()) {
-				//No events left for this quantum
-				sq->nextSnakeyEventId = UINT_MAX;
-			}
-			else {
-				sq->nextSnakeyEventId++;
-			}
-			//4. Delete SnakeyEvent if this is the last quantum
-			if (quantumId == mSnakeyLength - 1) {
-				mSnakeyEvents.pop_front();
-				delete nextSEvent;
-				for (std::size_t i = 1; i < mSnakeyLength; i++) {
-					SnakeyQuantum* sqRecalc = mSnakeyBody[i];
-					if (sqRecalc->nextSnakeyEventId < UINT_MAX && sqRecalc->nextSnakeyEventId > 0) {
-						sqRecalc->nextSnakeyEventId--;
+		//1. Check each event to which quantum it might be applied
+		for (SnakeyEvent* seve : mSnakeyEvents) {
+			std::size_t quantumIndex = seve->nextQuantumId;
+			if (quantumIndex > 0 && quantumIndex < mSnakeyLength) {
+				SnakeyQuantum* sq = mSnakeyBody[seve->nextQuantumId];
+				if (sq->x == seve->x && sq->y == seve->y) {
+					//2. Apply event
+					applyGameEvent(sq, seve->event);
+					//3. Reset or move forward the nextQuantumId
+					if (quantumIndex == mSnakeyLength - 1) {
+						//No quantums left for this event
+						if (seve != mSnakeyEvents.front()) {
+							throw std::runtime_error("Not the last event but no quantums are left for it");
+						}
+						else {
+							delete seve;
+							mSnakeyEvents.pop_front();
+							break;
+						}
+					}
+					else {
+						seve->nextQuantumId++;
 					}
 				}
 			}
@@ -142,11 +133,7 @@ void Snakey::grow()
 		y = lastQuantum->y - radius;
 		break;
 	}
-	SnakeyQuantum* newSq = new SnakeyQuantum(x, y, lastQuantum->direction, SNAKEY_QUANTUM1);
-	if (mSnakeyEvents.size() > 0) {
-		newSq->nextSnakeyEventId = 0;
-	}
-	mSnakeyBody.push_back(newSq);
+	mSnakeyBody.push_back(new SnakeyQuantum(x, y, lastQuantum->direction, SNAKEY_QUANTUM1));
 
 	++mSnakeyLength;
 }

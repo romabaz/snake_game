@@ -7,7 +7,8 @@ private:
 		GameEvent event;
 		int x;
 		int y;
-		SnakeyEvent(int xVal, int yVal, GameEvent gameEvent) : x(xVal), y(yVal), event(gameEvent) {
+		std::size_t nextQuantumId;
+		SnakeyEvent(int xVal, int yVal, GameEvent gameEvent) : x(xVal), y(yVal), event(gameEvent), nextQuantumId(1) {
 		}
 	};
 	/*
@@ -31,7 +32,6 @@ private:
 		int x;
 		int y;
 		Direction direction;
-		std::size_t nextSnakeyEventId = UINT_MAX;
 		const GameObjectType iam;
 	};
 
