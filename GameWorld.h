@@ -4,6 +4,7 @@
 #include"GameTexture.h"
 #include<stdio.h>
 #include<vector>
+#include <time.h>
 
 class GameWorld {
 public:
@@ -12,7 +13,7 @@ public:
 
 	void tick();
 	void propagate(const SDL_Event& sdlEvent);
-	void put(GameObject* gameObject);
+	void put(GameObject* gameObject, bool random = false);
 	void draw();
 
 private:

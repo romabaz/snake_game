@@ -7,6 +7,7 @@ GameWorld::GameWorld()
 	}
 	else {
 		sdlExists = true;
+		srand(time(nullptr));
 	}
 }
 
@@ -38,9 +39,16 @@ void GameWorld::tick()
 	}
 }
 
-void GameWorld::put(GameObject* gameObject)
+void GameWorld::put(GameObject* gameObject, bool random)
 {
-	gameObject->init(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+	int x = SCREEN_WIDTH / 2;
+	int y = SCREEN_HEIGHT / 2;
+	if (random) {
+		x = rand() % (SCREEN_WIDTH - 50);
+		y = rand() % (SCREEN_HEIGHT - 50);
+		
+	}
+	gameObject->init(x, y);
 	gameObjects.push_back(gameObject);
 }
 

@@ -4,7 +4,7 @@ class Food :
 	public GameObject
 {
 public:
-	Food();
+	Food(const GameObjectType goType);
 	~Food();
 
 	void init(int x, int y) override;

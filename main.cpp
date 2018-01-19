@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<math.h>
 #include"Snakey.h"
+#include"Food.h"
 #include"GameWorld.h"
 
 #define PI 3.14159265359
@@ -33,6 +34,8 @@ int main(int argc, char* args[]){
 	GameWorld gw;
 	Snakey snakeyAlpha;
 	gw.put(&snakeyAlpha);
+	Food apple(FOOD_APPLE);
+	gw.put(&apple, true);
 
 	short quit = 0;
 	SDL_Event e;

@@ -1,9 +1,9 @@
 #include "Food.h"
 
-
-
-Food::Food()
+Food::Food(const GameObjectType goType) : iam(goType)
 {
+	x = 0;
+	y = 0;
 }
 
 
@@ -13,6 +13,8 @@ Food::~Food()
 
 void Food::init(int x, int y)
 {
+	this->x = x;
+	this->y = y;
 }
 
 void Food::applyGameEvent(const GameEvent gEvent)
