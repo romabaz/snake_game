@@ -60,14 +60,18 @@ void Snakey::applyGameEvent(const GameEvent gEvent)
 	int eventX = snakeHead->x;
 	int eventY = snakeHead->y;
 
+	if (!mSnakeyEvents.empty()) {
+		SnakeyEvent* seve = mSnakeyEvents.back();
+		if (seve->x == eventX && seve->y == eventY) {
+			return;
+		}
+	}
+
 	//Apply to head first
 	applyGameEvent(snakeHead, gEvent); 
 	if (mSnakeyLength > 1 && gEvent != GE_GROW) {
-		SnakeyEvent* seve = mSnakeyEvents.back();
-		if (seve->x != eventX || seve->y != eventY) {
-			//Add SnakeyEvent to the queue if the event has happenned
-			mSnakeyEvents.push_back(new SnakeyEvent(eventX, eventY, gEvent));
-		}
+		//Add SnakeyEvent to the queue if the event has happenned
+		mSnakeyEvents.push_back(new SnakeyEvent(eventX, eventY, gEvent));
 	}
 }
 
