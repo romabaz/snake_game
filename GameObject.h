@@ -30,6 +30,11 @@ typedef enum {
 	NONE
 } Direction;
 
+struct GamePoint {
+	int x;
+	int y;
+};
+
 struct DrawConstruct {
 	GameObjectType type;
 	int x;

@@ -1,6 +1,6 @@
 #include "Snakey.h"
 
-Snakey::Snakey(): mSnakeyLength(1), mSpeed(1)
+Snakey::Snakey(): mSnakeyLength(1), mSpeed(2)
 {
 	//set initial capacity
 	mSnakeyBody.reserve(8);
@@ -106,6 +106,46 @@ void Snakey::checkQueuedEventToHappen(SnakeyQuantum* sq, std::size_t quantumId) 
 	}
 }
 
+std::vector<GamePoint> Snakey::getSnakeyFrontLine()
+{
+	if (mSnakeyLength < 1) {
+		return std::vector<GamePoint>(0);
+	}
+	SnakeyQuantum* head = mSnakeyBody[0];
+	std::vector<GamePoint> frontLine = std::vector<GamePoint>(radius * 2);
+	int xVal, yVal;
+	switch (head->direction) {
+	case LEFT:
+		xVal = head->x - radius;
+		for (int i = head->y - radius; i <= head->y + radius; i++) {
+			frontLine.push_back({ xVal , i });
+		}
+		break;
+	case RIGHT:
+		xVal = head->x + radius;
+		for (int i = head->y - radius; i <= head->y + radius; i++) {
+			frontLine.push_back({ xVal, i });
+		}
+		break;
+	case UP:
+		yVal = head->y - radius;
+		for (int i = head->x - radius; i <= head->x + radius; i++) {
+			frontLine.push_back({ i, yVal });
+		}
+		break;
+	case DOWN:
+		yVal = head->y + radius;
+		for (int i = head->x - radius; i <= head->x + radius; i++) {
+			frontLine.push_back({ i, yVal });
+		}
+		break;
+	default:
+		break;
+	}
+
+	return frontLine;
+}
+
 std::vector<DrawConstruct> Snakey::getDrawConstruct() const
 {
 	std::vector<DrawConstruct> dc;
@@ -113,6 +153,16 @@ std::vector<DrawConstruct> Snakey::getDrawConstruct() const
 		dc.push_back({ sq->iam, sq->x, sq->y, sq->direction });
 	}
 	return dc;
+}
+
+bool Snakey::doesHeadHit(std::vector<GamePoint> points)
+{
+	std::vector<GamePoint> frontLine = getSnakeyFrontLine();
+	for (GamePoint point : points) {
+		
+	}
+
+	return false;
 }
 
 void Snakey::grow()

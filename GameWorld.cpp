@@ -29,8 +29,8 @@ void GameWorld::propagate(const SDL_Event& sdlEvent)
 }
 
 /*
-1. move
-2. detect collisions
+1. detect collisions
+2. move
 */
 void GameWorld::tick()
 {
