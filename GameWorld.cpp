@@ -34,6 +34,7 @@ void GameWorld::propagate(const SDL_Event& sdlEvent)
 */
 void GameWorld::tick()
 {
+	CollisionZone headCollisionZone = snakeyObject->getCollisionZone();
 	for (GameObject* go : gameObjects) {
 		go->move();
 	}
@@ -47,6 +48,9 @@ void GameWorld::put(GameObject* gameObject, bool random)
 		x = rand() % (SCREEN_WIDTH - 50);
 		y = rand() % (SCREEN_HEIGHT - 50);
 		
+	}
+	if (gameObject->getType() == SNAKEY) {
+		snakeyObject = gameObject;
 	}
 	gameObject->init(x, y);
 	gameObjects.push_back(gameObject);

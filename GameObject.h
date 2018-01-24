@@ -35,6 +35,11 @@ struct GamePoint {
 	int y;
 };
 
+struct CollisionZone {
+	GamePoint upperLeft;
+	GamePoint lowerRight;
+};
+
 struct DrawConstruct {
 	GameObjectType type;
 	int x;
@@ -56,4 +61,5 @@ public:
 	virtual void init(int x, int y) = 0;
 	virtual std::vector<DrawConstruct> getDrawConstruct() const = 0;
 	virtual const GameObjectType getType() const = 0;
+	virtual const CollisionZone getCollisionZone() const = 0;
 };

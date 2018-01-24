@@ -41,5 +41,7 @@ private:
 	const int SCREEN_HEIGHT = 800;
 
 	std::vector<GameObject*> gameObjects;
+
+	GameObject* snakeyObject;
 };
 

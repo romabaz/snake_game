@@ -47,7 +47,6 @@ private:
 	void applyGameEvent(SnakeyQuantum* sq, GameEvent gEvent);
 	void move(SnakeyQuantum* sq);
 	void checkQueuedEventToHappen(SnakeyQuantum* sq, std::size_t quantumId);
-	std::vector<GamePoint> getSnakeyFrontLine();
 
 public:
 	Snakey();
@@ -58,8 +57,8 @@ public:
 	void move() override;
 	std::vector<DrawConstruct> getDrawConstruct() const override;
 	inline const GameObjectType getType() const override { return iam; }
-	bool doesHeadHit(std::vector<GamePoint> points);
 	void grow();
+	virtual const CollisionZone getCollisionZone() const override;
 	
 };
 
