@@ -1,18 +1,66 @@
 #pragma once
-#include "GlobalTypes.h"
+#include<vector>
+typedef enum {
+	SNAKEY,
+	SNAKEY_HEAD,
+	SNAKEY_QUANTUM1,
+	SNAKEY_QUANTUM2,
+	SNAKEY_QUANTUM3,
+	SNAKEY_QUANTUM4,
+	FOOD_LEAF,
+	FOOD_APPLE,
+	FOOD_POTATO,
+	FOOD_CARROT
+} GameObjectType;
+
+typedef enum {
+	GE_LEFT,
+	GE_RIGHT,
+	GE_UP,
+	GE_DOWN,
+	GE_GROW,
+	GE_NONE
+} GameEvent;
+
+typedef enum {
+	LEFT,
+	RIGHT,
+	UP,
+	DOWN,
+	NONE
+} Direction;
+
+struct GamePoint {
+	int x;
+	int y;
+};
+
+struct CollisionZone {
+	GamePoint topLeft;
+	int width;
+	int height;
+};
+
+struct DrawConstruct {
+	GameObjectType type;
+	int x;
+	int y;
+	Direction dir;
+};
+
 class GameObject {
+protected:
+	//todo: tightly coupled with GameTexture.mSpriteStepPx
+	static const int radius = 25;
+
 public:
-	virtual int tick(const GameEvent& gEvent) = 0;
+	virtual void applyGameEvent(const GameEvent gEvent) = 0;
+	inline void applyGameEvent() {
+		applyGameEvent(GE_NONE);
+	};
+	virtual void move() = 0;
 	virtual void init(int x, int y) = 0;
-
-private:
-	//pointer to the function performing drawing to the game field
-	static void(*drawFuncPtr)(int, int, const GameObject&);
-	
-	//current position
-	int x = 0;
-	int y = 0;
-
-	//radius
-	static const int radius = 35;
+	virtual std::vector<DrawConstruct> getDrawConstruct() const = 0;
+	virtual const GameObjectType getType() const = 0;
+	virtual const CollisionZone getCollisionZone() const = 0;
 };

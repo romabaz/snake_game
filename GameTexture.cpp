@@ -2,62 +2,66 @@
 #include"GameTexture.h"
 
 
-GameTexture::GameTexture(SDL_Renderer* renderer){
-	mTexture = NULL;
-	mRenderer = renderer;
-	mWidth = 0;
-	mHeight = 0;
+GameTexture::GameTexture(SDL_Renderer* renderer) : mRenderer(renderer) {
 }
 
 GameTexture::~GameTexture(){
 	free();
 }
 
-bool GameTexture::load(char* path){
+bool GameTexture::load(const char* path){
 	free();
-	SDL_Texture* loadedTexture = NULL;
+	SDL_Texture* loadedTexture = nullptr;
 	SDL_Surface* loadedSurface = SDL_LoadBMP(path);
-	if (loadedSurface == NULL){
+	if (loadedSurface == nullptr){
 		printf("\n[ERROR][GameTexture::load] Unable to load image %s! SDL_Error: %s\n", path, SDL_GetError());
 	}
 	else {
 		SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 0xFF, 0xFF, 0xFF));
 		loadedTexture = SDL_CreateTextureFromSurface(mRenderer, loadedSurface);
-		if (loadedTexture == NULL){
+		if (loadedTexture == nullptr){
 			printf("\n[ERROR][GameTexture::load] Unable to create texture from %s! SDL_Error: %s\n", path, SDL_GetError());
-		}
-		else {
-			mWidth = loadedSurface->w;
-			mHeight = loadedSurface->h;
 		}
 		SDL_FreeSurface(loadedSurface);
 	}
 	mTexture = loadedTexture;
-	return loadedTexture != NULL;
+	return loadedTexture != nullptr;
 }
 
-void GameTexture::render(int x, int y, SDL_Rect* clip, double angle, SDL_RendererFlip flip){
-	SDL_Rect targetRect = { x, y, mWidth, mHeight };
-	if (clip != NULL){
-		targetRect.w = clip->w;
-		targetRect.h = clip->h;
+void GameTexture::render(GameObjectType type, SDL_Point target, double angle, SDL_RendererFlip flip) {
+	SDL_Rect sourceRect = { sprites[type].x, sprites[type].y, mSpriteStepPx, mSpriteStepPx };
+	SDL_Rect targetRect = { target.x, target.y, mSpriteStepPx, mSpriteStepPx };
+	SDL_RenderCopyEx(mRenderer, mTexture, &sourceRect, &targetRect, angle, nullptr, flip);
+}
+
+//checkme: avoiding overhead for sequencial render() call -> duplicated all SDL_RenderCopyEx calls here. Check whether this increases fps
+//possible simplification: renderVector() invokes render() for each different direction. 
+void GameTexture::renderVector(const std::vector<DrawConstruct>& drawConstruct) {
+	SDL_Rect sourceRect;
+	SDL_Rect targetRect;
+	for (DrawConstruct dc : drawConstruct) {
+		sourceRect = { sprites[dc.type].x, sprites[dc.type].y, mSpriteStepPx, mSpriteStepPx };
+		targetRect = { dc.x, dc.y, mSpriteStepPx, mSpriteStepPx };
+		switch (dc.dir) {
+		case LEFT:
+			SDL_RenderCopyEx(mRenderer, mTexture, &sourceRect, &targetRect, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
+			break;
+		case RIGHT:
+			SDL_RenderCopyEx(mRenderer, mTexture, &sourceRect, &targetRect, 0.0, nullptr, SDL_FLIP_NONE);
+			break;
+		case UP:
+			SDL_RenderCopyEx(mRenderer, mTexture, &sourceRect, &targetRect, -90.0, nullptr, SDL_FLIP_NONE);
+			break;
+		case DOWN:
+			SDL_RenderCopyEx(mRenderer, mTexture, &sourceRect, &targetRect, 90.0, nullptr, SDL_FLIP_NONE);
+			break;
+		}
 	}
-	SDL_RenderCopyEx(mRenderer, mTexture, clip, &targetRect, angle, NULL, flip);
-}
-
-int GameTexture::getHeight() {
-	return mHeight;
-}
-
-int GameTexture::getWidth() {
-	return mWidth;
 }
 
 void GameTexture::free(){
-	if (mTexture != NULL) {
+	if (mTexture != nullptr) {
 		SDL_DestroyTexture(mTexture);
-		mTexture = NULL;
-		mWidth = 0;
-		mHeight = 0;
+		mTexture = nullptr;
 	}
 }
