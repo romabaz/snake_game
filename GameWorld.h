@@ -22,6 +22,7 @@ private:
 	short initSDLRenderer();
 	short initGameTexture();
 	void destroySDL();
+	bool intersect(const CollisionZone& a, const CollisionZone& b);
 
 	GameEvent covertSDLEventToGameEvent(const SDL_Event sdlEvent);
 	

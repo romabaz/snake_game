@@ -109,35 +109,35 @@ void Snakey::checkQueuedEventToHappen(SnakeyQuantum* sq, std::size_t quantumId) 
 const CollisionZone Snakey::getCollisionZone() const
 {
 	if (mSnakeyLength < 1) {
-		return { {0,0}, {0,0} };
+		return{ {0,0}, 0,0 };
 	}
 
 	SnakeyQuantum* head = mSnakeyBody[0];
-	CollisionZone collisionZone = { { 0,0 },{ 0,0 } };
+	CollisionZone collisionZone = { { 0,0 }, 0,0 };
 	switch (head->direction) {
 	case LEFT:
-		collisionZone.upperLeft.x = head->x - radius;
-		collisionZone.upperLeft.y = head->y - radius;
-		collisionZone.lowerRight.x = head->x;
-		collisionZone.lowerRight.y = head->y + radius;
+		collisionZone.topLeft.x = head->x - radius;
+		collisionZone.topLeft.y = head->y - radius;
+		collisionZone.width = radius;
+		collisionZone.height = 2 * radius;
 		break;
 	case RIGHT:
-		collisionZone.upperLeft.x = head->x;
-		collisionZone.upperLeft.y = head->y - radius;
-		collisionZone.lowerRight.x = head->x + radius;
-		collisionZone.lowerRight.y = head->y + radius;
+		collisionZone.topLeft.x = head->x;
+		collisionZone.topLeft.y = head->y - radius;
+		collisionZone.width = radius;
+		collisionZone.height = 2 * radius;
 		break;
 	case UP:
-		collisionZone.upperLeft.x = head->x - radius;
-		collisionZone.upperLeft.y = head->y - radius;
-		collisionZone.lowerRight.x = head->x + radius;
-		collisionZone.lowerRight.y = head->y;
+		collisionZone.topLeft.x = head->x - radius;
+		collisionZone.topLeft.y = head->y - radius;
+		collisionZone.width = 2 * radius;
+		collisionZone.height = radius;
 		break;
 	case DOWN:
-		collisionZone.upperLeft.x = head->x - radius;
-		collisionZone.upperLeft.y = head->y;
-		collisionZone.lowerRight.x = head->x + radius;
-		collisionZone.lowerRight.y = head->y + radius;
+		collisionZone.topLeft.x = head->x - radius;
+		collisionZone.topLeft.y = head->y;
+		collisionZone.width = 2 * radius;
+		collisionZone.height = radius;
 		break;
 	}
 

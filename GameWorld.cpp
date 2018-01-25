@@ -36,6 +36,17 @@ void GameWorld::tick()
 {
 	CollisionZone headCollisionZone = snakeyObject->getCollisionZone();
 	for (GameObject* go : gameObjects) {
+		if (go->getType() != SNAKEY) {
+			if (intersect(headCollisionZone, go->getCollisionZone())) {
+				/*
+					1. delete food
+					2. grow snake
+					3. generate new food
+				*/ 
+				snakeyObject->applyGameEvent(GE_GROW);
+				break;
+			}
+		}
 		go->move();
 	}
 }
@@ -151,6 +162,11 @@ void GameWorld::destroySDL()
 	//Quit SDL subsystems
 	SDL_Quit();
 	printf("success!\n");
+}
+
+bool GameWorld::intersect(const CollisionZone & a, const CollisionZone & b)
+{
+	return false;
 }
 
 GameEvent GameWorld::covertSDLEventToGameEvent(const SDL_Event sdlEvent)

@@ -13,7 +13,7 @@ public:
 	std::vector<DrawConstruct> getDrawConstruct() const override;
 	inline const GameObjectType getType() const override { return iam; }
 	inline const CollisionZone getCollisionZone() const override {
-		return{ {x - radius, y - radius}, {x + radius, y + radius} };
+		return{ {x - radius, y - radius}, 2 * radius, 2 * radius };
 	};
 
 private:

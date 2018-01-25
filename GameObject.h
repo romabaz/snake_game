@@ -36,8 +36,9 @@ struct GamePoint {
 };
 
 struct CollisionZone {
-	GamePoint upperLeft;
-	GamePoint lowerRight;
+	GamePoint topLeft;
+	int width;
+	int height;
 };
 
 struct DrawConstruct {
