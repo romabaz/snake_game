@@ -56,6 +56,11 @@ void Snakey::applyGameEvent(const GameEvent gEvent)
 		return;
 	}
 
+	if (gEvent == GE_GROW) {
+		grow();
+		return;
+	}
+
 	SnakeyQuantum* snakeHead = mSnakeyBody[0];
 	int eventX = snakeHead->x;
 	int eventY = snakeHead->y;
@@ -69,7 +74,7 @@ void Snakey::applyGameEvent(const GameEvent gEvent)
 
 	//Apply to head first
 	applyGameEvent(snakeHead, gEvent); 
-	if (mSnakeyLength > 1 && gEvent != GE_GROW) {
+	if (mSnakeyLength > 1) {
 		//Add SnakeyEvent to the queue if the event has happenned
 		mSnakeyEvents.push_back(new SnakeyEvent(eventX, eventY, gEvent));
 	}
