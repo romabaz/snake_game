@@ -1,6 +1,6 @@
 #include "Snakey.h"
 
-Snakey::Snakey(): mSnakeyLength(1), mSpeed(1)
+Snakey::Snakey(): mSnakeyLength(1), mSpeed(2)
 {
 	//set initial capacity
 	mSnakeyBody.reserve(8);
@@ -164,21 +164,21 @@ void Snakey::grow()
 	int x = 0, y = 0;
 	switch (lastQuantum->direction) {
 	case LEFT:
-		x = lastQuantum->x + radius;
+		x = lastQuantum->x + 2 * radius;
 		y = lastQuantum->y;
 		break;
 	case RIGHT:
-		x = lastQuantum->x - radius;
+		x = lastQuantum->x - 2 * radius;
 		y = lastQuantum->y;
 		break;
 	case UP:
 		x = lastQuantum->x;
-		y = lastQuantum->y + radius;
+		y = lastQuantum->y + 2 * radius;
 		break;
 	case DOWN:
 	default:
 		x = lastQuantum->x;
-		y = lastQuantum->y - radius;
+		y = lastQuantum->y - 2 * radius;
 		break;
 	}
 	mSnakeyBody.push_back(new SnakeyQuantum(x, y, lastQuantum->direction, SNAKEY_QUANTUM1));

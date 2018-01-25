@@ -14,6 +14,11 @@ GameWorld::GameWorld()
 GameWorld::~GameWorld()
 {
 	destroySDL();
+	for (GameObject* go : gameObjects) {
+		if (go != nullptr) {
+			delete go;
+		}
+	}
 }
 
 /*
@@ -35,19 +40,29 @@ void GameWorld::propagate(const SDL_Event& sdlEvent)
 void GameWorld::tick()
 {
 	CollisionZone headCollisionZone = snakeyObject->getCollisionZone();
-	for (GameObject* go : gameObjects) {
+	for (std::vector<GameObject*>::iterator it = gameObjects.begin(); it != gameObjects.end(); it++) {
+		GameObject* go = (*it);
 		if (go->getType() != SNAKEY) {
 			if (intersect(headCollisionZone, go->getCollisionZone())) {
-				/*
+				GameObjectType goType = go->getType();
+				if (goType == FOOD_APPLE || goType == FOOD_CARROT || goType == FOOD_LEAF || goType == FOOD_POTATO) {
+					/*
 					1. delete food
 					2. grow snake
 					3. generate new food
-				*/ 
-				snakeyObject->applyGameEvent(GE_GROW);
+					*/
+					it = gameObjects.erase(it);
+					delete go;
+					snakeyObject->applyGameEvent(GE_GROW);
+					put(new Food(), true);
+
+				}
 				break;
 			}
 		}
-		go->move();
+		else {
+			go->move();
+		}
 	}
 }
 
@@ -166,7 +181,33 @@ void GameWorld::destroySDL()
 
 bool GameWorld::intersect(const CollisionZone & a, const CollisionZone & b)
 {
-	return false;
+	int leftA, leftB; 
+	int rightA, rightB; 
+	int topA, topB;
+	int bottomA, bottomB; 
+
+	leftA = a.topLeft.x;
+	rightA = a.topLeft.x + a.width; 
+	topA = a.topLeft.y;
+	bottomA = a.topLeft.y + a.height; 
+
+	leftB = b.topLeft.x;
+	rightB = b.topLeft.x + b.width;
+	topB = b.topLeft.y;
+	bottomB = b.topLeft.y + b.height;
+	if (leftA >= rightB) {
+		return false;
+	}
+	if (rightA <= leftB) {
+		return false;
+	}
+	if (topA >= bottomB) {
+		return false;
+	}
+	if (bottomA <= topB) {
+		return false;
+	}
+	return true;
 }
 
 GameEvent GameWorld::covertSDLEventToGameEvent(const SDL_Event sdlEvent)

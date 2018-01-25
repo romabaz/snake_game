@@ -6,6 +6,24 @@ Food::Food(const GameObjectType goType) : iam(goType)
 	y = 0;
 }
 
+Food::Food()
+{
+	switch (rand() % 4) {
+	case 0:
+		iam = FOOD_APPLE;
+		break;
+	case 1:
+		iam = FOOD_CARROT;
+		break;
+	case 2:
+		iam = FOOD_LEAF;
+		break;
+	case 3:
+		iam = FOOD_POTATO;
+		break;
+	}
+}
+
 
 Food::~Food()
 {

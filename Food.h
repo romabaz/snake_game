@@ -5,6 +5,7 @@ class Food :
 {
 public:
 	Food(const GameObjectType goType);
+	Food();
 	~Food();
 
 	void init(int x, int y) override;

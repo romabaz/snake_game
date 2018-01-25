@@ -51,7 +51,7 @@ struct DrawConstruct {
 class GameObject {
 protected:
 	//todo: tightly coupled with GameTexture.mSpriteStepPx
-	static const int radius = 50;
+	static const int radius = 25;
 
 public:
 	virtual void applyGameEvent(const GameEvent gEvent) = 0;

@@ -32,10 +32,8 @@ int main(int argc, char* args[]){
 	printf("[TRACE] Snake has started\n");
 
 	GameWorld gw;
-	Snakey snakeyAlpha;
-	gw.put(&snakeyAlpha);
-	Food apple(FOOD_APPLE);
-	gw.put(&apple, true);
+	gw.put(new Snakey());
+	gw.put(new Food(), true);
 
 	short quit = 0;
 	SDL_Event e;

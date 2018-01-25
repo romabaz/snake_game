@@ -1,6 +1,6 @@
 #pragma once
 #include<SDL.h>
-#include"GameObject.h"
+#include"Food.h"
 #include"GameTexture.h"
 #include<stdio.h>
 #include<vector>
