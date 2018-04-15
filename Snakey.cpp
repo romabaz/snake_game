@@ -181,7 +181,22 @@ void Snakey::grow()
 		y = lastQuantum->y - 2 * radius;
 		break;
 	}
-	mSnakeyBody.push_back(new SnakeyQuantum(x, y, lastQuantum->direction, SNAKEY_QUANTUM1));
+	GameObjectType bodyType;
+	switch (rand() % 4) {
+	case 0:
+		bodyType = SNAKEY_QUANTUM1;
+		break;
+	case 1:
+		bodyType = SNAKEY_QUANTUM2;
+		break;
+	case 2:
+		bodyType = SNAKEY_QUANTUM3;
+		break;
+	case 3:
+		bodyType = SNAKEY_QUANTUM4;
+		break;
+	}
+	mSnakeyBody.push_back(new SnakeyQuantum(x, y, lastQuantum->direction, bodyType));
 
 	++mSnakeyLength;
 }
