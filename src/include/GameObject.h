@@ -1,5 +1,7 @@
 #pragma once
 #include<vector>
+#include<cstdlib>
+#include<stdexcept>
 typedef enum {
 	SNAKEY,
 	SNAKEY_HEAD,

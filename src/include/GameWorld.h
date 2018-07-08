@@ -4,7 +4,7 @@
 #include"GameTexture.h"
 #include<stdio.h>
 #include<vector>
-#include <time.h>
+#include<time.h>
 
 class GameWorld {
 public:
@@ -28,7 +28,7 @@ private:
 	
 
     //path to default texture
-	const char* defaultTexturePath = "snake_ss2.bmp";
+	const char* defaultTexturePath = "../../spritesheet/snake_ss2.bmp";
 
 	
 	//SDL rendering entities

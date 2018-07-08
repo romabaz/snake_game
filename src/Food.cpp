@@ -1,4 +1,4 @@
-#include "Food.h"
+#include "include/Food.h"
 
 Food::Food(const GameObjectType goType) : iam(goType)
 {

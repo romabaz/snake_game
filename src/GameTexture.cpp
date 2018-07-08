@@ -1,5 +1,5 @@
 #include<stdio.h>
-#include"GameTexture.h"
+#include"include/GameTexture.h"
 
 
 GameTexture::GameTexture(SDL_Renderer* renderer) : mRenderer(renderer) {

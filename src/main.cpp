@@ -1,8 +1,8 @@
 #include<stdio.h>
 #include<math.h>
-#include"Snakey.h"
-#include"Food.h"
-#include"GameWorld.h"
+#include"include/Snakey.h"
+#include"include/Food.h"
+#include"include/GameWorld.h"
 
 #define PI 3.14159265359
 
