@@ -50,12 +50,15 @@ void GameWorld::tick()
 					1. delete food
 					2. grow snake
 					3. generate new food
+					4. change background colour
 					*/
 					it = gameObjects.erase(it);
 					delete go;
 					snakeyObject->applyGameEvent(GE_GROW);
 					put(new Food(), true);
-
+					gRColour = rand() % 255;
+					gGColour = rand() % 255;
+					gBColour = rand() % 255;
 				}
 				break;
 			}
@@ -85,7 +88,7 @@ void GameWorld::put(GameObject* gameObject, bool random)
 void GameWorld::draw()
 {
 	//Clear screen
-	SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0x00, 0xFF);
+	SDL_SetRenderDrawColor(gRenderer, gRColour, gGColour, gBColour, 0xFF);
 	SDL_RenderClear(gRenderer);
 
 	for (GameObject* go : gameObjects) {

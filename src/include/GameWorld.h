@@ -44,5 +44,9 @@ private:
 	std::vector<GameObject*> gameObjects;
 
 	GameObject* snakeyObject;
+
+	int gRColour = 0x00;
+	int gGColour = 0x00;
+	int gBColour = 0x00;
 };
 
